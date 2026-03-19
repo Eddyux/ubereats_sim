@@ -1,0 +1,104 @@
+{
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "McDonald's",
+      "imageUrl": "mcdonalds",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "14 分钟",
+      "rating": 4.3,
+      "reviewCount": 1000,
+      "discount": "消费满 US$15 可享 US$5 优惠",
+      "tags": ["快餐"],
+      "section": "recommended"
+    },
+    {
+      "id": "2",
+      "name": "VINEYARD",
+      "imageUrl": "vineyard",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "20 分钟",
+      "rating": 4.7,
+      "reviewCount": 200,
+      "tags": ["西餐"],
+      "section": "recommended"
+    },
+    {
+      "id": "3",
+      "name": "Yunnan Rice Noodle",
+      "imageUrl": "yunnan",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "25 分钟",
+      "rating": 4.5,
+      "reviewCount": 500,
+      "tags": ["中餐"],
+      "section": "affordable"
+    },
+    {
+      "id": "4",
+      "name": "Benvenuto Cafe",
+      "imageUrl": "benvenuto",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "30 分钟",
+      "rating": 4.6,
+      "reviewCount": 300,
+      "tags": ["意餐"],
+      "section": "affordable"
+    },
+    {
+      "id": "5",
+      "name": "Burger King",
+      "imageUrl": "burgerking",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "15 分钟",
+      "rating": 4.2,
+      "reviewCount": 800,
+      "discount": "WHOPPER 特惠",
+      "tags": ["快餐"],
+      "section": "fast_delivery"
+    },
+    {
+      "id": "6",
+      "name": "7-Eleven",
+      "imageUrl": "seveneleven",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "10 分钟",
+      "rating": 4.0,
+      "reviewCount": 600,
+      "tags": ["便利店"],
+      "section": "fast_delivery"
+    },
+    {
+      "id": "7",
+      "name": "Matchaful",
+      "imageUrl": "matchaful",
+      "deliveryFee": "US$1.99 派送费",
+      "deliveryTime": "20 分钟",
+      "rating": 4.8,
+      "reviewCount": 150,
+      "tags": ["饮品"],
+      "section": "popular_nearby"
+    },
+    {
+      "id": "8",
+      "name": "HAWA SMOOTHIES",
+      "imageUrl": "hawasmok",
+      "deliveryFee": "US$0 派送费",
+      "deliveryTime": "25 分钟",
+      "rating": 4.4,
+      "reviewCount": 200,
+      "tags": ["烧烤"],
+      "section": "popular_nearby"
+    }
+  ],
+  "nearbyStores": [
+    { "id": "s1", "name": "Target", "icon": "target" },
+    { "id": "s2", "name": "CVS", "icon": "cvs" },
+    { "id": "s3", "name": "Eataly", "icon": "eataly" },
+    { "id": "s4", "name": "Walgreens", "icon": "walgreens" },
+    { "id": "s5", "name": "7-Eleven", "icon": "seveneleven" },
+    { "id": "s6", "name": "GoPuff", "icon": "gopuff" },
+    { "id": "s7", "name": "Morton W.", "icon": "morton" },
+    { "id": "s8", "name": "Uber Eats", "icon": "ubereats" }
+  ]
+}
