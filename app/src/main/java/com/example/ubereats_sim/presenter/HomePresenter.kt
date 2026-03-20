@@ -30,4 +30,12 @@ class HomePresenter(private val context: Context) {
     fun getNearbyStores(): List<NearbyStore> {
         return DataLoader.loadNearbyStores(context)
     }
+
+    fun getGroceryMerchants(): List<Restaurant> {
+        return DataLoader.loadGroceryMerchants(context)
+    }
+
+    fun getConvenienceMerchants(): List<Restaurant> {
+        return DataLoader.loadConvenienceMerchants(context)
+    }
 }

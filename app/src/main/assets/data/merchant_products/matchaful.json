@@ -1,0 +1,85 @@
+{
+  "merchantName": "Matchaful",
+  "products": [
+    {
+      "name": "Ceremonial Matcha Latte",
+      "price": 7.49,
+      "calorieText": "170 Cal."
+    },
+    {
+      "name": "Strawberry Matcha",
+      "price": 8.29,
+      "calorieText": "210 Cal."
+    },
+    {
+      "name": "Yuzu Matcha Tonic",
+      "price": 8.49,
+      "calorieText": "160 Cal."
+    },
+    {
+      "name": "Coconut Matcha Cloud",
+      "price": 8.99,
+      "calorieText": "230 Cal."
+    },
+    {
+      "name": "Ube Matcha Latte",
+      "price": 8.79,
+      "calorieText": "240 Cal."
+    },
+    {
+      "name": "Matcha Banana Smoothie",
+      "price": 9.29,
+      "calorieText": "290 Cal."
+    },
+    {
+      "name": "Matcha Chia Pudding",
+      "price": 6.99,
+      "calorieText": "260 Cal."
+    },
+    {
+      "name": "Blueberry Oat Bowl",
+      "price": 10.99,
+      "calorieText": "420 Cal."
+    },
+    {
+      "name": "Avocado Toast",
+      "price": 11.49,
+      "calorieText": "390 Cal."
+    },
+    {
+      "name": "Sparkling Water",
+      "price": 2.99,
+      "calorieText": "0 Cal."
+    },
+    {
+      "name": "Ceremonial Matcha Latte Combo",
+      "price": 8.69,
+      "calorieText": "170 Cal."
+    },
+    {
+      "name": "Strawberry Matcha Combo",
+      "price": 9.49,
+      "calorieText": "210 Cal."
+    },
+    {
+      "name": "Yuzu Matcha Tonic Combo",
+      "price": 9.69,
+      "calorieText": "160 Cal."
+    },
+    {
+      "name": "Coconut Matcha Cloud Combo",
+      "price": 10.19,
+      "calorieText": "230 Cal."
+    },
+    {
+      "name": "Ube Matcha Latte Combo",
+      "price": 9.99,
+      "calorieText": "240 Cal."
+    },
+    {
+      "name": "Matcha Banana Smoothie Combo",
+      "price": 10.49,
+      "calorieText": "290 Cal."
+    }
+  ]
+}

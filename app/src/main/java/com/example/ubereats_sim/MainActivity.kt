@@ -1,25 +1,51 @@
-package com.example.ubereats_sim
+﻿package com.example.ubereats_sim
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import com.example.ubereats_sim.model.MerchantCartItem
+import com.example.ubereats_sim.model.MerchantMenuItem
+import com.example.ubereats_sim.presenter.MerchantPresenter
 import com.example.ubereats_sim.ui.theme.Test05Theme
 import com.example.ubereats_sim.view.CartScreen
 import com.example.ubereats_sim.view.HomeScreen
+import com.example.ubereats_sim.view.LocationScreen
+import com.example.ubereats_sim.view.MerchantScreen
+import com.example.ubereats_sim.view.ProductDetailScreen
 import com.example.ubereats_sim.view.ProfileScreen
+import com.example.ubereats_sim.view.SearchScreen
+import com.example.ubereats_sim.view.ViewCartScreen
+
+private val MerchantPages = setOf(
+    "McDonald's",
+    "VINEYARD",
+    "Yunnan Rice Noodle",
+    "Benvenuto Cafe",
+    "Burger King",
+    "7-Eleven",
+    "Matchaful",
+    "HAWA SMOOTHIES",
+    "Domino's"
+)
+
+private const val RouteProduct = "product"
+private const val RouteViewCart = "viewcart"
+private const val RouteMerchant = "merchant"
 
 val LocalNavController = compositionLocalOf<(String) -> Unit> { {} }
 val LocalNavBack = compositionLocalOf<() -> Unit> { {} }
@@ -37,28 +63,146 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     var selectedTab by remember { mutableIntStateOf(0) }
-    var subPage by remember { mutableStateOf<String?>(null) }
+    val navStack = remember { mutableStateListOf<String>() }
+    val cartItems = remember { mutableStateListOf<MerchantCartItem>() }
+    val context = LocalContext.current
+    val merchantPresenter = remember(context) { MerchantPresenter(context) }
+
+    fun pushPage(page: String) {
+        navStack.add(page)
+    }
+
+    fun popPage() {
+        if (navStack.isNotEmpty()) {
+            navStack.removeAt(navStack.lastIndex)
+        }
+    }
+
+    fun merchantCartCount(merchantName: String): Int {
+        return cartItems.filter { it.merchantName == merchantName }.sumOf { it.quantity }
+    }
+
+    fun addToCart(merchantName: String, product: MerchantMenuItem, quantity: Int, selectedOptions: Map<String, Int>) {
+        val index = cartItems.indexOfFirst { it.merchantName == merchantName && it.product.id == product.id }
+        if (index >= 0) {
+            val existing = cartItems[index]
+            cartItems[index] = existing.copy(
+                quantity = existing.quantity + quantity,
+                selectedOptions = selectedOptions
+            )
+        } else {
+            cartItems.add(
+                MerchantCartItem(
+                    merchantName = merchantName,
+                    product = product,
+                    quantity = quantity,
+                    selectedOptions = selectedOptions
+                )
+            )
+        }
+    }
+
+    fun productRoute(merchantName: String, productId: String): String =
+        "$RouteProduct|$merchantName|$productId"
+
+    fun viewCartRoute(merchantName: String): String =
+        "$RouteViewCart|$merchantName"
 
     CompositionLocalProvider(
-        LocalNavController provides { page -> subPage = page },
-        LocalNavBack provides { subPage = null }
+        LocalNavController provides { page -> pushPage(page) },
+        LocalNavBack provides { popPage() }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                if (subPage == null) {
-                    BottomNavigationBar(selectedTab) { selectedTab = it }
+                if (navStack.isEmpty()) {
+                    val totalCartCount = cartItems.sumOf { it.quantity }
+                    BottomNavigationBar(selectedTab, totalCartCount) { selectedTab = it }
                 }
             }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
-                if (subPage != null) {
-                    UnderDevelopmentScreen(subPage!!)
+                val currentPage = navStack.lastOrNull()
+
+                if (currentPage != null) {
+                    when {
+                        currentPage.startsWith("$RouteProduct|") -> {
+                            val parts = currentPage.split("|")
+                            val merchantName = parts.getOrNull(1)
+                            val productId = parts.getOrNull(2)
+                            val product = if (merchantName != null && productId != null) {
+                                merchantPresenter.getProductById(merchantName, productId)
+                            } else {
+                                null
+                            }
+
+                            if (merchantName != null && product != null) {
+                                ProductDetailScreen(
+                                    merchantName = merchantName,
+                                    product = product,
+                                    onAddToCart = { quantity, options ->
+                                        addToCart(merchantName, product, quantity, options)
+                                        popPage()
+                                    }
+                                )
+                            } else {
+                                UnderDevelopmentScreen("Product")
+                            }
+                        }
+
+                        currentPage.startsWith("$RouteViewCart|") -> {
+                            val merchantName = currentPage.split("|").getOrNull(1)
+                            if (merchantName != null) {
+                                val merchantItems = cartItems.filter { it.merchantName == merchantName }
+                                ViewCartScreen(
+                                    merchantName = merchantName,
+                                    items = merchantItems,
+                                    onClose = { popPage() },
+                                    onRemove = { item -> cartItems.remove(item) },
+                                    onReplace = { item -> pushPage(productRoute(merchantName, item.product.id)) },
+                                    onAddItems = { popPage() },
+                                    onOpenOfferItem = {
+                                        val offer = merchantPresenter.getMerchantProducts(merchantName).firstOrNull()
+                                        if (offer != null) {
+                                            pushPage(productRoute(merchantName, offer.id))
+                                        }
+                                    }
+                                )
+                            } else {
+                                UnderDevelopmentScreen("View cart")
+                            }
+                        }
+
+                        currentPage.startsWith("$RouteMerchant|") -> {
+                            val merchantName = currentPage.split("|").getOrNull(1)
+                            if (merchantName != null) {
+                                MerchantScreen(
+                                    restaurantName = merchantName,
+                                    cartCount = merchantCartCount(merchantName),
+                                    onOpenProduct = { item -> pushPage(productRoute(merchantName, item.id)) },
+                                    onOpenCart = { pushPage(viewCartRoute(merchantName)) }
+                                )
+                            } else {
+                                UnderDevelopmentScreen("Merchant")
+                            }
+                        }
+
+                        MerchantPages.contains(currentPage) -> {
+                            MerchantScreen(
+                                restaurantName = currentPage,
+                                cartCount = merchantCartCount(currentPage),
+                                onOpenProduct = { item -> pushPage(productRoute(currentPage, item.id)) },
+                                onOpenCart = { pushPage(viewCartRoute(currentPage)) }
+                            )
+                        }
+
+                        else -> UnderDevelopmentScreen(currentPage)
+                    }
                 } else {
                     when (selectedTab) {
                         0 -> HomeScreen()
-                        1 -> UnderDevelopmentScreen("定位")
-                        2 -> UnderDevelopmentScreen("搜索")
+                        1 -> LocationScreen()
+                        2 -> SearchScreen()
                         3 -> CartScreen()
                         4 -> ProfileScreen()
                     }
@@ -66,57 +210,4 @@ fun MainScreen() {
             }
         }
     }
-}
-
-@Composable
-fun UnderDevelopmentScreen(title: String) {
-    val onBack = LocalNavBack.current
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Default.ArrowBack, "返回")
-            }
-            Text(title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        }
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("🚧", fontSize = 48.sp)
-                Spacer(Modifier.height(16.dp))
-                Text("开发中", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(8.dp))
-                Text("该功能正在开发中，敬请期待", fontSize = 14.sp, color = Color.Gray)
-            }
-        }
-    }
-}
-
-@Composable
-fun BottomNavigationBar(selectedTab: Int, onTabSelected: (Int) -> Unit) {
-    NavigationBar(containerColor = Color.White, contentColor = Color.Black) {
-        BottomNavItem(Icons.Default.Home, "首页", selectedTab == 0, onClick = { onTabSelected(0) })
-        BottomNavItem(Icons.Default.LocationOn, "定位", selectedTab == 1, onClick = { onTabSelected(1) })
-        BottomNavItem(Icons.Default.Search, "搜索", selectedTab == 2, onClick = { onTabSelected(2) })
-        BottomNavItem(Icons.Default.ShoppingCart, "购物车", selectedTab == 3, onClick = { onTabSelected(3) }, badge = "1")
-        BottomNavItem(Icons.Default.Person, "我的", selectedTab == 4, onClick = { onTabSelected(4) })
-    }
-}
-
-@Composable
-fun RowScope.BottomNavItem(
-    icon: ImageVector, label: String, selected: Boolean,
-    onClick: () -> Unit, badge: String? = null
-) {
-    NavigationBarItem(
-        icon = {
-            BadgedBox(badge = { if (badge != null) Badge { Text(badge) } }) {
-                Icon(icon, contentDescription = label)
-            }
-        },
-        label = { Text(label) },
-        selected = selected,
-        onClick = onClick
-    )
 }

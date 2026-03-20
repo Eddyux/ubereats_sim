@@ -1,0 +1,85 @@
+{
+  "merchantName": "Yunnan Rice Noodle",
+  "products": [
+    {
+      "name": "Crossing-the-Bridge Noodles",
+      "price": 13.99,
+      "calorieText": "620 Cal."
+    },
+    {
+      "name": "Spicy Beef Rice Noodles",
+      "price": 14.49,
+      "calorieText": "680 Cal."
+    },
+    {
+      "name": "Tomato Broth Noodles",
+      "price": 13.29,
+      "calorieText": "560 Cal."
+    },
+    {
+      "name": "Pickled Pepper Noodles",
+      "price": 13.79,
+      "calorieText": "600 Cal."
+    },
+    {
+      "name": "Braised Beef Rice",
+      "price": 15.49,
+      "calorieText": "720 Cal."
+    },
+    {
+      "name": "Pork Dumplings",
+      "price": 8.99,
+      "calorieText": "380 Cal."
+    },
+    {
+      "name": "Scallion Pancake",
+      "price": 6.99,
+      "calorieText": "410 Cal."
+    },
+    {
+      "name": "Cold Noodle Salad",
+      "price": 9.99,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Cucumber Salad",
+      "price": 6.49,
+      "calorieText": "120 Cal."
+    },
+    {
+      "name": "Soy Milk",
+      "price": 3.49,
+      "calorieText": "180 Cal."
+    },
+    {
+      "name": "Crossing-the-Bridge Noodles Combo",
+      "price": 15.19,
+      "calorieText": "620 Cal."
+    },
+    {
+      "name": "Spicy Beef Rice Noodles Combo",
+      "price": 15.69,
+      "calorieText": "680 Cal."
+    },
+    {
+      "name": "Tomato Broth Noodles Combo",
+      "price": 14.49,
+      "calorieText": "560 Cal."
+    },
+    {
+      "name": "Pickled Pepper Noodles Combo",
+      "price": 14.99,
+      "calorieText": "600 Cal."
+    },
+    {
+      "name": "Braised Beef Rice Combo",
+      "price": 16.69,
+      "calorieText": "720 Cal."
+    },
+    {
+      "name": "Pork Dumplings Combo",
+      "price": 10.19,
+      "calorieText": "380 Cal."
+    }
+  ]
+}

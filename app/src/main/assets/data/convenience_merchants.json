@@ -1,0 +1,118 @@
+{
+  "convenienceMerchants": [
+    {
+      "id": "c1",
+      "name": "7-Eleven",
+      "imageUrl": "seveneleven",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "12 min",
+      "rating": 4.2,
+      "reviewCount": 1400,
+      "discount": "Buy 1, Get 1 on snacks",
+      "tags": [
+        "Convenience",
+        "24/7"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c2",
+      "name": "CVS",
+      "imageUrl": "cvs",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "16 min",
+      "rating": 4.3,
+      "reviewCount": 1100,
+      "tags": [
+        "Convenience",
+        "Pharmacy"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c3",
+      "name": "Walgreens",
+      "imageUrl": "walgreens",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "15 min",
+      "rating": 4.4,
+      "reviewCount": 980,
+      "discount": "US$5 off US$30+",
+      "tags": [
+        "Convenience",
+        "Pharmacy"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c4",
+      "name": "Duane Reade",
+      "imageUrl": "duane_reade",
+      "deliveryFee": "US$1.49 Delivery Fee",
+      "deliveryTime": "18 min",
+      "rating": 4.2,
+      "reviewCount": 620,
+      "tags": [
+        "Convenience",
+        "Essentials"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c5",
+      "name": "GoPuff",
+      "imageUrl": "gopuff",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "14 min",
+      "rating": 4.5,
+      "reviewCount": 870,
+      "tags": [
+        "Convenience",
+        "Quick Delivery"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c6",
+      "name": "Rite Aid",
+      "imageUrl": "riteaid",
+      "deliveryFee": "US$1.99 Delivery Fee",
+      "deliveryTime": "20 min",
+      "rating": 4.1,
+      "reviewCount": 430,
+      "tags": [
+        "Convenience",
+        "Pharmacy"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c7",
+      "name": "Family Dollar",
+      "imageUrl": "familydollar",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "19 min",
+      "rating": 4.0,
+      "reviewCount": 510,
+      "tags": [
+        "Convenience",
+        "Value"
+      ],
+      "section": "convenience"
+    },
+    {
+      "id": "c8",
+      "name": "Dollar General",
+      "imageUrl": "dollargeneral",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "21 min",
+      "rating": 4.1,
+      "reviewCount": 470,
+      "tags": [
+        "Convenience",
+        "Value"
+      ],
+      "section": "convenience"
+    }
+  ]
+}

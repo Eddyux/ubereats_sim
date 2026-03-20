@@ -1,4 +1,4 @@
-{
+﻿{
   "cartItems": [
     {
       "restaurantId": "1",
@@ -6,7 +6,7 @@
       "restaurantImage": "dominos",
       "itemCount": 2,
       "totalPrice": 18.56,
-      "deliveryAddress": "纽约"
+      "deliveryAddress": "New York"
     }
   ]
 }

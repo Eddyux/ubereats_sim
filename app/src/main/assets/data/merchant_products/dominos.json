@@ -1,0 +1,85 @@
+{
+  "merchantName": "Domino's",
+  "products": [
+    {
+      "name": "Hand Tossed Pepperoni Pizza",
+      "price": 15.99,
+      "calorieText": "280 Cal./slice"
+    },
+    {
+      "name": "Brooklyn Style Cheese Pizza",
+      "price": 16.99,
+      "calorieText": "270 Cal./slice"
+    },
+    {
+      "name": "BBQ Chicken Pizza",
+      "price": 17.99,
+      "calorieText": "290 Cal./slice"
+    },
+    {
+      "name": "Philly Cheese Steak Pizza",
+      "price": 18.49,
+      "calorieText": "300 Cal./slice"
+    },
+    {
+      "name": "Spinach & Feta Pizza",
+      "price": 17.49,
+      "calorieText": "260 Cal./slice"
+    },
+    {
+      "name": "Chicken Alfredo Pasta",
+      "price": 9.99,
+      "calorieText": "620 Cal."
+    },
+    {
+      "name": "Boneless Chicken",
+      "price": 8.99,
+      "calorieText": "490 Cal."
+    },
+    {
+      "name": "Stuffed Cheesy Bread",
+      "price": 7.99,
+      "calorieText": "550 Cal."
+    },
+    {
+      "name": "Parmesan Bread Bites",
+      "price": 6.99,
+      "calorieText": "500 Cal."
+    },
+    {
+      "name": "Chocolate Lava Crunch Cakes",
+      "price": 5.99,
+      "calorieText": "360 Cal."
+    },
+    {
+      "name": "Hand Tossed Pepperoni Pizza Combo",
+      "price": 17.19,
+      "calorieText": "280 Cal./slice"
+    },
+    {
+      "name": "Brooklyn Style Cheese Pizza Combo",
+      "price": 18.19,
+      "calorieText": "270 Cal./slice"
+    },
+    {
+      "name": "BBQ Chicken Pizza Combo",
+      "price": 19.19,
+      "calorieText": "290 Cal./slice"
+    },
+    {
+      "name": "Philly Cheese Steak Pizza Combo",
+      "price": 19.69,
+      "calorieText": "300 Cal./slice"
+    },
+    {
+      "name": "Spinach & Feta Pizza Combo",
+      "price": 18.69,
+      "calorieText": "260 Cal./slice"
+    },
+    {
+      "name": "Chicken Alfredo Pasta Combo",
+      "price": 11.19,
+      "calorieText": "620 Cal."
+    }
+  ]
+}

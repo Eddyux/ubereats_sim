@@ -1,0 +1,90 @@
+{
+  "merchantName": "McDonald's",
+  "products": [
+    {
+      "name": "Hash Browns",
+      "price": 4.59,
+      "calorieText": "140 Cal.",
+      "badgeText": "Buy 1, get 1 free"
+    },
+    {
+      "name": "Steak & Egg McMuffin",
+      "price": 6.19,
+      "calorieText": "450 Cal.",
+      "description": "Comes with classic breakfast fixings"
+    },
+    {
+      "name": "Big Breakfast with Hotcakes",
+      "price": 9.99,
+      "calorieText": "1340 Cal."
+    },
+    {
+      "name": "Sausage Egg McMuffin Meal",
+      "price": 10.19,
+      "calorieText": "620 - 790 Cal."
+    },
+    {
+      "name": "Egg McMuffin",
+      "price": 5.29,
+      "calorieText": "310 Cal."
+    },
+    {
+      "name": "Big Mac Meal",
+      "price": 11.49,
+      "calorieText": "950 Cal."
+    },
+    {
+      "name": "Quarter Pounder w/ Cheese Meal",
+      "price": 12.49,
+      "calorieText": "1060 Cal."
+    },
+    {
+      "name": "10 pc Chicken McNuggets",
+      "price": 7.99,
+      "calorieText": "410 Cal."
+    },
+    {
+      "name": "McChicken",
+      "price": 4.99,
+      "calorieText": "400 Cal."
+    },
+    {
+      "name": "Filet-O-Fish",
+      "price": 5.69,
+      "calorieText": "390 Cal."
+    },
+    {
+      "name": "Medium French Fries",
+      "price": 5.49,
+      "calorieText": "320 Cal.",
+      "badgeText": "Buy 1, get 1 free"
+    },
+    {
+      "name": "Oreo McFlurry",
+      "price": 4.99,
+      "calorieText": "510 Cal."
+    },
+    {
+      "name": "Hash Browns Combo",
+      "price": 5.79,
+      "calorieText": "140 Cal.",
+      "badgeText": "Buy 1, get 1 free"
+    },
+    {
+      "name": "Steak & Egg McMuffin Combo",
+      "price": 7.39,
+      "calorieText": "450 Cal.",
+      "description": "Comes with classic breakfast fixings"
+    },
+    {
+      "name": "Big Breakfast with Hotcakes Combo",
+      "price": 11.19,
+      "calorieText": "1340 Cal."
+    },
+    {
+      "name": "Sausage Egg McMuffin Meal Combo",
+      "price": 11.39,
+      "calorieText": "620 - 790 Cal."
+    }
+  ]
+}

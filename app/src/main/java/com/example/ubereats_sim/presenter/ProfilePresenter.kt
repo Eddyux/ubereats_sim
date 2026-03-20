@@ -1,4 +1,4 @@
-package com.example.ubereats_sim.presenter
+﻿package com.example.ubereats_sim.presenter
 
 import android.content.Context
 import com.example.ubereats_sim.model.DataLoader
@@ -13,24 +13,24 @@ class ProfilePresenter(private val context: Context) {
 
     fun getMenuItems(): List<MenuItem> {
         return listOf(
-            MenuItem("👨‍👩‍👧‍👦", "家庭和青少年", "青少年和成人账号"),
-            MenuItem("📋", "列表"),
-            MenuItem("🚗", "行程"),
-            MenuItem("🏷️", "优惠"),
-            MenuItem("🎁", "发送礼品"),
-            MenuItem("❓", "帮助"),
-            MenuItem("👥", "已保存群组"),
-            MenuItem("💼", "设置您的商务账户", "自动支付差旅费和餐费"),
-            MenuItem("🤝", "合作伙伴奖励"),
-            MenuItem("⭐", "Uber One", "到期日期为 3月25日"),
-            MenuItem("🔒", "隐私"),
-            MenuItem("♿", "无障碍服务"),
-            MenuItem("📢", "通讯"),
-            MenuItem("🚙", "提供接载或派送服务以赚取收入"),
-            MenuItem("🎙️", "语音指令设置"),
-            MenuItem("👤", "管理优步账号"),
-            MenuItem("⚠️", "过敏设置"),
-            MenuItem("ℹ️", "简介")
+            MenuItem("👨‍👩‍👧‍👦", "Family & Teens", "Teen and adult accounts"),
+            MenuItem("📋", "Lists"),
+            MenuItem("🚗", "Rides"),
+            MenuItem("🏷️", "Offers"),
+            MenuItem("🎁", "Send a gift"),
+            MenuItem("❓", "Help"),
+            MenuItem("👥", "Saved groups"),
+            MenuItem("💼", "Set up your business account", "Automatically pay for travel and meals"),
+            MenuItem("🤝", "Partner rewards"),
+            MenuItem("⭐", "Uber One", "Renews on March 25"),
+            MenuItem("🔒", "Privacy"),
+            MenuItem("♿", "Accessibility"),
+            MenuItem("📢", "Communication"),
+            MenuItem("🚙", "Drive or deliver and earn"),
+            MenuItem("🎙️", "Voice shortcuts"),
+            MenuItem("👤", "Manage Uber account"),
+            MenuItem("⚠️", "Allergy settings"),
+            MenuItem("ℹ️", "About")
         )
     }
 }

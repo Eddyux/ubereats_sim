@@ -1,0 +1,85 @@
+{
+  "merchantName": "Benvenuto Cafe",
+  "products": [
+    {
+      "name": "Margherita Pizza",
+      "price": 15.99,
+      "calorieText": "280 Cal./slice"
+    },
+    {
+      "name": "Penne alla Vodka",
+      "price": 16.99,
+      "calorieText": "740 Cal."
+    },
+    {
+      "name": "Chicken Parmigiana",
+      "price": 19.99,
+      "calorieText": "820 Cal."
+    },
+    {
+      "name": "Fettuccine Alfredo",
+      "price": 17.99,
+      "calorieText": "860 Cal."
+    },
+    {
+      "name": "Truffle Mushroom Risotto",
+      "price": 18.49,
+      "calorieText": "690 Cal."
+    },
+    {
+      "name": "Caesar Salad",
+      "price": 10.99,
+      "calorieText": "380 Cal."
+    },
+    {
+      "name": "Minestrone Soup",
+      "price": 7.49,
+      "calorieText": "210 Cal."
+    },
+    {
+      "name": "Garlic Bread",
+      "price": 5.99,
+      "calorieText": "320 Cal."
+    },
+    {
+      "name": "Tiramisu",
+      "price": 7.99,
+      "calorieText": "450 Cal."
+    },
+    {
+      "name": "Espresso",
+      "price": 3.49,
+      "calorieText": "10 Cal."
+    },
+    {
+      "name": "Margherita Pizza Combo",
+      "price": 17.19,
+      "calorieText": "280 Cal./slice"
+    },
+    {
+      "name": "Penne alla Vodka Combo",
+      "price": 18.19,
+      "calorieText": "740 Cal."
+    },
+    {
+      "name": "Chicken Parmigiana Combo",
+      "price": 21.19,
+      "calorieText": "820 Cal."
+    },
+    {
+      "name": "Fettuccine Alfredo Combo",
+      "price": 19.19,
+      "calorieText": "860 Cal."
+    },
+    {
+      "name": "Truffle Mushroom Risotto Combo",
+      "price": 19.69,
+      "calorieText": "690 Cal."
+    },
+    {
+      "name": "Caesar Salad Combo",
+      "price": 12.19,
+      "calorieText": "380 Cal."
+    }
+  ]
+}

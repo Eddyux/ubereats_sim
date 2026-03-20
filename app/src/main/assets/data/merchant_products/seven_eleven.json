@@ -1,0 +1,85 @@
+{
+  "merchantName": "7-Eleven",
+  "products": [
+    {
+      "name": "Spicy Chicken Roller",
+      "price": 3.49,
+      "calorieText": "270 Cal."
+    },
+    {
+      "name": "Big Bite Hot Dog",
+      "price": 2.99,
+      "calorieText": "330 Cal."
+    },
+    {
+      "name": "Nachos & Cheese",
+      "price": 4.49,
+      "calorieText": "490 Cal."
+    },
+    {
+      "name": "Mozzarella Sticks",
+      "price": 5.29,
+      "calorieText": "410 Cal."
+    },
+    {
+      "name": "Taquito Combo",
+      "price": 4.99,
+      "calorieText": "450 Cal."
+    },
+    {
+      "name": "Buffalo Chicken Pizza Slice",
+      "price": 3.99,
+      "calorieText": "320 Cal."
+    },
+    {
+      "name": "Turkey Sandwich",
+      "price": 6.99,
+      "calorieText": "480 Cal."
+    },
+    {
+      "name": "Chocolate Chip Cookie",
+      "price": 1.99,
+      "calorieText": "210 Cal."
+    },
+    {
+      "name": "Slurpee Large",
+      "price": 2.49,
+      "calorieText": "190 Cal."
+    },
+    {
+      "name": "Cold Brew Coffee",
+      "price": 3.29,
+      "calorieText": "15 Cal."
+    },
+    {
+      "name": "Spicy Chicken Roller Combo",
+      "price": 4.69,
+      "calorieText": "270 Cal."
+    },
+    {
+      "name": "Big Bite Hot Dog Combo",
+      "price": 4.19,
+      "calorieText": "330 Cal."
+    },
+    {
+      "name": "Nachos & Cheese Combo",
+      "price": 5.69,
+      "calorieText": "490 Cal."
+    },
+    {
+      "name": "Mozzarella Sticks Combo",
+      "price": 6.49,
+      "calorieText": "410 Cal."
+    },
+    {
+      "name": "Taquito Combo",
+      "price": 6.19,
+      "calorieText": "450 Cal."
+    },
+    {
+      "name": "Buffalo Chicken Pizza Slice Combo",
+      "price": 5.19,
+      "calorieText": "320 Cal."
+    }
+  ]
+}

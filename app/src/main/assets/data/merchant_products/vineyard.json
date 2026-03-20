@@ -1,0 +1,85 @@
+{
+  "merchantName": "VINEYARD",
+  "products": [
+    {
+      "name": "Grilled Chicken Sandwich",
+      "price": 13.99,
+      "calorieText": "590 Cal."
+    },
+    {
+      "name": "Steak Frites",
+      "price": 24.99,
+      "calorieText": "890 Cal."
+    },
+    {
+      "name": "Seared Salmon Bowl",
+      "price": 19.99,
+      "calorieText": "710 Cal."
+    },
+    {
+      "name": "Classic Cheeseburger",
+      "price": 15.99,
+      "calorieText": "780 Cal."
+    },
+    {
+      "name": "Roasted Veggie Flatbread",
+      "price": 14.49,
+      "calorieText": "620 Cal."
+    },
+    {
+      "name": "Buffalo Wings",
+      "price": 12.99,
+      "calorieText": "520 Cal."
+    },
+    {
+      "name": "Mac & Cheese",
+      "price": 11.99,
+      "calorieText": "680 Cal."
+    },
+    {
+      "name": "Tomato Basil Soup",
+      "price": 7.99,
+      "calorieText": "240 Cal."
+    },
+    {
+      "name": "Chocolate Brownie",
+      "price": 6.49,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Lemon Iced Tea",
+      "price": 3.99,
+      "calorieText": "120 Cal."
+    },
+    {
+      "name": "Grilled Chicken Sandwich Combo",
+      "price": 15.19,
+      "calorieText": "590 Cal."
+    },
+    {
+      "name": "Steak Frites Combo",
+      "price": 26.19,
+      "calorieText": "890 Cal."
+    },
+    {
+      "name": "Seared Salmon Bowl Combo",
+      "price": 21.19,
+      "calorieText": "710 Cal."
+    },
+    {
+      "name": "Classic Cheeseburger Combo",
+      "price": 17.19,
+      "calorieText": "780 Cal."
+    },
+    {
+      "name": "Roasted Veggie Flatbread Combo",
+      "price": 15.69,
+      "calorieText": "620 Cal."
+    },
+    {
+      "name": "Buffalo Wings Combo",
+      "price": 14.19,
+      "calorieText": "520 Cal."
+    }
+  ]
+}

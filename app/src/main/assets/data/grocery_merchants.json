@@ -1,0 +1,119 @@
+{
+  "groceryMerchants": [
+    {
+      "id": "g1",
+      "name": "Whole Foods Market",
+      "imageUrl": "wholefoods",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "25 min",
+      "rating": 4.7,
+      "reviewCount": 1800,
+      "discount": "US$10 off US$60+",
+      "tags": [
+        "Grocery",
+        "Organic"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g2",
+      "name": "Trader Joe's",
+      "imageUrl": "traderjoes",
+      "deliveryFee": "US$1.99 Delivery Fee",
+      "deliveryTime": "30 min",
+      "rating": 4.8,
+      "reviewCount": 1300,
+      "tags": [
+        "Grocery",
+        "Daily Essentials"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g3",
+      "name": "ALDI",
+      "imageUrl": "aldi",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "28 min",
+      "rating": 4.5,
+      "reviewCount": 920,
+      "discount": "20% off selected items",
+      "tags": [
+        "Grocery",
+        "Budget"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g4",
+      "name": "H Mart",
+      "imageUrl": "hmart",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "32 min",
+      "rating": 4.6,
+      "reviewCount": 760,
+      "tags": [
+        "Grocery",
+        "Asian"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g5",
+      "name": "Mitsuwa Marketplace",
+      "imageUrl": "mitsuwa",
+      "deliveryFee": "US$2.49 Delivery Fee",
+      "deliveryTime": "35 min",
+      "rating": 4.6,
+      "reviewCount": 410,
+      "tags": [
+        "Grocery",
+        "Japanese"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g6",
+      "name": "Eataly Market",
+      "imageUrl": "eataly_market",
+      "deliveryFee": "US$1.49 Delivery Fee",
+      "deliveryTime": "26 min",
+      "rating": 4.7,
+      "reviewCount": 680,
+      "tags": [
+        "Grocery",
+        "Italian"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g7",
+      "name": "Fairway Market",
+      "imageUrl": "fairway",
+      "deliveryFee": "US$0 Delivery Fee",
+      "deliveryTime": "24 min",
+      "rating": 4.4,
+      "reviewCount": 540,
+      "tags": [
+        "Grocery",
+        "Local"
+      ],
+      "section": "grocery"
+    },
+    {
+      "id": "g8",
+      "name": "FreshDirect",
+      "imageUrl": "freshdirect",
+      "deliveryFee": "US$2.99 Delivery Fee",
+      "deliveryTime": "40 min",
+      "rating": 4.5,
+      "reviewCount": 1200,
+      "discount": "Free delivery on US$80+",
+      "tags": [
+        "Grocery",
+        "Online Supermarket"
+      ],
+      "section": "grocery"
+    }
+  ]
+}

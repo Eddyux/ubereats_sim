@@ -1,0 +1,85 @@
+{
+  "merchantName": "HAWA SMOOTHIES",
+  "products": [
+    {
+      "name": "Acai Power Bowl",
+      "price": 12.99,
+      "calorieText": "510 Cal."
+    },
+    {
+      "name": "Mango Pineapple Smoothie",
+      "price": 9.49,
+      "calorieText": "290 Cal."
+    },
+    {
+      "name": "Strawberry Banana Smoothie",
+      "price": 9.29,
+      "calorieText": "270 Cal."
+    },
+    {
+      "name": "Green Detox Smoothie",
+      "price": 9.79,
+      "calorieText": "220 Cal."
+    },
+    {
+      "name": "Peanut Butter Protein",
+      "price": 10.49,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Dragon Fruit Bowl",
+      "price": 12.49,
+      "calorieText": "500 Cal."
+    },
+    {
+      "name": "Tropical Granola Bowl",
+      "price": 11.99,
+      "calorieText": "470 Cal."
+    },
+    {
+      "name": "Fresh Orange Juice",
+      "price": 6.29,
+      "calorieText": "180 Cal."
+    },
+    {
+      "name": "Cold Pressed Green Juice",
+      "price": 7.49,
+      "calorieText": "120 Cal."
+    },
+    {
+      "name": "Iced Hibiscus Tea",
+      "price": 4.29,
+      "calorieText": "40 Cal."
+    },
+    {
+      "name": "Acai Power Bowl Combo",
+      "price": 14.19,
+      "calorieText": "510 Cal."
+    },
+    {
+      "name": "Mango Pineapple Smoothie Combo",
+      "price": 10.69,
+      "calorieText": "290 Cal."
+    },
+    {
+      "name": "Strawberry Banana Smoothie Combo",
+      "price": 10.49,
+      "calorieText": "270 Cal."
+    },
+    {
+      "name": "Green Detox Smoothie Combo",
+      "price": 10.99,
+      "calorieText": "220 Cal."
+    },
+    {
+      "name": "Peanut Butter Protein Combo",
+      "price": 11.69,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Dragon Fruit Bowl Combo",
+      "price": 13.69,
+      "calorieText": "500 Cal."
+    }
+  ]
+}

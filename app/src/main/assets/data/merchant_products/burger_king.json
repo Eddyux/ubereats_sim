@@ -1,0 +1,85 @@
+{
+  "merchantName": "Burger King",
+  "products": [
+    {
+      "name": "Whopper",
+      "price": 8.29,
+      "calorieText": "670 Cal."
+    },
+    {
+      "name": "Whopper Meal",
+      "price": 11.99,
+      "calorieText": "1120 Cal."
+    },
+    {
+      "name": "Bacon King",
+      "price": 10.99,
+      "calorieText": "1200 Cal."
+    },
+    {
+      "name": "Double Cheeseburger",
+      "price": 5.49,
+      "calorieText": "400 Cal."
+    },
+    {
+      "name": "Chicken Fries",
+      "price": 6.99,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Original Chicken Sandwich",
+      "price": 7.29,
+      "calorieText": "660 Cal."
+    },
+    {
+      "name": "Impossible Whopper",
+      "price": 9.49,
+      "calorieText": "630 Cal."
+    },
+    {
+      "name": "Mozzarella Fries",
+      "price": 4.99,
+      "calorieText": "290 Cal."
+    },
+    {
+      "name": "Onion Rings",
+      "price": 4.29,
+      "calorieText": "320 Cal."
+    },
+    {
+      "name": "Hershey Pie",
+      "price": 3.29,
+      "calorieText": "300 Cal."
+    },
+    {
+      "name": "Whopper Combo",
+      "price": 9.49,
+      "calorieText": "670 Cal."
+    },
+    {
+      "name": "Whopper Meal Combo",
+      "price": 13.19,
+      "calorieText": "1120 Cal."
+    },
+    {
+      "name": "Bacon King Combo",
+      "price": 12.19,
+      "calorieText": "1200 Cal."
+    },
+    {
+      "name": "Double Cheeseburger Combo",
+      "price": 6.69,
+      "calorieText": "400 Cal."
+    },
+    {
+      "name": "Chicken Fries Combo",
+      "price": 8.19,
+      "calorieText": "430 Cal."
+    },
+    {
+      "name": "Original Chicken Sandwich Combo",
+      "price": 8.49,
+      "calorieText": "660 Cal."
+    }
+  ]
+}
