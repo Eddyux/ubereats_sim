@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ubereats_sim.LocalFavorites
 import com.example.ubereats_sim.LocalNavController
 import com.example.ubereats_sim.model.NearbyStore
 import com.example.ubereats_sim.model.Restaurant
@@ -141,6 +144,8 @@ fun RestaurantGrid(restaurants: List<Restaurant>) {
 @Composable
 fun RestaurantCard(restaurant: Restaurant, modifier: Modifier = Modifier) {
     val nav = LocalNavController.current
+    val favorites = LocalFavorites.current
+    val isFavorite = favorites.first.contains(restaurant.name)
     val merchantImage = rememberMerchantImage(restaurant.name, reqWidth = 640, reqHeight = 360)
     Card(
         modifier = modifier.clickable { nav(restaurant.name) },
@@ -175,13 +180,27 @@ fun RestaurantCard(restaurant: Restaurant, modifier: Modifier = Modifier) {
                 }
             }
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    restaurant.name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        restaurant.name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.Gray,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { favorites.second(restaurant.name) }
+                    )
+                }
                 Text(
                     "${restaurant.deliveryFee} · ${restaurant.deliveryTime}",
                     fontSize = 12.sp,

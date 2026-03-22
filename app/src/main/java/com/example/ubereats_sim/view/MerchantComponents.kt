@@ -252,7 +252,13 @@ fun MenuItemCard(
 }
 
 @Composable
-fun MerchantListItem(item: MerchantMenuItem, onClick: () -> Unit, onAdd: () -> Unit) {
+fun MerchantListItem(
+    merchantName: String,
+    item: MerchantMenuItem,
+    onClick: () -> Unit,
+    onAdd: () -> Unit
+) {
+    val productImage = rememberMerchantProductImage(merchantName, item.name, reqWidth = 300, reqHeight = 300)
     Row(
         modifier = Modifier.fillMaxWidth().clickable { onClick() }.padding(horizontal = 16.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -263,7 +269,20 @@ fun MerchantListItem(item: MerchantMenuItem, onClick: () -> Unit, onAdd: () -> U
             Text(item.priceText, fontSize = 14.sp, color = Color(0xFF444444))
             Text(item.calorieText, fontSize = 12.sp, color = Color.Gray)
         }
-        AddBadge(onAdd = onAdd)
+        Box(
+            modifier = Modifier.width(92.dp).height(76.dp).background(Color(0xFFEEEEEE), RoundedCornerShape(12.dp)),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            if (productImage != null) {
+                Image(
+                    bitmap = productImage,
+                    contentDescription = item.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(12.dp))
+                )
+            }
+            CircleAddButton(onAdd)
+        }
     }
     HorizontalDivider(thickness = 0.5.dp, color = Color(0xFFE9E9E9))
 }

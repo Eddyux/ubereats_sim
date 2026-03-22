@@ -52,6 +52,23 @@ class MerchantPresenter(private val context: Context) {
         return getMerchantProducts(restaurantName).firstOrNull { it.id == productId }
     }
 
+    data class MerchantInfo(
+        val rating: String,
+        val deliveryFee: String,
+        val eta: String,
+        val deal: String?
+    )
+
+    fun getMerchantInfo(restaurantName: String): MerchantInfo? {
+        val summary = getMerchantSummary(restaurantName)
+        return MerchantInfo(
+            rating = summary.rating.toString(),
+            deliveryFee = summary.deliveryFeeText,
+            eta = summary.prepTimeText,
+            deal = null
+        )
+    }
+
     private fun optionsFor(merchantName: String, seed: MerchantProductSeed): List<ProductOption> {
         val seedName = seed.name.orEmpty()
         if (merchantName == "McDonald's" && seedName == "Steak & Egg McMuffin") {

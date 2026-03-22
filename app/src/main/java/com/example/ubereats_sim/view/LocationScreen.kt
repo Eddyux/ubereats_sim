@@ -1,5 +1,6 @@
 ﻿package com.example.ubereats_sim.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +28,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +49,16 @@ fun LocationScreen() {
     val filters = presenter.getFilters()
     val markers = presenter.getMapMarkers()
     val pickupSpots = presenter.getPickupSpots()
+    val context = LocalContext.current
+    val mapImage = remember {
+        runCatching {
+            context.assets.open("location_map.png").use { input ->
+                val bytes = input.readBytes()
+                android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    ?.asImageBitmap()
+            }
+        }.getOrNull()
+    }
 
     Column(
         modifier = Modifier
@@ -57,8 +73,17 @@ fun LocationScreen() {
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(horizontal = 12.dp)
-                .background(Color(0xFFE9EEF2), RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color(0xFFE9EEF2))
         ) {
+            if (mapImage != null) {
+                Image(
+                    bitmap = mapImage,
+                    contentDescription = "Map",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             markers.forEach { marker ->
                 Column(
                     modifier = Modifier
@@ -116,7 +141,19 @@ fun LocationScreen() {
                             Text(spot.name, fontWeight = FontWeight.Bold)
                             Text("${spot.eta} · ⭐ ${spot.rating}", fontSize = 12.sp, color = Color.Gray)
                         }
-                        Icon(Icons.Default.LocationOn, contentDescription = null, tint = Color(0xFF05944F))
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(Color(0xFF05944F).copy(alpha = 0.1f), RoundedCornerShape(20.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.LocationOn,
+                                contentDescription = null,
+                                tint = Color(0xFF05944F),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -150,12 +187,19 @@ private fun SearchPickupBar() {
                 Text("Search pickup spots nearby", color = Color.Gray)
             }
         }
-        Surface(
-            shape = RoundedCornerShape(20.dp),
-            color = Color(0xFFF2F2F2),
-            modifier = Modifier.clickable { nav("Locate me") }
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .background(Color(0xFF05944F), RoundedCornerShape(22.dp))
+                .clickable { nav("Locate me") },
+            contentAlignment = Alignment.Center
         ) {
-            Icon(Icons.Default.LocationOn, contentDescription = null, modifier = Modifier.padding(10.dp))
+            Icon(
+                Icons.Default.LocationOn,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }

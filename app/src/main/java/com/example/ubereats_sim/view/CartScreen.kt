@@ -129,7 +129,7 @@ private fun CartItemCard(cartItem: CartItem) {
             }
             Spacer(Modifier.height(16.dp))
             Button(
-                onClick = { nav("View cart - ${cartItem.restaurantName}") },
+                onClick = { nav("viewcart|${cartItem.restaurantName}") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                 shape = RoundedCornerShape(8.dp)

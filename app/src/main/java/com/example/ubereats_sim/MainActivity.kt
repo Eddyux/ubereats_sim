@@ -22,10 +22,16 @@ import com.example.ubereats_sim.model.MerchantCartItem
 import com.example.ubereats_sim.model.MerchantMenuItem
 import com.example.ubereats_sim.presenter.MerchantPresenter
 import com.example.ubereats_sim.ui.theme.Test05Theme
+import com.example.ubereats_sim.view.AccessibilityScreen
 import com.example.ubereats_sim.view.CartScreen
+import com.example.ubereats_sim.view.HearingScreen
 import com.example.ubereats_sim.view.HomeScreen
 import com.example.ubereats_sim.view.LocationScreen
 import com.example.ubereats_sim.view.MerchantScreen
+import com.example.ubereats_sim.view.MyFavoritesScreen
+import com.example.ubereats_sim.view.PaymentScreen
+import com.example.ubereats_sim.view.PrivacyLiveLocationScreen
+import com.example.ubereats_sim.view.PrivacyScreen
 import com.example.ubereats_sim.view.ProductDetailScreen
 import com.example.ubereats_sim.view.ProfileScreen
 import com.example.ubereats_sim.view.SearchScreen
@@ -49,6 +55,7 @@ private const val RouteMerchant = "merchant"
 
 val LocalNavController = compositionLocalOf<(String) -> Unit> { {} }
 val LocalNavBack = compositionLocalOf<() -> Unit> { {} }
+val LocalFavorites = compositionLocalOf<Pair<Set<String>, (String) -> Unit>> { Pair(emptySet()) {} }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +72,7 @@ fun MainScreen() {
     var selectedTab by remember { mutableIntStateOf(0) }
     val navStack = remember { mutableStateListOf<String>() }
     val cartItems = remember { mutableStateListOf<MerchantCartItem>() }
+    val favoriteNames = remember { mutableStateListOf<String>() }
     val context = LocalContext.current
     val merchantPresenter = remember(context) { MerchantPresenter(context) }
 
@@ -75,6 +83,14 @@ fun MainScreen() {
     fun popPage() {
         if (navStack.isNotEmpty()) {
             navStack.removeAt(navStack.lastIndex)
+        }
+    }
+
+    fun toggleFavorite(name: String) {
+        if (favoriteNames.contains(name)) {
+            favoriteNames.remove(name)
+        } else {
+            favoriteNames.add(name)
         }
     }
 
@@ -110,7 +126,8 @@ fun MainScreen() {
 
     CompositionLocalProvider(
         LocalNavController provides { page -> pushPage(page) },
-        LocalNavBack provides { popPage() }
+        LocalNavBack provides { popPage() },
+        LocalFavorites provides Pair(favoriteNames.toSet()) { name -> toggleFavorite(name) }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -161,6 +178,7 @@ fun MainScreen() {
                                     onRemove = { item -> cartItems.remove(item) },
                                     onReplace = { item -> pushPage(productRoute(merchantName, item.product.id)) },
                                     onAddItems = { popPage() },
+                                    onCheckout = { pushPage("Wallet") },
                                     onOpenOfferItem = {
                                         val offer = merchantPresenter.getMerchantProducts(merchantName).firstOrNull()
                                         if (offer != null) {
@@ -195,6 +213,13 @@ fun MainScreen() {
                                 onOpenCart = { pushPage(viewCartRoute(currentPage)) }
                             )
                         }
+
+                        currentPage == "Wallet" -> PaymentScreen()
+                        currentPage == "Privacy" -> PrivacyScreen()
+                        currentPage == "Live location" -> PrivacyLiveLocationScreen()
+                        currentPage == "Favorites" -> MyFavoritesScreen(favoriteNames.toList())
+                        currentPage == "Accessibility" -> AccessibilityScreen()
+                        currentPage == "Hearing" -> HearingScreen()
 
                         else -> UnderDevelopmentScreen(currentPage)
                     }

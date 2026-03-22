@@ -50,7 +50,8 @@ fun ViewCartScreen(
     onRemove: (MerchantCartItem) -> Unit,
     onReplace: (MerchantCartItem) -> Unit,
     onAddItems: () -> Unit,
-    onOpenOfferItem: () -> Unit
+    onOpenOfferItem: () -> Unit,
+    onCheckout: () -> Unit = {}
 ) {
     val utensilChecked = remember { mutableStateOf(false) }
     val subtotal = items.sumOf { it.quantity * it.product.price }
@@ -79,7 +80,7 @@ fun ViewCartScreen(
                         .padding(start = 14.dp, end = 14.dp, bottom = 12.dp)
                 )
                 Button(
-                    onClick = {},
+                    onClick = { onCheckout() },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier

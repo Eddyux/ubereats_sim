@@ -89,204 +89,53 @@ app/src/main/java/com/example/ubereats_sim/
 - 开发中页面含返回按钮，底部导航栏在子页面时隐藏
 
 
-## ???????
+## 2026-03-22 New Pages
 
-### McDonald's
-- Hash Browns
-- Steak & Egg McMuffin
-- Big Breakfast with Hotcakes
-- Sausage Egg McMuffin Meal
-- Egg McMuffin
-- Big Mac Meal
-- Quarter Pounder w/ Cheese Meal
-- 10 pc Chicken McNuggets
-- McChicken
-- Filet-O-Fish
-- Medium French Fries
-- Oreo McFlurry
-- Hash Browns Combo
-- Steak & Egg McMuffin Combo
-- Big Breakfast with Hotcakes Combo
-- Sausage Egg McMuffin Meal Combo
+### 18. Payment Screen (PaymentScreen.kt)
+- Pay with 页面，顶部关闭按钮和大标题
+- Personal / Business 账户类型标签切换
+- Uber balances 区域，含开关和 Uber Cash 余额显示
+- Payment methods 区域，含 Add payment method 入口
+- Vouchers 区域，含 Add voucher code 入口
+- 从个人中心 Wallet 入口进入
 
-### VINEYARD
-- Grilled Chicken Sandwich
-- Steak Frites
-- Seared Salmon Bowl
-- Classic Cheeseburger
-- Roasted Veggie Flatbread
-- Buffalo Wings
-- Mac & Cheese
-- Tomato Basil Soup
-- Chocolate Brownie
-- Lemon Iced Tea
-- Grilled Chicken Sandwich Combo
-- Steak Frites Combo
-- Seared Salmon Bowl Combo
-- Classic Cheeseburger Combo
-- Roasted Veggie Flatbread Combo
-- Buffalo Wings Combo
+### 19. Privacy Screen (PrivacyScreen.kt)
+- Privacy Center 隐私中心页面
+- Your data and privacy at Uber 双列卡片（查看使用总结、请求个人数据）
+- Ads and Data 区域（Personalized Offers）
+- Location sharing 区域（Live location）
+- Account security 区域（Account Deletion）
+- How do we approach privacy at Uber 区域
+- 从个人中心 Privacy 入口进入
 
-### Yunnan Rice Noodle
-- Crossing-the-Bridge Noodles
-- Spicy Beef Rice Noodles
-- Tomato Broth Noodles
-- Pickled Pepper Noodles
-- Braised Beef Rice
-- Pork Dumplings
-- Scallion Pancake
-- Cold Noodle Salad
-- Cucumber Salad
-- Soy Milk
-- Crossing-the-Bridge Noodles Combo
-- Spicy Beef Rice Noodles Combo
-- Tomato Broth Noodles Combo
-- Pickled Pepper Noodles Combo
-- Braised Beef Rice Combo
-- Pork Dumplings Combo
+### 20. Privacy Live Location Screen (PrivacyLiveLocationScreen.kt)
+- Live location sharing 实时位置共享设置页面
+- 配送员位置共享说明文案
+- Live location sharing with couriers 开关设置项
+- Learn more 了解更多按钮
+- 从 Privacy 页面 Live location 入口进入
 
-### Benvenuto Cafe
-- Margherita Pizza
-- Penne alla Vodka
-- Chicken Parmigiana
-- Fettuccine Alfredo
-- Truffle Mushroom Risotto
-- Caesar Salad
-- Minestrone Soup
-- Garlic Bread
-- Tiramisu
-- Espresso
-- Margherita Pizza Combo
-- Penne alla Vodka Combo
-- Chicken Parmigiana Combo
-- Fettuccine Alfredo Combo
-- Truffle Mushroom Risotto Combo
-- Caesar Salad Combo
+### 21. Favorites Feature
+- 在主页商家卡片上添加爱心图标（商家名称右边）
+- 点击爱心可切换收藏/取消收藏状态
+- 收藏状态为红色实心爱心，未收藏为灰色空心爱心
 
-### Burger King
-- Whopper
-- Whopper Meal
-- Bacon King
-- Double Cheeseburger
-- Chicken Fries
-- Original Chicken Sandwich
-- Impossible Whopper
-- Mozzarella Fries
-- Onion Rings
-- Hershey Pie
-- Whopper Combo
-- Whopper Meal Combo
-- Bacon King Combo
-- Double Cheeseburger Combo
-- Chicken Fries Combo
-- Original Chicken Sandwich Combo
+### 22. My Favorites Screen (MyFavoritesScreen.kt)
+- Your Favorites 收藏页面
+- Recently added 区域展示已收藏的商家卡片
+- 商家卡片包含商品图、评分、配送费、预计送达时间、优惠标签
+- 无收藏时显示空状态提示
+- 从个人中心 Favorites 入口进入
 
-### 7-Eleven
-- Spicy Chicken Roller
-- Big Bite Hot Dog
-- Nachos & Cheese
-- Mozzarella Sticks
-- Taquito Combo
-- Buffalo Chicken Pizza Slice
-- Turkey Sandwich
-- Chocolate Chip Cookie
-- Slurpee Large
-- Cold Brew Coffee
-- Spicy Chicken Roller Combo
-- Big Bite Hot Dog Combo
-- Nachos & Cheese Combo
-- Mozzarella Sticks Combo
-- Taquito Combo
-- Buffalo Chicken Pizza Slice Combo
+### 23. Accessibility Screen (AccessibilityScreen.kt)
+- Accessibility 无障碍设置页面
+- Hearing 听力设置项（可跳转详情）
+- Communication settings 沟通设置项
+- 从个人中心 Accessibility 入口进入
 
-### Matchaful
-- Ceremonial Matcha Latte
-- Strawberry Matcha
-- Yuzu Matcha Tonic
-- Coconut Matcha Cloud
-- Ube Matcha Latte
-- Matcha Banana Smoothie
-- Matcha Chia Pudding
-- Blueberry Oat Bowl
-- Avocado Toast
-- Sparkling Water
-- Ceremonial Matcha Latte Combo
-- Strawberry Matcha Combo
-- Yuzu Matcha Tonic Combo
-- Coconut Matcha Cloud Combo
-- Ube Matcha Latte Combo
-- Matcha Banana Smoothie Combo
-
-### HAWA SMOOTHIES
-- Acai Power Bowl
-- Mango Pineapple Smoothie
-- Strawberry Banana Smoothie
-- Green Detox Smoothie
-- Peanut Butter Protein
-- Dragon Fruit Bowl
-- Tropical Granola Bowl
-- Fresh Orange Juice
-- Cold Pressed Green Juice
-- Iced Hibiscus Tea
-- Acai Power Bowl Combo
-- Mango Pineapple Smoothie Combo
-- Strawberry Banana Smoothie Combo
-- Green Detox Smoothie Combo
-- Peanut Butter Protein Combo
-- Dragon Fruit Bowl Combo
-
-### Domino's
-- Hand Tossed Pepperoni Pizza
-- Brooklyn Style Cheese Pizza
-- BBQ Chicken Pizza
-- Philly Cheese Steak Pizza
-- Spinach & Feta Pizza
-- Chicken Alfredo Pasta
-- Boneless Chicken
-- Stuffed Cheesy Bread
-- Parmesan Bread Bites
-- Chocolate Lava Crunch Cakes
-- Hand Tossed Pepperoni Pizza Combo
-- Brooklyn Style Cheese Pizza Combo
-- BBQ Chicken Pizza Combo
-- Philly Cheese Steak Pizza Combo
-- Spinach & Feta Pizza Combo
-- Chicken Alfredo Pasta Combo
-
-## Changelog
-### 2026-03-21
-- Merchant page hero image now fills the entire top frame.
-
-## Grocery and Convenience Merchants (Data)
-
-### Grocery
-- Whole Foods Market
-- Trader Joe's
-- ALDI
-- H Mart
-- Mitsuwa Marketplace
-- Eataly Market
-- Fairway Market
-- FreshDirect
-
-### Convenience
-- 7-Eleven
-- CVS
-- Walgreens
-- Duane Reade
-- GoPuff
-- Rite Aid
-- Family Dollar
-- Dollar General
-
-### Data Files
-- app/src/main/assets/data/grocery_merchants.json
-- app/src/main/assets/data/convenience_merchants.json
-
-## Data Integration (2026-03-21)
-- Added `app/src/main/assets/data/grocery_merchants.json`.
-- Added `app/src/main/assets/data/convenience_merchants.json`.
-- Grocery tab now reads grocery merchants from `grocery_merchants.json`.
-- Convenience tab now reads merchants from `convenience_merchants.json`.
-- Product images from `app/src/main/assets/McDonald's` and `app/src/main/assets/VINEYARD` are now used in merchant item cards and product detail page.
-- Grocery merchant images in `app/src/main/assets/Grocery` are now displayed in Grocery cards and Featured deals.
+### 24. Hearing Screen (HearingScreen.kt)
+- Hearing 听力设置详情页
+- 顶部插画区域��说明文案
+- 三个单选选项：I'm deaf / I'm hard of hearing / I'm not deaf or hard of hearing
+- 默认选中第三项
+- 从 Accessibility 页面 Hearing 入口进入
