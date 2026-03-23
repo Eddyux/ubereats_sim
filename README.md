@@ -8,12 +8,14 @@
 app/src/main/java/com/example/ubereats_sim/
 ├── model/              # 数据模型层
 │   ├── CartItem.kt
+│   ├── Order.kt       # Order + OrderItem
 │   ├── Restaurant.kt   # Restaurant + NearbyStore
 │   ├── UserProfile.kt  # UserProfile + MenuItem
 │   └── DataLoader.kt
 ├── presenter/          # MVP Presenter层
 │   ├── CartPresenter.kt
 │   ├── HomePresenter.kt
+│   ├── OrderPresenter.kt
 │   └── ProfilePresenter.kt
 ├── view/              # View层（Compose UI）
 │   ├── HomeScreen.kt       # 首页主框架
@@ -61,6 +63,7 @@ app/src/main/java/com/example/ubereats_sim/
 
 数据存储在 `app/src/main/assets/data/` 目录：
 - `restaurants.json` - 商家数据（含附近店铺）
+- `orders.json` - 订单数据
 - `cart.json` - 购物车数据
 - `user_profile.json` - 用户信息
 
@@ -139,3 +142,112 @@ app/src/main/java/com/example/ubereats_sim/
 - 三个单选选项：I'm deaf / I'm hard of hearing / I'm not deaf or hard of hearing
 - 默认选中第三项
 - 从 Accessibility 页面 Hearing 入口进入
+
+## 2026-03-24 New Pages
+
+### 26. Orders Screen (OrdersScreen.kt) - 重构
+- 订单页面重构，参考 orders_yiwang 截图
+- 顶部显示"订单"标题，右侧有通知铃铛和购物车图标
+- 两个标签切换："曾经买过的商品"和"以往订单"
+- "活跃"区域：绿色卡片展示进行中订单，含商家头像、优惠信息、金额、预计到达时间、"追踪"按钮
+- "历史记录"区域：列表展示过往订单，每个订单含商家头像、商家名称、日期、金额、商品数、"查看商店"按钮
+
+### 27. Order Detail Screen (OrderDetailScreen.kt)
+- 进行中订单配送追踪页面，参考 orderdetail 截图
+- 顶部关闭、分享、Help 按钮
+- "Picking up your order..." 标题，预计送达时间、最晚送达时间
+- 进度条显示配送进度
+- 地图区域显示商家位置和配送状态
+- 配送员信息卡片：头像、姓名、评分、车型
+- 交互按钮：电话、发消息、小费
+- 从订单列表页面活跃订单"追踪"按钮进入
+
+### 28. Order History Detail Screen (OrderHistoryDetailScreen.kt)
+- 历史订单详情页面，参考 order_yiwang1 截图
+- 顶部返回按钮、订单编号、帮助按钮
+- 商家信息：Logo、名称、"订单已完成"状态、完成日期时间
+- 五星评分区域
+- "您的订单"商品明细列表：数量、商品名、价格
+- 总计金额
+- 从订单列表页面历史订单点击进入
+
+#### 订单数据结构（更新）
+```json
+{
+  "orders": [
+    {
+      "id": "ORD000",
+      "merchantName": "McDonald's",
+      "merchantLogo": "🍔",
+      "orderDate": "2026-03-24",
+      "orderTime": "21:15",
+      "totalAmount": 28.50,
+      "status": "In Progress",
+      "estimatedArrival": "9:45 PM",
+      "latestArrival": "10:15 PM",
+      "deliveryStatus": "Wrapping up",
+      "driverName": "Sayda",
+      "driverRating": "92%",
+      "driverVehicle": "Toyota Camry",
+      "merchantAddress": "262 Canal St",
+      "deliveryAddress": "123 Main St, New York",
+      "promoMessage": "$5 off $20+",
+      "items": [...]
+    },
+    {
+      "id": "ORD001",
+      "merchantName": "McDonald's",
+      "status": "Delivered",
+      ...
+    }
+  ]
+}
+```
+
+### 29. 历史订单详情页优化
+- 移除右上角铃铛和购物车图标，仅保留返回按钮、订单编号、帮助按钮
+
+### 30. 进行中订单地图图片
+- 订单追踪页面的地图区域使用 `assets/orderlocation.png` 图片替代占位符
+- 商家名称和配送状态浮层覆盖在地图底部
+
+### 31. Wallet Screen (WalletScreen.kt)
+- Wallet 钱包页面，参考 wallet.jpg
+- 顶部返回按钮和 "Wallet" 大标题
+- Uber balances 区域，显示 CN¥0.00 余额，带跳转箭头
+- Send a gift 区域，含说明文案和 "Send a gift" 按钮
+- Payment methods 区域，含 "Add payment method" 按钮
+- Vouchers 区域，显示 Received vouchers 数量，含 "Add voucher code" 入口
+- In-Store Offers 区域，含 "Offers" 入口
+- 从个人中心 Wallet 按钮进入
+- 原 PaymentScreen（Pay with）改为从 checkout 流程进入
+
+### 32. Promotions Screen (PromotionsScreen.kt)
+- Promotions 优惠页面，参考 promotions.jpg
+- 顶部返回按钮和 "Promotions" 标题
+- "Enter promo code" 输入框
+- "$12 Meal Deals" 优惠卡片，含 "$0 Delivery Fee" 标签、说明文案、红色 PROMO 标识
+- "Shop now" 和 "Details" 按钮
+- 底部绿色提示栏："Get the best deals in your city in a matter of seconds"
+- 从首页促销横幅入口进入
+
+### 33. Orders pages language update
+- 订单页面顶部加入返回按钮
+- OrdersScreen、OrderHistoryDetailScreen 中文改为英文
+
+### 34. Checkout Screen (CheckoutScreen.kt)
+- Checkout 结账页面，参考 checkout.jpg
+- 顶部返回按钮和 "Checkout" 标题
+- Delivery details 区域（地址、配送时间）
+- Payment 区域，显示 yx666 账户，可跳转 Pay with 页面
+- Order summary 区域（Subtotal、Delivery Fee、Service Fee、Total）
+- "Place order" 下单按钮
+- PaymentScreen 中 Payment methods 新增 yx666 账户，点击跳转 Checkout
+- ViewCartScreen "Go to checkout" 跳转到 Checkout 页面
+
+### 35. Order flow integration
+- 下单后自动创建新订单并添加到订单列表（状态为 In Progress）
+- 下单后清空对应商家的购物车商品
+- 下单后自动跳转到订单列表页面
+- 订单数据通过 LocalOrders CompositionLocal 在全局共享
+- 购物车页面商家图片使用 `assets/dianpu/` 中的图片

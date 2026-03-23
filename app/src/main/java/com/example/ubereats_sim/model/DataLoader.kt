@@ -97,4 +97,17 @@ object DataLoader {
             emptyMap()
         }
     }
+
+    fun loadOrders(context: Context): List<Order> {
+        return try {
+            val json = context.assets.open("data/orders.json")
+                .bufferedReader().use { it.readText() }
+            val type = object : TypeToken<Map<String, List<Order>>>() {}.type
+            val data: Map<String, List<Order>> = gson.fromJson(json, type)
+            data["orders"] ?: emptyList()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error loading orders", e)
+            emptyList()
+        }
+    }
 }

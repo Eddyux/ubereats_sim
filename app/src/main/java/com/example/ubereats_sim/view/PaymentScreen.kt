@@ -18,10 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.LocalNavController
 
 @Composable
 fun PaymentScreen() {
     val navBack = LocalNavBack.current
+    val navController = LocalNavController.current
     var selectedTab by remember { mutableStateOf("Personal") }
     var uberBalancesEnabled by remember { mutableStateOf(true) }
 
@@ -140,6 +142,27 @@ fun PaymentScreen() {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
+        }
+
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController("Checkout") }
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "💳",
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(Color(0xFF4CAF50), RoundedCornerShape(8.dp))
+                        .wrapContentSize(Alignment.Center)
+                )
+                Spacer(Modifier.width(12.dp))
+                Text("yx666", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            }
         }
 
         item {

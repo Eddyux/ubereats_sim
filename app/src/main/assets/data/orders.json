@@ -1,0 +1,123 @@
+{
+  "orders": [
+    {
+      "id": "ORD000",
+      "merchantName": "McDonald's",
+      "merchantLogo": "🍔",
+      "orderDate": "2026-03-24",
+      "orderTime": "21:15",
+      "totalAmount": 28.50,
+      "status": "In Progress",
+      "estimatedArrival": "9:45 PM",
+      "latestArrival": "10:15 PM",
+      "deliveryStatus": "Wrapping up",
+      "driverName": "Sayda",
+      "driverRating": "92%",
+      "driverVehicle": "Toyota Camry",
+      "merchantAddress": "262 Canal St",
+      "deliveryAddress": "123 Main St, New York",
+      "promoMessage": "$5 off $20+",
+      "items": [
+        {
+          "name": "Big Mac",
+          "quantity": 2,
+          "price": 8.99
+        },
+        {
+          "name": "French Fries",
+          "quantity": 1,
+          "price": 3.49
+        },
+        {
+          "name": "McFlurry",
+          "quantity": 1,
+          "price": 4.99
+        }
+      ]
+    },
+    {
+      "id": "ORD001",
+      "merchantName": "McDonald's",
+      "merchantLogo": "🍔",
+      "orderDate": "2026-03-22",
+      "orderTime": "18:30",
+      "totalAmount": 25.50,
+      "status": "Delivered",
+      "items": [
+        {
+          "name": "Big Mac",
+          "quantity": 2,
+          "price": 8.99
+        },
+        {
+          "name": "French Fries",
+          "quantity": 2,
+          "price": 3.49
+        }
+      ]
+    },
+    {
+      "id": "ORD002",
+      "merchantName": "Domino's",
+      "merchantLogo": "🍕",
+      "orderDate": "2026-03-21",
+      "orderTime": "20:15",
+      "totalAmount": 32.99,
+      "status": "Delivered",
+      "items": [
+        {
+          "name": "Pepperoni Pizza",
+          "quantity": 1,
+          "price": 18.99
+        },
+        {
+          "name": "Garlic Bread",
+          "quantity": 1,
+          "price": 6.99
+        },
+        {
+          "name": "Coca Cola",
+          "quantity": 2,
+          "price": 3.50
+        }
+      ]
+    },
+    {
+      "id": "ORD003",
+      "merchantName": "Burger King",
+      "merchantLogo": "🍔",
+      "orderDate": "2026-03-20",
+      "orderTime": "12:45",
+      "totalAmount": 18.75,
+      "status": "Delivered",
+      "items": [
+        {
+          "name": "Whopper",
+          "quantity": 1,
+          "price": 9.99
+        },
+        {
+          "name": "Onion Rings",
+          "quantity": 1,
+          "price": 3.99
+        }
+      ]
+    },
+    {
+      "id": "ORD004",
+      "merchantName": "Starbucks",
+      "merchantLogo": "☕",
+      "orderDate": "2026-03-19",
+      "orderTime": "08:20",
+      "totalAmount": 12.50,
+      "status": "Delivered",
+      "items": [
+        {
+          "name": "Caffe Latte",
+          "quantity": 2,
+          "price": 5.25
+        }
+      ]
+    }
+  ]
+}
