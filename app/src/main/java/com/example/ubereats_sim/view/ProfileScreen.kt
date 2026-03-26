@@ -59,6 +59,7 @@ fun ProfileScreen() {
 
 @Composable
 private fun ProfileHeader(name: String, isVerified: Boolean) {
+    val nav = LocalNavController.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +75,8 @@ private fun ProfileHeader(name: String, isVerified: Boolean) {
             modifier = Modifier
                 .size(64.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFE0E0E0)),
+                .background(Color(0xFFE0E0E0))
+                .clickable { nav("Settings") },
             contentAlignment = Alignment.Center
         ) {
             Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(40.dp), tint = Color.Gray)

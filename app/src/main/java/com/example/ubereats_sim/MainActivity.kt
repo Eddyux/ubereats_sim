@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -70,6 +71,8 @@ val LocalNavController = compositionLocalOf<(String) -> Unit> { {} }
 val LocalNavBack = compositionLocalOf<() -> Unit> { {} }
 val LocalFavorites = compositionLocalOf<Pair<Set<String>, (String) -> Unit>> { Pair(emptySet()) {} }
 val LocalOrders = compositionLocalOf<List<Order>> { emptyList() }
+val LocalRidePickup = compositionLocalOf<Pair<String, (String) -> Unit>> { Pair("") {} }
+val LocalRideDropoff = compositionLocalOf<Pair<String, (String) -> Unit>> { Pair("") {} }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +94,8 @@ fun MainScreen() {
     val merchantPresenter = remember(context) { MerchantPresenter(context) }
     val initialOrders = remember(context) { DataLoader.loadOrders(context) }
     val dynamicOrders = remember { mutableStateListOf<Order>().apply { addAll(initialOrders) } }
+    var ridePickupLocation by remember { mutableStateOf("") }
+    var rideDropoffLocation by remember { mutableStateOf("") }
 
     fun pushPage(page: String) {
         navStack.add(page)
@@ -179,7 +184,9 @@ fun MainScreen() {
         LocalNavController provides { page -> pushPage(page) },
         LocalNavBack provides { popPage() },
         LocalFavorites provides Pair(favoriteNames.toSet()) { name -> toggleFavorite(name) },
-        LocalOrders provides dynamicOrders.toList()
+        LocalOrders provides dynamicOrders.toList(),
+        LocalRidePickup provides Pair(ridePickupLocation) { loc -> ridePickupLocation = loc },
+        LocalRideDropoff provides Pair(rideDropoffLocation) { loc -> rideDropoffLocation = loc }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -299,7 +306,8 @@ fun MainScreen() {
                         currentPage == "Orders" -> OrdersScreen()
                         currentPage == "Accessibility" -> AccessibilityScreen()
                         currentPage == "Hearing" -> HearingScreen()
-                        currentPage == "Pickup location" -> RideLocationScreen()
+                        currentPage == "Pickup location" -> RideLocationScreen(isPickup = true)
+                        currentPage == "Dropoff location" -> RideLocationScreen(isPickup = false)
                         currentPage == "Settings" -> SettingsScreen()
                         currentPage == "SettingsHome" -> SettingsHomeScreen()
                         currentPage == "SettingsHomeSet" -> SettingsHomeSetScreen()

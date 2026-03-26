@@ -264,22 +264,49 @@ app/src/main/java/com/example/ubereats_sim/
 - Suggested 区域：推荐上车点列表（Times Square、Penn Station、Grand Central Terminal 等）
 
 ### 38. Settings Screen (SettingsScreen.kt)
-- 从 Profile 页面底部 Settings 入口进入
+- 从 Profile 页面右上角头像点击进入
 - 顶部返回按钮和 "Settings" 大标题
-- 设置项列表：Home（含地址）、Work、Shortcuts、Safety、Privacy、Appearance、Communication、Accessibility
-- 底部 Sign out 选项
-- Privacy 和 Accessibility 可跳转到已有页面
+- 用户头像、姓名居中展示，"EDIT ACCOUNT" 编辑按钮
+- Saved places 区域：Home（Add Home）、Work（Add Work），点击可跳转
+- Switch account 切换账户选项
+- 底部红色 Sign out 退出登录选项
 
 ### 39. Settings Home Screen (SettingsHomeScreen.kt)
 - 从 Settings 页面 Home 项进入
-- 顶部返回按钮和 "Home" 标题
-- 地图区域展示（使用 location_map.png）
-- 地址信息显示和编辑按钮（跳转到 SettingsHomeSet）
-- 底部 Delete Home 选项（红色）
+- 顶部返回按钮和 Skip 按钮
+- 建筑类型插画区域
+- "Choose your building" 标题和说明文案
+- 五个建筑类型选项：House、Apartment、Office、Hotel、Other
+- 每个选项含图标、名称、描述和跳转箭头
+- 点击选项跳转到 SettingsHomeSet 地址详情页
 
 ### 40. Settings Home Set Screen (SettingsHomeSetScreen.kt)
-- 从 SettingsHome 页面编辑按钮进入
-- 顶部返回按钮和地址搜索输入框
-- 地图区域展示
-- 地址详情、Apartment/suite/floor 输入框、Entry code 输入框
-- 底部 "Save Home" 黑色按钮
+- 从 SettingsHome 页面选择建筑类型后进入
+- 顶部返回按钮和 "Address details" 标题
+- 地图区域展示（使用 location_map.png），含 "Edit pin" 按钮
+- 完整地址信息展示
+- Building type、Apt/Suite/Floor、Business/Building name 输入框
+- Dropoff options 配送选项（Meet at my door）
+- Delivery instructions 配送说明输入框
+- Add photos 添加照片选项
+- Address label 地址标签选择器（Home/Work/Other）
+- 底部 "Save and continue" 黑色保存按钮
+
+## 2026-03-26 Updates
+
+### Task 40. Profile avatar navigates to Settings
+- 个人中心页面右上角头像改为可点击，点击跳转到 Settings 页面
+- 从 ProfilePresenter 菜单列表中移除底部 Settings 选项
+
+### Task 41. SettingsHomeScreen redesigned as "Choose your building"
+- 重新设计为建筑类型选择页面，含 5 种建筑类型选项
+- 顶部增加 Skip 按钮
+
+### Task 42. SettingsHomeSetScreen redesigned as "Address details"
+- 重新设计为地址详情编辑页面
+- 拆分为独立文件 SettingsHomeSetScreen.kt
+- 新增 Building type、Dropoff options、Address label 等字段
+
+### Task 43. SettingsScreen redesigned
+- 重新设计为简洁的设置页面：用户信息 + Saved places + Sign out
+

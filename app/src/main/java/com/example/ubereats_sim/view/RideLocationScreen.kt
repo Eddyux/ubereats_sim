@@ -42,6 +42,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.LocalRidePickup
+import com.example.ubereats_sim.LocalRideDropoff
 
 data class SavedPlace(
     val icon: ImageVector,
@@ -55,9 +57,18 @@ data class SuggestedLocation(
 )
 
 @Composable
-fun RideLocationScreen() {
+fun RideLocationScreen(isPickup: Boolean = true) {
     val goBack = LocalNavBack.current
+    val (_, setPickup) = LocalRidePickup.current
+    val (_, setDropoff) = LocalRideDropoff.current
     var searchText by remember { mutableStateOf("") }
+
+    fun selectLocation(name: String) {
+        if (isPickup) setPickup(name) else setDropoff(name)
+        goBack()
+    }
+
+    val searchBarPlaceholder = if (isPickup) "Pickup location" else "Dropoff location"
 
     val savedPlaces = remember {
         listOf(
@@ -82,11 +93,11 @@ fun RideLocationScreen() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        PickupSearchBar(searchText, onTextChange = { searchText = it }, onBack = { goBack() })
+        PickupSearchBar(searchText, onTextChange = { searchText = it }, onBack = { goBack() }, placeholder = searchBarPlaceholder)
         HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 0.5.dp)
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            item { SavedPlacesSection(savedPlaces) }
+            item { SavedPlacesSection(savedPlaces, onSelect = { selectLocation(it) }) }
             item {
                 HorizontalDivider(
                     color = Color(0xFFE0E0E0),
@@ -96,7 +107,7 @@ fun RideLocationScreen() {
             }
             item { SuggestedSectionHeader() }
             items(suggestedLocations) { location ->
-                SuggestedLocationRow(location)
+                SuggestedLocationRow(location, onSelect = { selectLocation(location.title) })
             }
         }
     }
@@ -106,7 +117,8 @@ fun RideLocationScreen() {
 private fun PickupSearchBar(
     text: String,
     onTextChange: (String) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    placeholder: String = "Pickup location"
 ) {
     Row(
         modifier = Modifier
@@ -135,7 +147,7 @@ private fun PickupSearchBar(
                     singleLine = true,
                     decorationBox = { innerTextField ->
                         if (text.isEmpty()) {
-                            Text("Pickup location", fontSize = 16.sp, color = Color.Gray)
+                            Text(placeholder, fontSize = 16.sp, color = Color.Gray)
                         }
                         innerTextField()
                     }
@@ -157,22 +169,22 @@ private fun PickupSearchBar(
 }
 
 @Composable
-private fun SavedPlacesSection(places: List<SavedPlace>) {
+private fun SavedPlacesSection(places: List<SavedPlace>, onSelect: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
         Text("Saved places", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(12.dp))
         places.forEach { place ->
-            SavedPlaceRow(place)
+            SavedPlaceRow(place, onSelect = { onSelect(place.title) })
         }
     }
 }
 
 @Composable
-private fun SavedPlaceRow(place: SavedPlace) {
+private fun SavedPlaceRow(place: SavedPlace, onSelect: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onSelect() }
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -207,11 +219,11 @@ private fun SuggestedSectionHeader() {
 }
 
 @Composable
-private fun SuggestedLocationRow(location: SuggestedLocation) {
+private fun SuggestedLocationRow(location: SuggestedLocation, onSelect: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onSelect() }
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

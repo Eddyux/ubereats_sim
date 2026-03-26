@@ -25,10 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
+import com.example.ubereats_sim.LocalRidePickup
+import com.example.ubereats_sim.LocalRideDropoff
 
 @Composable
 fun RidesTabContent() {
     val nav = LocalNavController.current
+    val (pickupLocation, _) = LocalRidePickup.current
+    val (dropoffLocation, _) = LocalRideDropoff.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,9 +47,9 @@ fun RidesTabContent() {
             DropDownChip("For me") { nav("For me") }
         }
         Spacer(Modifier.height(20.dp))
-        LocationInputRow("●", "Pickup location") { nav("Pickup location") }
+        LocationInputRow("●", pickupLocation.ifEmpty { "Pickup location" }) { nav("Pickup location") }
         HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 0.8.dp)
-        LocationInputRow("■", "Dropoff location") { nav("Dropoff location") }
+        LocationInputRow("■", dropoffLocation.ifEmpty { "Dropoff location" }) { nav("Dropoff location") }
     }
 }
 

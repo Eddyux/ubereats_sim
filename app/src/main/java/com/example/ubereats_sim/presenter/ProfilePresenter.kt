@@ -30,8 +30,7 @@ class ProfilePresenter(private val context: Context) {
             MenuItem("🎙️", "Voice shortcuts"),
             MenuItem("👤", "Manage Uber account"),
             MenuItem("⚠️", "Allergy settings"),
-            MenuItem("ℹ️", "About"),
-            MenuItem("⚙️", "Settings")
+            MenuItem("ℹ️", "About")
         )
     }
 }
