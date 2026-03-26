@@ -126,7 +126,7 @@ private fun HomeGreenHeader() {
             tint = Color.White,
             modifier = Modifier
                 .size(24.dp)
-                .clickable { nav("Notifications") }
+                .clickable { nav("Promotions") }
         )
     }
 }
@@ -163,11 +163,11 @@ private fun RidesTopBar(tabs: List<String>, selected: Int, onSelect: (Int) -> Un
         }
         Icon(
             Icons.Default.Notifications,
-            contentDescription = "Notifications",
+            contentDescription = "Promotions",
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .size(24.dp)
-                .clickable { nav("Notifications") }
+                .clickable { nav("Promotions") }
         )
     }
     HorizontalDivider(thickness = 0.5.dp, color = Color(0xFFE0E0E0))

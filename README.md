@@ -251,3 +251,35 @@ app/src/main/java/com/example/ubereats_sim/
 - 下单后自动跳转到订单列表页面
 - 订单数据通过 LocalOrders CompositionLocal 在全局共享
 - 购物车页面商家图片使用 `assets/dianpu/` 中的图片
+
+## 2026-03-25 New Pages
+
+### 36. Bell icon navigates to Promotions
+- 首页绿色导航栏和 Rides Tab 顶部的铃铛图标点击后跳转到 Promotions 页面
+
+### 37. Ride Location Screen (RideLocationScreen.kt)
+- 从 Rides Tab 点击 "Pickup location" 进入
+- 顶部返回按钮和搜索输入框（可输入/清除）
+- Saved places 区域：Home（含地址）、Work（Add work）
+- Suggested 区域：推荐上车点列表（Times Square、Penn Station、Grand Central Terminal 等）
+
+### 38. Settings Screen (SettingsScreen.kt)
+- 从 Profile 页面底部 Settings 入口进入
+- 顶部返回按钮和 "Settings" 大标题
+- 设置项列表：Home（含地址）、Work、Shortcuts、Safety、Privacy、Appearance、Communication、Accessibility
+- 底部 Sign out 选项
+- Privacy 和 Accessibility 可跳转到已有页面
+
+### 39. Settings Home Screen (SettingsHomeScreen.kt)
+- 从 Settings 页面 Home 项进入
+- 顶部返回按钮和 "Home" 标题
+- 地图区域展示（使用 location_map.png）
+- 地址信息显示和编辑按钮（跳转到 SettingsHomeSet）
+- 底部 Delete Home 选项（红色）
+
+### 40. Settings Home Set Screen (SettingsHomeSetScreen.kt)
+- 从 SettingsHome 页面编辑按钮进入
+- 顶部返回按钮和地址搜索输入框
+- 地图区域展示
+- 地址详情、Apartment/suite/floor 输入框、Entry code 输入框
+- 底部 "Save Home" 黑色按钮

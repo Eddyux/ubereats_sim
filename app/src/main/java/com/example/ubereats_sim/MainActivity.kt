@@ -44,6 +44,10 @@ import com.example.ubereats_sim.view.ProfileScreen
 import com.example.ubereats_sim.view.PromotionsScreen
 import com.example.ubereats_sim.view.SearchScreen
 import com.example.ubereats_sim.view.ViewCartScreen
+import com.example.ubereats_sim.view.RideLocationScreen
+import com.example.ubereats_sim.view.SettingsHomeScreen
+import com.example.ubereats_sim.view.SettingsHomeSetScreen
+import com.example.ubereats_sim.view.SettingsScreen
 import com.example.ubereats_sim.view.WalletScreen
 
 private val MerchantPages = setOf(
@@ -295,6 +299,10 @@ fun MainScreen() {
                         currentPage == "Orders" -> OrdersScreen()
                         currentPage == "Accessibility" -> AccessibilityScreen()
                         currentPage == "Hearing" -> HearingScreen()
+                        currentPage == "Pickup location" -> RideLocationScreen()
+                        currentPage == "Settings" -> SettingsScreen()
+                        currentPage == "SettingsHome" -> SettingsHomeScreen()
+                        currentPage == "SettingsHomeSet" -> SettingsHomeSetScreen()
 
                         else -> UnderDevelopmentScreen(currentPage)
                     }
