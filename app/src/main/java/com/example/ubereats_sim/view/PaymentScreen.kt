@@ -15,17 +15,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
-import com.example.ubereats_sim.LocalNavController
 
 @Composable
-fun PaymentScreen() {
+fun PaymentScreen(onPlaceOrder: () -> Unit = {}) {
     val navBack = LocalNavBack.current
-    val navController = LocalNavController.current
     var selectedTab by remember { mutableStateOf("Personal") }
     var uberBalancesEnabled by remember { mutableStateOf(true) }
+    var showSuccessDialog by remember { mutableStateOf(false) }
+
+    if (showSuccessDialog) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = {
+                Text(
+                    "Payment Successful",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            text = {
+                Text(
+                    "Your order has been placed successfully!",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showSuccessDialog = false
+                        onPlaceOrder()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Confirm", color = Color.White)
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -148,7 +181,7 @@ fun PaymentScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { navController("Checkout") }
+                    .clickable { showSuccessDialog = true }
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

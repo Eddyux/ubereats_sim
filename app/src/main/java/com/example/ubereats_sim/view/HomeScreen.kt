@@ -22,10 +22,6 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +35,7 @@ import com.example.ubereats_sim.presenter.HomePresenter
 private val UberGreen = Color(0xFF05944F)
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(selectedHomeTab: Int = 0, onHomeTabChanged: (Int) -> Unit = {}) {
     val context = LocalContext.current
     val presenter = HomePresenter(context)
     val recommended = presenter.getRecommendedRestaurants()
@@ -50,7 +46,7 @@ fun HomeScreen() {
     val groceryMerchants = presenter.getGroceryMerchants()
     val convenienceMerchants = presenter.getConvenienceMerchants()
 
-    var selectedTab by remember { mutableIntStateOf(0) }
+    val selectedTab = selectedHomeTab
     val tabs = listOf("All", "Rides", "Grocery", "Convenience")
 
     Column(
@@ -59,10 +55,10 @@ fun HomeScreen() {
             .background(Color.White)
     ) {
         if (selectedTab == 1) {
-            RidesTopBar(tabs, selectedTab) { selectedTab = it }
+            RidesTopBar(tabs, selectedTab) { onHomeTabChanged(it) }
         } else {
             HomeGreenHeader()
-            HomeTabRow(tabs, selectedTab) { selectedTab = it }
+            HomeTabRow(tabs, selectedTab) { onHomeTabChanged(it) }
         }
 
         when (selectedTab) {

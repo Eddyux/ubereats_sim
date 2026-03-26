@@ -310,3 +310,52 @@ app/src/main/java/com/example/ubereats_sim/
 ### Task 43. SettingsScreen redesigned
 - 重新设计为简洁的设置页面：用户信息 + Saved places + Sign out
 
+### Task 45. Remove bell and cart icons from Orders
+- 移除订单页面顶部右侧的通知铃铛和购物车图标，仅保留返回按钮和 "Orders" 标题
+
+### Task 46. Past purchases tab with data
+- 订单页面 "Past purchases" 标签页新增内容，展示历史订单中的商品
+- 每个商品显示：商品图片（使用已有产品图片）、商品名、商家名、价格、"Add" 按钮
+- 新增更多历史订单数据：VINEYARD、Matchaful、HAWA SMOOTHIES、Benvenuto Cafe 的订单
+- 所有商品图片（assets 中 127 张）等比例压缩至原来 1/4 大小（2048x2048 → 1024x1024）
+
+### Task 47. Use merchant images for Past Orders
+- 订单列表页 "Past orders" 中的商家图标从 emoji 改为使用 `dianpu/`、`Grocery/`、`Convenience/` 中的实际商家图片
+- 历史订单详情页 (OrderHistoryDetailScreen) 中的商家图标同步替换为实际商家图片
+- 无图片的商家回退到 emoji 显示
+
+### Task 48. CheckoutScreen redesigned
+- 重新设计结账页面，参考 checkout.jpg
+- 顶部地图区域显示配送地址 "New York, NY"
+- "Meet at my door" 配送方式选项
+- 联系电话显示
+- Delivery time 配送时间选择：Standard（含时间范围）/ Schedule 两个选项
+- Order Summary 订单摘要：商家名 + 商品数量，带跳转箭头
+- Add promo code 优惠码输入
+- 价格明细：Subtotal、Delivery Fee、Taxes & Other Fees、Total（动态计算）
+- Personal 账户类型标识
+- 隐私协议提示文案
+- 底部优惠横幅 + "Next" 按钮（跳转到支付页面）
+
+### Task 49. PaymentScreen flow update
+- 结账流程改为：ViewCart → Checkout（Next）→ Pay with → 点击 yx666 → 支付成功弹窗 → Confirm → 下单并跳转 Orders
+- PaymentScreen 点击 yx666 账户弹出 "Payment Successful" 对话框
+- 对话框 "Confirm" 按钮确认后自动下单并跳转到订单列表页
+- 移除 PaymentScreen 中直接跳转回 Checkout 的旧逻辑
+
+### Task 50. Fix Rides tab losing state after location selection
+- 修复 Rides 页面选择 Pickup/Dropoff 地点后自动跳回 All 标签的 bug
+- 将 HomeScreen 内部的 selectedTab 状态提升到 MainScreen 级别
+- 导航返回后 Home 的 tab 选中状态得以保持
+
+### Task 51. Choose a ride screen (ChooseRideScreen.kt)
+- 新增叫车选择页面，参考 chooseride.jpg
+- 从 Rides 标签选择 Dropoff location 后自动跳转到此页面
+- 顶部返回按钮 + 地图区域显示目的地和预计到达时间
+- "Pickup now" 和 "For me" 下拉选项
+- 车型选择列表，按 Popular / Economy / Premium / More 分类
+- 各车型含图标、名称、价格、等待时长、行程时长、标签（如 Faster）
+- 选中车型高亮显示（黑色边框）
+- 底部 Personal 账户标识 + "Request [车型]" 确认按钮
+- 点击确认弹出 "Ride Requested" 对话框，确认后返回
+

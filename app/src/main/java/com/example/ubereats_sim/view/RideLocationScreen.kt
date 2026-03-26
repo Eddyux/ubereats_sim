@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.LocalNavController
 import com.example.ubereats_sim.LocalRidePickup
 import com.example.ubereats_sim.LocalRideDropoff
 
@@ -59,13 +60,20 @@ data class SuggestedLocation(
 @Composable
 fun RideLocationScreen(isPickup: Boolean = true) {
     val goBack = LocalNavBack.current
+    val navController = LocalNavController.current
     val (_, setPickup) = LocalRidePickup.current
     val (_, setDropoff) = LocalRideDropoff.current
     var searchText by remember { mutableStateOf("") }
 
     fun selectLocation(name: String) {
-        if (isPickup) setPickup(name) else setDropoff(name)
-        goBack()
+        if (isPickup) {
+            setPickup(name)
+            goBack()
+        } else {
+            setDropoff(name)
+            goBack()
+            navController("ChooseRide")
+        }
     }
 
     val searchBarPlaceholder = if (isPickup) "Pickup location" else "Dropoff location"

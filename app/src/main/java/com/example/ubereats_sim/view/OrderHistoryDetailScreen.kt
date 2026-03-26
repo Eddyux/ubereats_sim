@@ -1,5 +1,6 @@
 package com.example.ubereats_sim.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,6 +67,7 @@ fun OrderHistoryDetailScreen(orderId: String) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
+                val merchantImage = rememberMerchantImage(order.merchantName, 120, 120)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -73,7 +76,16 @@ fun OrderHistoryDetailScreen(orderId: String) {
                             .background(Color(0xFFF5F5F5)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(order.merchantLogo, fontSize = 32.sp)
+                        if (merchantImage != null) {
+                            Image(
+                                bitmap = merchantImage,
+                                contentDescription = order.merchantName,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Text(order.merchantLogo, fontSize = 32.sp)
+                        }
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Column {

@@ -1,5 +1,6 @@
 package com.example.ubereats_sim.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,14 +10,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +35,14 @@ fun OrdersScreen() {
     val activeOrders = orders.filter { it.status == "In Progress" }
     val historyOrders = orders.filter { it.status != "In Progress" }
 
+    val pastPurchaseItems = remember(historyOrders) {
+        historyOrders.flatMap { order ->
+            order.items.map { item ->
+                PastPurchaseEntry(item.name, order.merchantName, item.price)
+            }
+        }.distinctBy { "${it.merchantName}|${it.itemName}" }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,23 +52,12 @@ fun OrdersScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { navBack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-                Text("Orders", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            IconButton(onClick = { navBack() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
-            Row {
-                IconButton(onClick = { }) {
-                    Icon(Icons.Default.Notifications, contentDescription = "Notifications")
-                }
-                IconButton(onClick = { navController("cart") }) {
-                    Icon(Icons.Default.ShoppingCart, contentDescription = "Cart")
-                }
-            }
+            Text("Orders", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         }
 
         TabRow(
@@ -83,6 +80,12 @@ fun OrdersScreen() {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
+            if (selectedTab == 0) {
+                items(pastPurchaseItems) { entry ->
+                    PastPurchaseItemCard(entry, navController)
+                }
+            }
+
             if (selectedTab == 1) {
                 if (activeOrders.isNotEmpty()) {
                     item {
@@ -112,6 +115,67 @@ fun OrdersScreen() {
                     }
                 }
             }
+        }
+    }
+}
+
+private data class PastPurchaseEntry(
+    val itemName: String,
+    val merchantName: String,
+    val price: Double
+)
+
+@Composable
+private fun PastPurchaseItemCard(entry: PastPurchaseEntry, navController: (String) -> Unit) {
+    val productImage = rememberMerchantProductImage(entry.merchantName, entry.itemName, 200, 200)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { navController("merchant|${entry.merchantName}") }
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFFF5F5F5)),
+            contentAlignment = Alignment.Center
+        ) {
+            if (productImage != null) {
+                Image(
+                    bitmap = productImage,
+                    contentDescription = entry.itemName,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Text("🍽", fontSize = 28.sp)
+            }
+        }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(entry.itemName, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(entry.merchantName, fontSize = 13.sp, color = Color.Gray)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                "$${String.format("%.2f", entry.price)}",
+                fontSize = 13.sp,
+                color = Color.Gray
+            )
+        }
+
+        Button(
+            onClick = { navController("merchant|${entry.merchantName}") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF5F5F5)),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
+        ) {
+            Text("Add", color = Color.Black, fontSize = 13.sp)
         }
     }
 }
@@ -178,6 +242,8 @@ private fun ActiveOrderCard(order: Order, navController: (String) -> Unit) {
 
 @Composable
 private fun HistoryOrderCard(order: Order, navController: (String) -> Unit) {
+    val merchantImage = rememberMerchantImage(order.merchantName, 120, 120)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -192,7 +258,16 @@ private fun HistoryOrderCard(order: Order, navController: (String) -> Unit) {
                 .background(Color(0xFFF5F5F5)),
             contentAlignment = Alignment.Center
         ) {
-            Text(order.merchantLogo, fontSize = 32.sp)
+            if (merchantImage != null) {
+                Image(
+                    bitmap = merchantImage,
+                    contentDescription = order.merchantName,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Text(order.merchantLogo, fontSize = 32.sp)
+            }
         }
 
         Spacer(modifier = Modifier.width(16.dp))

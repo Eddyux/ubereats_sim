@@ -50,6 +50,7 @@ import com.example.ubereats_sim.view.SettingsHomeScreen
 import com.example.ubereats_sim.view.SettingsHomeSetScreen
 import com.example.ubereats_sim.view.SettingsScreen
 import com.example.ubereats_sim.view.WalletScreen
+import com.example.ubereats_sim.view.ChooseRideScreen
 
 private val MerchantPages = setOf(
     "McDonald's",
@@ -96,6 +97,7 @@ fun MainScreen() {
     val dynamicOrders = remember { mutableStateListOf<Order>().apply { addAll(initialOrders) } }
     var ridePickupLocation by remember { mutableStateOf("") }
     var rideDropoffLocation by remember { mutableStateOf("") }
+    var selectedHomeTab by remember { mutableIntStateOf(0) }
 
     fun pushPage(page: String) {
         navStack.add(page)
@@ -285,12 +287,12 @@ fun MainScreen() {
 
                         currentPage.startsWith("Checkout|") -> {
                             val merchantName = currentPage.substringAfter("Checkout|")
+                            val merchantItems = cartItems.filter { it.merchantName == merchantName }
                             CheckoutScreen(
-                                onPlaceOrder = {
-                                    placeOrder(merchantName)
-                                    // Pop back to home and switch to orders
-                                    navStack.clear()
-                                    pushPage("Orders")
+                                merchantName = merchantName,
+                                cartItems = merchantItems,
+                                onNext = {
+                                    pushPage("Pay|$merchantName")
                                 }
                             )
                         }
@@ -298,6 +300,16 @@ fun MainScreen() {
                         currentPage == "Checkout" -> CheckoutScreen()
 
                         currentPage == "Wallet" -> WalletScreen()
+                        currentPage.startsWith("Pay|") -> {
+                            val merchantName = currentPage.substringAfter("Pay|")
+                            PaymentScreen(
+                                onPlaceOrder = {
+                                    placeOrder(merchantName)
+                                    navStack.clear()
+                                    pushPage("Orders")
+                                }
+                            )
+                        }
                         currentPage == "Pay" -> PaymentScreen()
                         currentPage == "Promotions" -> PromotionsScreen()
                         currentPage == "Privacy" -> PrivacyScreen()
@@ -308,6 +320,7 @@ fun MainScreen() {
                         currentPage == "Hearing" -> HearingScreen()
                         currentPage == "Pickup location" -> RideLocationScreen(isPickup = true)
                         currentPage == "Dropoff location" -> RideLocationScreen(isPickup = false)
+                        currentPage == "ChooseRide" -> ChooseRideScreen()
                         currentPage == "Settings" -> SettingsScreen()
                         currentPage == "SettingsHome" -> SettingsHomeScreen()
                         currentPage == "SettingsHomeSet" -> SettingsHomeSetScreen()
@@ -316,7 +329,10 @@ fun MainScreen() {
                     }
                 } else {
                     when (selectedTab) {
-                        0 -> HomeScreen()
+                        0 -> HomeScreen(
+                            selectedHomeTab = selectedHomeTab,
+                            onHomeTabChanged = { selectedHomeTab = it }
+                        )
                         1 -> LocationScreen()
                         2 -> SearchScreen()
                         3 -> CartScreen()
