@@ -1,7 +1,6 @@
-﻿package com.example.ubereats_sim.view
+package com.example.ubereats_sim.view
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,24 +11,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
@@ -37,142 +46,165 @@ import com.example.ubereats_sim.presenter.SearchPresenter
 
 @Composable
 fun SearchScreen() {
-    val presenter = SearchPresenter()
-    val recent = presenter.getRecentSearches()
-    val snacks = presenter.getSnackShortcuts()
-    val categories = presenter.getTopCategories()
+    val context = LocalContext.current
+    val nav = LocalNavController.current
+    val selectTab = com.example.ubereats_sim.LocalTabSelector.current
+    val presenter = remember(context) { SearchPresenter(context) }
+    val recentSearches = remember {
+        mutableStateListOf<String>().apply { addAll(presenter.getRecentSearches()) }
+    }
+    val snacks = remember(presenter) { presenter.getSnackShortcuts() }
+    val categories = remember(presenter) { presenter.getTopCategories() }
+    var query by rememberSaveable { mutableStateOf("") }
+    val results = remember(query, presenter) { presenter.search(query) }
+
+    fun submitSearch(term: String) {
+        val cleaned = term.trim()
+        if (cleaned.isBlank()) return
+        recentSearches.removeAll { it.equals(cleaned, ignoreCase = true) }
+        recentSearches.add(0, cleaned)
+    }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        item { SearchTopBar() }
-        item { SectionHeader("Recent searches") }
-        items(recent) { keyword ->
-            SearchHistoryRow(keyword)
-        }
-        item { SectionHeader("Stock up on snacks") }
         item {
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(snacks) { item ->
-                    SnackShortcutCard(item.emoji, item.label)
+            SearchTopBar(
+                query = query,
+                onValueChange = { query = it },
+                onBack = { selectTab(0) },
+                onClear = { query = "" },
+                onSubmit = { submitSearch(query) }
+            )
+        }
+
+        if (query.isBlank()) {
+            item { SearchSectionHeader("Recent searches") }
+            items(recentSearches) { keyword ->
+                SearchHistoryRow(keyword) {
+                    query = keyword
+                    submitSearch(keyword)
+                }
+            }
+
+            item { SearchSectionHeader("Stock up on snacks") }
+            item {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(snacks) { item ->
+                        SearchSnackShortcutCard(item.emoji, item.label) {
+                            query = item.label
+                            submitSearch(item.label)
+                        }
+                    }
+                }
+            }
+
+            item { Spacer(Modifier.height(10.dp)) }
+            item { SearchSectionHeader("Top categories") }
+            items(categories) { category ->
+                SearchTopCategoryRow(category.label) {
+                    query = category.label
+                    submitSearch(category.label)
+                }
+            }
+        } else {
+            if (results.merchants.isEmpty() && results.dishes.isEmpty() && results.categories.isEmpty()) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("No matches found", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                            Spacer(Modifier.height(6.dp))
+                            Text("Try another merchant, dish, or category.", color = Color.Gray)
+                        }
+                    }
+                }
+            } else {
+                if (results.merchants.isNotEmpty()) {
+                    item { SearchSectionHeader("Merchants") }
+                    items(results.merchants) { merchant ->
+                        SearchMerchantRow(merchant) {
+                            submitSearch(query)
+                            nav("merchant|${merchant.name}")
+                        }
+                    }
+                }
+                if (results.dishes.isNotEmpty()) {
+                    item { SearchSectionHeader("Dishes") }
+                    items(results.dishes) { dish ->
+                        SearchDishRow(dish) {
+                            submitSearch(query)
+                            nav("merchant|${dish.merchantName}")
+                        }
+                    }
+                }
+                if (results.categories.isNotEmpty()) {
+                    item { SearchSectionHeader("Categories") }
+                    items(results.categories) { category ->
+                        SearchTopCategoryRow(category.label) {
+                            query = category.label
+                            submitSearch(category.label)
+                        }
+                    }
                 }
             }
         }
-        item { Spacer(Modifier.height(10.dp)) }
-        item { SectionHeader("Top categories") }
-        items(categories) { category ->
-            TopCategoryRow(category.label)
-        }
     }
 }
 
 @Composable
-private fun SearchTopBar() {
-    val nav = LocalNavController.current
+private fun SearchTopBar(
+    query: String,
+    onValueChange: (String) -> Unit,
+    onBack: () -> Unit,
+    onClear: () -> Unit,
+    onSubmit: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+            .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            modifier = Modifier
-                .size(24.dp)
-                .clickable { nav("Back") }
-        )
-        Surface(
-            modifier = Modifier
-                .weight(1f)
-                .clickable { nav("Search Uber Eats") },
-            shape = RoundedCornerShape(24.dp),
-            color = Color(0xFFF2F2F2)
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+        IconButton(onClick = onBack) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+        }
+        TextField(
+            value = query,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            placeholder = { Text("Search Uber Eats") },
+            leadingIcon = {
                 Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
-                Spacer(Modifier.size(8.dp))
-                Text("Search Uber Eats", color = Color.Gray)
-            }
-        }
+            },
+            trailingIcon = {
+                if (query.isNotBlank()) {
+                    IconButton(onClick = onClear) {
+                        Icon(Icons.Default.Close, contentDescription = "Clear")
+                    }
+                }
+            },
+            shape = RoundedCornerShape(24.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFFF2F2F2),
+                unfocusedContainerColor = Color(0xFFF2F2F2),
+                disabledContainerColor = Color(0xFFF2F2F2),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onSubmit() })
+        )
     }
 }
 
-@Composable
-private fun SectionHeader(title: String) {
-    Text(
-        title,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
-    )
-}
-
-@Composable
-private fun SearchHistoryRow(keyword: String) {
-    val nav = LocalNavController.current
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { nav(keyword) }
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
-            Spacer(Modifier.size(8.dp))
-            Text(keyword, fontSize = 15.sp)
-        }
-        Icon(Icons.Default.KeyboardArrowRight, contentDescription = null, tint = Color.Gray)
-    }
-    HorizontalDivider(thickness = 0.5.dp, color = Color(0xFFE0E0E0))
-}
-
-@Composable
-private fun SnackShortcutCard(emoji: String, label: String) {
-    val nav = LocalNavController.current
-    Surface(
-        shape = RoundedCornerShape(12.dp),
-        color = Color(0xFFF5F5F5),
-        modifier = Modifier
-            .height(90.dp)
-            .clickable { nav(label) }
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(emoji, fontSize = 22.sp)
-            Spacer(Modifier.height(6.dp))
-            Text(label, fontSize = 12.sp)
-        }
-    }
-}
-
-@Composable
-private fun TopCategoryRow(label: String) {
-    val nav = LocalNavController.current
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { nav(label) }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(label, fontSize = 16.sp)
-        Icon(Icons.Default.KeyboardArrowRight, contentDescription = null, tint = Color.Gray)
-    }
-    HorizontalDivider(thickness = 0.5.dp, color = Color(0xFFE0E0E0))
-}

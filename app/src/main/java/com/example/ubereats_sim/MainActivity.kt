@@ -74,6 +74,7 @@ val LocalFavorites = compositionLocalOf<Pair<Set<String>, (String) -> Unit>> { P
 val LocalOrders = compositionLocalOf<List<Order>> { emptyList() }
 val LocalRidePickup = compositionLocalOf<Pair<String, (String) -> Unit>> { Pair("") {} }
 val LocalRideDropoff = compositionLocalOf<Pair<String, (String) -> Unit>> { Pair("") {} }
+val LocalTabSelector = compositionLocalOf<(Int) -> Unit> { {} }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,7 +189,8 @@ fun MainScreen() {
         LocalFavorites provides Pair(favoriteNames.toSet()) { name -> toggleFavorite(name) },
         LocalOrders provides dynamicOrders.toList(),
         LocalRidePickup provides Pair(ridePickupLocation) { loc -> ridePickupLocation = loc },
-        LocalRideDropoff provides Pair(rideDropoffLocation) { loc -> rideDropoffLocation = loc }
+        LocalRideDropoff provides Pair(rideDropoffLocation) { loc -> rideDropoffLocation = loc },
+        LocalTabSelector provides { tab -> selectedTab = tab }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),

@@ -21,3 +21,21 @@ data class SnackShortcut(
 data class SearchCategory(
     val label: String
 )
+
+data class SearchMerchantResult(
+    val name: String,
+    val subtitle: String,
+    val metaLine: String
+)
+
+data class SearchDishResult(
+    val merchantName: String,
+    val dishName: String,
+    val priceText: String
+)
+
+data class SearchResults(
+    val merchants: List<SearchMerchantResult> = emptyList(),
+    val dishes: List<SearchDishResult> = emptyList(),
+    val categories: List<SearchCategory> = emptyList()
+)

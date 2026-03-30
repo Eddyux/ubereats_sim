@@ -1,4 +1,4 @@
-﻿package com.example.ubereats_sim.view
+package com.example.ubereats_sim.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,15 +20,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,17 +53,17 @@ import com.example.ubereats_sim.presenter.LocationPresenter
 @Composable
 fun LocationScreen() {
     val nav = LocalNavController.current
-    val presenter = LocationPresenter()
-    val filters = presenter.getFilters()
-    val markers = presenter.getMapMarkers()
-    val pickupSpots = presenter.getPickupSpots()
+    val presenter = remember { LocationPresenter() }
+    val filters = remember(presenter) { presenter.getFilters() }
+    var query by rememberSaveable { mutableStateOf("") }
+    val markers = remember(query, presenter) { presenter.getMapMarkers(query) }
+    val pickupSpots = remember(query, presenter) { presenter.getPickupSpots(query) }
     val context = LocalContext.current
     val mapImage = remember {
         runCatching {
             context.assets.open("location_map.png").use { input ->
                 val bytes = input.readBytes()
-                android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    ?.asImageBitmap()
+                android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
             }
         }.getOrNull()
     }
@@ -65,8 +73,21 @@ fun LocationScreen() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchPickupBar()
+        SearchPickupBar(
+            query = query,
+            onValueChange = { query = it },
+            onClear = { query = "" }
+        )
         FilterRow(filters)
+
+        if (query.isNotBlank()) {
+            Text(
+                "Showing ${markers.size + pickupSpots.size} matches for \"$query\"",
+                fontSize = 13.sp,
+                color = Color.Gray,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+        }
 
         BoxWithConstraints(
             modifier = Modifier
@@ -84,75 +105,107 @@ fun LocationScreen() {
                     modifier = Modifier.fillMaxSize()
                 )
             }
-            markers.forEach { marker ->
-                Column(
-                    modifier = Modifier
-                        .offset(x = maxWidth * marker.xPercent, y = maxHeight * marker.yPercent)
-                        .clickable { nav(marker.storeName) }
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = Color.White,
-                        shadowElevation = 2.dp
-                    ) {
+
+            if (markers.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Surface(shape = RoundedCornerShape(18.dp), color = Color.White.copy(alpha = 0.92f)) {
                         Text(
-                            marker.deal,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            text = "No map matches",
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
-                    Text(marker.storeName, fontSize = 11.sp, modifier = Modifier.padding(top = 4.dp, start = 2.dp))
+                }
+            } else {
+                markers.forEach { marker ->
+                    Column(
+                        modifier = Modifier
+                            .offset(x = maxWidth * marker.xPercent, y = maxHeight * marker.yPercent)
+                            .clickable { nav("merchant|${marker.storeName}") }
+                    ) {
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = Color.White,
+                            shadowElevation = 2.dp
+                        ) {
+                            Text(
+                                marker.deal,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
+                        Text(
+                            marker.storeName,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(top = 4.dp, start = 2.dp)
+                        )
+                    }
                 }
             }
         }
 
         Text(
-            "Pickup spots near you",
+            if (query.isBlank()) "Pickup spots near you" else "Search results",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(170.dp)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(pickupSpots) { spot ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { nav(spot.name) },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Row(
+        if (pickupSpots.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(170.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("No pickup spots found", fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.height(4.dp))
+                    Text("Try another store name.", color = Color.Gray)
+                }
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(170.dp)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(pickupSpots) { spot ->
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .clickable { nav("merchant|${spot.name}") },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
-                        Column {
-                            Text(spot.name, fontWeight = FontWeight.Bold)
-                            Text("${spot.eta} · ⭐ ${spot.rating}", fontSize = 12.sp, color = Color.Gray)
-                        }
-                        Box(
+                        Row(
                             modifier = Modifier
-                                .size(40.dp)
-                                .background(Color(0xFF05944F).copy(alpha = 0.1f), RoundedCornerShape(20.dp)),
-                            contentAlignment = Alignment.Center
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                Icons.Default.LocationOn,
-                                contentDescription = null,
-                                tint = Color(0xFF05944F),
-                                modifier = Modifier.size(24.dp)
-                            )
+                            Column {
+                                Text(spot.name, fontWeight = FontWeight.Bold)
+                                Text("${spot.eta} · ★ ${spot.rating}", fontSize = 12.sp, color = Color.Gray)
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .background(Color(0xFF05944F).copy(alpha = 0.1f), RoundedCornerShape(20.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    Icons.Default.LocationOn,
+                                    contentDescription = null,
+                                    tint = Color(0xFF05944F),
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -162,8 +215,11 @@ fun LocationScreen() {
 }
 
 @Composable
-private fun SearchPickupBar() {
-    val nav = LocalNavController.current
+private fun SearchPickupBar(
+    query: String,
+    onValueChange: (String) -> Unit,
+    onClear: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -171,27 +227,36 @@ private fun SearchPickupBar() {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Surface(
-            modifier = Modifier
-                .weight(1f)
-                .clickable { nav("Search pickup spots nearby") },
-            shape = RoundedCornerShape(24.dp),
-            color = Color(0xFFF2F2F2)
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+        TextField(
+            value = query,
+            onValueChange = onValueChange,
+            modifier = Modifier.weight(1f),
+            singleLine = true,
+            placeholder = { Text("Search pickup spots nearby") },
+            leadingIcon = {
                 Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
-                Spacer(Modifier.width(8.dp))
-                Text("Search pickup spots nearby", color = Color.Gray)
-            }
-        }
+            },
+            trailingIcon = {
+                if (query.isNotBlank()) {
+                    IconButton(onClick = onClear) {
+                        Icon(Icons.Default.Close, contentDescription = "Clear")
+                    }
+                }
+            },
+            shape = RoundedCornerShape(24.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFFF2F2F2),
+                unfocusedContainerColor = Color(0xFFF2F2F2),
+                disabledContainerColor = Color(0xFFF2F2F2),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
         Box(
             modifier = Modifier
                 .size(44.dp)
                 .background(Color(0xFF05944F), RoundedCornerShape(22.dp))
-                .clickable { nav("Locate me") },
+                .clickable(onClick = onClear),
             contentAlignment = Alignment.Center
         ) {
             Icon(
