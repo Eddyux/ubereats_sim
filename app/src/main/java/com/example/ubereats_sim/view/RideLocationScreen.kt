@@ -87,6 +87,8 @@ fun RideLocationScreen(isPickup: Boolean = true) {
 
     val suggestedLocations = remember {
         listOf(
+            SuggestedLocation("jianghanlu", "Wuhan, Hubei"),
+            SuggestedLocation("jiedaokou", "Wuhan, Hubei"),
             SuggestedLocation("Times Square", "Manhattan, NY 10036"),
             SuggestedLocation("Penn Station", "234 W 31st St, New York, NY 10001"),
             SuggestedLocation("Grand Central Terminal", "89 E 42nd St, New York, NY 10017"),
@@ -94,6 +96,16 @@ fun RideLocationScreen(isPickup: Boolean = true) {
             SuggestedLocation("Brooklyn Bridge", "New York, NY 10038"),
             SuggestedLocation("JFK International Airport", "Queens, NY 11430")
         )
+    }
+    val filteredLocations = remember(searchText, suggestedLocations) {
+        val keyword = searchText.trim().lowercase()
+        if (keyword.isBlank()) {
+            suggestedLocations
+        } else {
+            suggestedLocations.filter {
+                it.title.lowercase().contains(keyword) || it.subtitle.lowercase().contains(keyword)
+            }
+        }
     }
 
     Column(
@@ -114,7 +126,7 @@ fun RideLocationScreen(isPickup: Boolean = true) {
                 )
             }
             item { SuggestedSectionHeader() }
-            items(suggestedLocations) { location ->
+            items(filteredLocations) { location ->
                 SuggestedLocationRow(location, onSelect = { selectLocation(location.title) })
             }
         }

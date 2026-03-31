@@ -60,7 +60,7 @@ class SearchPresenter(context: Context) {
     }
 
     fun search(query: String): SearchResults {
-        val normalizedQuery = query.trim().lowercase()
+        val normalizedQuery = normalizeQuery(query)
         if (normalizedQuery.isBlank()) return SearchResults()
 
         val merchantResults = merchants
@@ -127,5 +127,14 @@ class SearchPresenter(context: Context) {
             }
         }
         return bestScore
+    }
+
+    private fun normalizeQuery(query: String): String {
+        return when (query.trim().lowercase()) {
+            "麦当劳" -> "mcdonald"
+            "薯饼" -> "hash browns"
+            "双吉" -> "double cheeseburger"
+            else -> query.trim().lowercase()
+        }
     }
 }

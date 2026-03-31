@@ -23,8 +23,10 @@ import com.example.ubereats_sim.model.MerchantCartItem
 import com.example.ubereats_sim.model.MerchantMenuItem
 import com.example.ubereats_sim.model.Order
 import com.example.ubereats_sim.model.OrderItem
+import com.example.ubereats_sim.model.AppEventLogger
 import com.example.ubereats_sim.presenter.MerchantPresenter
 import com.example.ubereats_sim.model.DataLoader
+import com.example.ubereats_sim.model.SeededCartFactory
 import com.example.ubereats_sim.ui.theme.Test05Theme
 import com.example.ubereats_sim.view.AccessibilityScreen
 import com.example.ubereats_sim.view.CartScreen
@@ -90,15 +92,23 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     var selectedTab by remember { mutableIntStateOf(0) }
     val navStack = remember { mutableStateListOf<String>() }
-    val cartItems = remember { mutableStateListOf<MerchantCartItem>() }
     val favoriteNames = remember { mutableStateListOf<String>() }
     val context = LocalContext.current
     val merchantPresenter = remember(context) { MerchantPresenter(context) }
+    val seededCartItems = remember(context, merchantPresenter) {
+        SeededCartFactory.build(context, merchantPresenter)
+    }
+    val seededCartCounts = remember(context) {
+        DataLoader.loadCart(context).associate { it.restaurantName to it.itemCount }
+    }
+    val cartItems = remember { mutableStateListOf<MerchantCartItem>().apply { addAll(seededCartItems) } }
     val initialOrders = remember(context) { DataLoader.loadOrders(context) }
     val dynamicOrders = remember { mutableStateListOf<Order>().apply { addAll(initialOrders) } }
     var ridePickupLocation by remember { mutableStateOf("") }
     var rideDropoffLocation by remember { mutableStateOf("") }
     var selectedHomeTab by remember { mutableIntStateOf(0) }
+    var checkoutDeliveryMode by remember { mutableStateOf("Standard") }
+    var checkoutScheduledFor by remember { mutableStateOf("") }
 
     fun pushPage(page: String) {
         navStack.add(page)
@@ -148,12 +158,19 @@ fun MainScreen() {
     fun viewCartRoute(merchantName: String): String =
         "$RouteViewCart|$merchantName"
 
+    fun openCheckout(merchantName: String) {
+        checkoutDeliveryMode = "Standard"
+        checkoutScheduledFor = ""
+        pushPage("Checkout|$merchantName")
+    }
+
     fun placeOrder(merchantName: String) {
         val merchantItems = cartItems.filter { it.merchantName == merchantName }
         if (merchantItems.isEmpty()) return
         val orderId = "ORD${String.format("%03d", dynamicOrders.size)}"
         val orderItems = merchantItems.map { OrderItem(it.product.name, it.quantity, it.product.price) }
         val total = merchantItems.sumOf { it.quantity * it.product.price }
+        val totalQuantity = merchantItems.sumOf { it.quantity }
         val emoji = when {
             merchantName.contains("McDonald", ignoreCase = true) -> "🍔"
             merchantName.contains("Domino", ignoreCase = true) -> "🍕"
@@ -180,7 +197,24 @@ fun MainScreen() {
             deliveryAddress = "123 Main St, New York"
         )
         dynamicOrders.add(0, newOrder)
+        AppEventLogger.append(
+            context = context,
+            action = "place_order",
+            page = "payment",
+            extraData = mapOf(
+                "merchant_name" to merchantName,
+                "item_names" to orderItems.map { it.name },
+                "total_quantity" to totalQuantity,
+                "delivery_address" to (newOrder.deliveryAddress ?: ""),
+                "default_delivery" to true,
+                "from_seeded_cart" to (seededCartCounts[merchantName] == totalQuantity),
+                "delivery_mode" to checkoutDeliveryMode,
+                "scheduled_for" to checkoutScheduledFor
+            )
+        )
         cartItems.removeAll { it.merchantName == merchantName }
+        checkoutDeliveryMode = "Standard"
+        checkoutScheduledFor = ""
     }
 
     CompositionLocalProvider(
@@ -241,7 +275,7 @@ fun MainScreen() {
                                     onRemove = { item -> cartItems.remove(item) },
                                     onReplace = { item -> pushPage(productRoute(merchantName, item.product.id)) },
                                     onAddItems = { popPage() },
-                                    onCheckout = { pushPage("Checkout|$merchantName") },
+                                    onCheckout = { openCheckout(merchantName) },
                                     onOpenOfferItem = {
                                         val offer = merchantPresenter.getMerchantProducts(merchantName).firstOrNull()
                                         if (offer != null) {
@@ -293,6 +327,12 @@ fun MainScreen() {
                             CheckoutScreen(
                                 merchantName = merchantName,
                                 cartItems = merchantItems,
+                                selectedDeliveryMode = checkoutDeliveryMode,
+                                scheduledFor = checkoutScheduledFor,
+                                onDeliveryModeChange = { mode, scheduledFor ->
+                                    checkoutDeliveryMode = mode
+                                    checkoutScheduledFor = scheduledFor
+                                },
                                 onNext = {
                                     pushPage("Pay|$merchantName")
                                 }

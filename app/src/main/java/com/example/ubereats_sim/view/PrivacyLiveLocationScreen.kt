@@ -10,15 +10,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.model.AppEventLogger
 
 @Composable
 fun PrivacyLiveLocationScreen() {
     val navBack = LocalNavBack.current
-    var sharingEnabled by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    var sharingEnabled by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -90,7 +93,15 @@ fun PrivacyLiveLocationScreen() {
 
             Switch(
                 checked = sharingEnabled,
-                onCheckedChange = { sharingEnabled = it },
+                onCheckedChange = {
+                    sharingEnabled = it
+                    AppEventLogger.append(
+                        context = context,
+                        action = "toggle_live_location",
+                        page = "privacy_live_location",
+                        extraData = mapOf("enabled" to it)
+                    )
+                },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
                     checkedTrackColor = Color.Black

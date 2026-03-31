@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
+import com.example.ubereats_sim.model.AppEventLogger
 import com.example.ubereats_sim.presenter.LocationPresenter
 
 @Composable
@@ -121,7 +122,19 @@ fun LocationScreen() {
                     Column(
                         modifier = Modifier
                             .offset(x = maxWidth * marker.xPercent, y = maxHeight * marker.yPercent)
-                            .clickable { nav("merchant|${marker.storeName}") }
+                            .clickable {
+                                AppEventLogger.append(
+                                    context = context,
+                                    action = "open_pickup_map_result",
+                                    page = "location",
+                                    extraData = mapOf(
+                                        "query" to query.trim(),
+                                        "store_name" to marker.storeName,
+                                        "results_found" to markers.size
+                                    )
+                                )
+                                nav("merchant|${marker.storeName}")
+                            }
                     ) {
                         Surface(
                             shape = RoundedCornerShape(12.dp),
@@ -177,7 +190,19 @@ fun LocationScreen() {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { nav("merchant|${spot.name}") },
+                            .clickable {
+                                AppEventLogger.append(
+                                    context = context,
+                                    action = "open_pickup_spot",
+                                    page = "location",
+                                    extraData = mapOf(
+                                        "query" to query.trim(),
+                                        "store_name" to spot.name,
+                                        "results_found" to pickupSpots.size
+                                    )
+                                )
+                                nav("merchant|${spot.name}")
+                            },
                         shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)

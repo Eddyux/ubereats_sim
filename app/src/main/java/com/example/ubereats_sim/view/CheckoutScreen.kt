@@ -28,6 +28,9 @@ import com.example.ubereats_sim.model.MerchantCartItem
 fun CheckoutScreen(
     merchantName: String = "",
     cartItems: List<MerchantCartItem> = emptyList(),
+    selectedDeliveryMode: String = "Standard",
+    scheduledFor: String = "",
+    onDeliveryModeChange: (String, String) -> Unit = { _, _ -> },
     onNext: () -> Unit = {}
 ) {
     val navBack = LocalNavBack.current
@@ -38,7 +41,8 @@ fun CheckoutScreen(
     val taxesAndFees = (subtotal * 0.08875).let { (it * 100).toInt() / 100.0 }
     val total = subtotal + deliveryFee + taxesAndFees
     val itemCount = cartItems.sumOf { it.quantity }
-    var selectedDeliveryTime by remember { mutableStateOf("Standard") }
+    var selectedDeliveryTime by remember(selectedDeliveryMode) { mutableStateOf(selectedDeliveryMode) }
+    val scheduledLabel = if (scheduledFor.isNotBlank()) scheduledFor else "Tomorrow 12:00 PM"
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -192,14 +196,20 @@ fun CheckoutScreen(
                         label = "Standard",
                         subtitle = "11:50 AM-12:06 PM",
                         isSelected = selectedDeliveryTime == "Standard",
-                        onClick = { selectedDeliveryTime = "Standard" },
+                        onClick = {
+                            selectedDeliveryTime = "Standard"
+                            onDeliveryModeChange("Standard", "")
+                        },
                         modifier = Modifier.weight(1f)
                     )
                     DeliveryTimeChip(
                         label = "Schedule",
-                        subtitle = "Choose a time",
+                        subtitle = scheduledLabel,
                         isSelected = selectedDeliveryTime == "Schedule",
-                        onClick = { selectedDeliveryTime = "Schedule" },
+                        onClick = {
+                            selectedDeliveryTime = "Schedule"
+                            onDeliveryModeChange("Schedule", scheduledLabel)
+                        },
                         modifier = Modifier.weight(1f)
                     )
                 }

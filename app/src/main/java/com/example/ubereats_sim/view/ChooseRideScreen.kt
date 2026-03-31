@@ -23,7 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.LocalRidePickup
 import com.example.ubereats_sim.LocalRideDropoff
+import androidx.compose.ui.platform.LocalContext
+import com.example.ubereats_sim.model.AppEventLogger
 
 private data class RideOption(
     val name: String,
@@ -43,6 +46,8 @@ private data class RideCategory(
 @Composable
 fun ChooseRideScreen() {
     val navBack = LocalNavBack.current
+    val context = LocalContext.current
+    val (pickupLocation, _) = LocalRidePickup.current
     val (dropoffLocation, _) = LocalRideDropoff.current
     var selectedRide by remember { mutableStateOf("UberX") }
     var showConfirmDialog by remember { mutableStateOf(false) }
@@ -76,6 +81,11 @@ fun ChooseRideScreen() {
         )
     }
 
+    val allRideOptions = remember(categories) { categories.flatMap { it.options } }
+    val cheapestRide = remember(allRideOptions) {
+        allRideOptions.minByOrNull { option -> parseRidePrice(option.price) }?.name.orEmpty()
+    }
+
     if (showConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showConfirmDialog = false },
@@ -97,6 +107,18 @@ fun ChooseRideScreen() {
             confirmButton = {
                 Button(
                     onClick = {
+                        AppEventLogger.append(
+                            context = context,
+                            action = "request_ride",
+                            page = "choose_ride",
+                            extraData = mapOf(
+                                "pickup_location" to pickupLocation,
+                                "dropoff_location" to dropoffLocation,
+                                "selected_ride" to selectedRide,
+                                "cheapest_ride" to cheapestRide,
+                                "is_cheapest" to (selectedRide == cheapestRide)
+                            )
+                        )
                         showConfirmDialog = false
                         navBack()
                     },
@@ -316,4 +338,11 @@ private fun RideOptionRow(option: RideOption, isSelected: Boolean, onClick: () -
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+private fun parseRidePrice(price: String): Double {
+    return price
+        .replace("$", "")
+        .substringBefore("-")
+        .toDoubleOrNull() ?: Double.MAX_VALUE
 }

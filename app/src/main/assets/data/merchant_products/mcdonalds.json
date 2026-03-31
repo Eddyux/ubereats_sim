@@ -29,6 +29,11 @@
       "calorieText": "310 Cal."
     },
     {
+      "name": "Double Cheeseburger",
+      "price": 5.19,
+      "calorieText": "450 Cal."
+    },
+    {
       "name": "Big Mac Meal",
       "price": 11.49,
       "calorieText": "950 Cal."

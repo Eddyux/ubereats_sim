@@ -67,6 +67,9 @@ app/src/main/java/com/example/ubereats_sim/
 - `cart.json` - 购物车数据
 - `user_profile.json` - 用户信息
 
+运行时日志写入应用私有目录：
+- `files/messages.json` - 非推理任务判定日志（如下单、保存地址、切换实时位置）
+
 ## 技术栈
 
 - Kotlin + Jetpack Compose + Material Design 3
@@ -80,6 +83,21 @@ app/src/main/java/com/example/ubereats_sim/
 ```
 
 ## 更新日志
+
+### 2026-03-31 Task Eval Support
+- 新增 `model/AppEventLogger.kt`，统一写入 `files/messages.json`
+- `files/messages.json` 现统一写入标准 `JSON` 数组格式，并使用多行缩进便于人工检查；兼容读取旧的 `JSONL` 内容并在下一次写入时迁移为 `JSON`
+- 新增 `model/SeededCartFactory.kt`，将 `assets/data/cart.json` 的预置购物车接入动态购物车流程
+- 支付成功后记录下单事件，支持判断“买一份麦当劳薯饼”和“买下购物车全部商品”
+- 设置家庭地址时记录 `House + jianghanlu` 等地址信息
+- `PrivacyLiveLocationScreen` 默认关闭，打开开关时写入实时位置共享日志
+- 新增 `refer/eval_1.py` 到 `refer/eval_5.py`，覆盖 `zhiling.md` 前五个任务的评测逻辑
+- 新增 rides / pickup / hearing / scheduled checkout 的日志支持，覆盖 `zhiling.md` 第 6 到 10 个任务
+- `LocationPresenter` 增加 McDonald's pickup spot，`RideLocationScreen` 增加 `jianghanlu` / `jiedaokou` 候选地点
+- `mcdonalds.json` 补充 `Double Cheeseburger`，支持“薯饼 + 双吉”下单任务
+- 新增 `refer/eval_6.py` 到 `refer/eval_10.py`
+- 新增 `refer/eval_11.py` 到 `refer/eval_17.py`，覆盖金额统计、免配送费计数、钱包余额、汉堡相关统计、最近订单送达时间等推理题
+- 这 17 个脚本对应更新过的 `kt` 文件名：`AppEventLogger.kt`、`SeededCartFactory.kt`、`MainActivity.kt`、`SearchPresenter.kt`、`LocationPresenter.kt`、`CheckoutScreen.kt`、`ChooseRideScreen.kt`、`HearingScreen.kt`、`LocationScreen.kt`、`PrivacyLiveLocationScreen.kt`、`RideLocationScreen.kt`、`SettingsHomeSetScreen.kt`
 
 ### 2026-03-19
 - 初始化项目结构

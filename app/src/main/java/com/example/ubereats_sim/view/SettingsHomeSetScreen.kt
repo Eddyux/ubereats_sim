@@ -49,11 +49,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.model.AppEventLogger
 
 @Composable
 fun SettingsHomeSetScreen() {
     val goBack = LocalNavBack.current
     val context = LocalContext.current
+    var addressLine by remember { mutableStateOf("") }
     var buildingType by remember { mutableStateOf("House") }
     var aptFloor by remember { mutableStateOf("") }
     var buildingName by remember { mutableStateOf("") }
@@ -90,10 +92,7 @@ fun SettingsHomeSetScreen() {
             // Address info
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 Spacer(Modifier.height(12.dp))
-                Text(
-                    "119-1, Section 3, Mingzhi Rd, Zhicheng Dist, New Taipei City, 221",
-                    fontSize = 16.sp
-                )
+                AddressDetailField("Address", addressLine, "e.g. jianghanlu") { addressLine = it }
                 Spacer(Modifier.height(20.dp))
                 HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 0.5.dp)
                 Spacer(Modifier.height(16.dp))
@@ -175,7 +174,22 @@ fun SettingsHomeSetScreen() {
 
         // Save button
         Button(
-            onClick = { goBack() },
+            onClick = {
+                AppEventLogger.append(
+                    context = context,
+                    action = "save_place",
+                    page = "settings_home_set",
+                    extraData = mapOf(
+                        "building_type" to buildingType,
+                        "location" to addressLine.trim(),
+                        "apt_suite_floor" to aptFloor.trim(),
+                        "building_name" to buildingName.trim(),
+                        "dropoff_option" to dropoffOption,
+                        "address_label" to listOf("Home", "Work", "Other")[selectedLabel]
+                    )
+                )
+                goBack()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)

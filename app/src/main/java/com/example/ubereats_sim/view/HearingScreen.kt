@@ -14,15 +14,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.model.AppEventLogger
 
 @Composable
 fun HearingScreen() {
     val navBack = LocalNavBack.current
+    val context = LocalContext.current
     var selectedOption by remember { mutableStateOf("not_deaf") }
+
+    fun updateSelection(value: String) {
+        selectedOption = value
+        AppEventLogger.append(
+            context = context,
+            action = "set_hearing_option",
+            page = "hearing",
+            extraData = mapOf("selected_option" to value)
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -78,19 +91,19 @@ fun HearingScreen() {
         HearingOption(
             label = "I'm deaf",
             isSelected = selectedOption == "deaf",
-            onClick = { selectedOption = "deaf" }
+            onClick = { updateSelection("deaf") }
         )
 
         HearingOption(
             label = "I'm hard of hearing",
             isSelected = selectedOption == "hard_of_hearing",
-            onClick = { selectedOption = "hard_of_hearing" }
+            onClick = { updateSelection("hard_of_hearing") }
         )
 
         HearingOption(
             label = "I'm not deaf or hard of hearing",
             isSelected = selectedOption == "not_deaf",
-            onClick = { selectedOption = "not_deaf" }
+            onClick = { updateSelection("not_deaf") }
         )
     }
 }

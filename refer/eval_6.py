@@ -1,44 +1,31 @@
 from appsim.utils import read_json_from_device
 
-PACKAGE_NAME = "com.example.eleme_sim"
+PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/messages.json"
-ACTION_FILTER = "filter"
-PAGE_SEARCH_RESULT = "search_result"
-EXTRA_DATA_KEY = "extra_data"
-KEYWORD_KEY = "keyword"
-KEYWORD_VALUE = "烤鸡"
-PRICE_MIN_KEY = "price_min"
-PRICE_MIN_VALUE = 0
-PRICE_MAX_KEY = "price_max"
-PRICE_MAX_VALUE = 30
+ACTION_VALUE = "request_ride"
+PAGE_VALUE = "choose_ride"
 
-def validate_task_six(result=None,device_id=None,backup_dir=None):
+
+def validate_task_six(result=None, device_id=None, backup_dir=None):
     try:
         all_data = read_json_from_device(device_id, PACKAGE_NAME, DEVICE_FILE_PATH, backup_dir)
-        if isinstance(all_data, list):
-            data = all_data[-1] if all_data else {}
-        else:
-            data = all_data
-    except:
+        events = all_data if isinstance(all_data, list) else [all_data]
+    except Exception:
         return False
 
-    if data.get('action') != ACTION_FILTER:
-        return False
-    if data.get('page') != PAGE_SEARCH_RESULT:
-        return False
-    if EXTRA_DATA_KEY not in data:
-        return False
-    extra_data = data[EXTRA_DATA_KEY]
-    # 【关键】搜索关键词必须是"烤鸡"
-    if extra_data.get(KEYWORD_KEY) != KEYWORD_VALUE:
-        return False
-    # 【关键】价格区间必须是0-30
-    if extra_data.get(PRICE_MIN_KEY) != PRICE_MIN_VALUE:
-        return False
-    if extra_data.get(PRICE_MAX_KEY) != PRICE_MAX_VALUE:
-        return False
-    return True
+    for event in reversed(events):
+        if event.get("action") != ACTION_VALUE or event.get("page") != PAGE_VALUE:
+            continue
+        extra_data = event.get("extra_data", {})
+        if (
+            str(extra_data.get("pickup_location", "")).strip().lower() == "jianghanlu"
+            and str(extra_data.get("dropoff_location", "")).strip().lower() == "jiedaokou"
+            and extra_data.get("selected_ride") == "Share"
+            and extra_data.get("is_cheapest") is True
+        ):
+            return True
+    return False
 
-if __name__ == '__main__':
-    result = validate_task_six()
-    print(result)
+
+if __name__ == "__main__":
+    print(validate_task_six())
