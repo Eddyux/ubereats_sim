@@ -24,6 +24,8 @@ import com.example.ubereats_sim.model.MerchantMenuItem
 import com.example.ubereats_sim.model.Order
 import com.example.ubereats_sim.model.OrderItem
 import com.example.ubereats_sim.model.AppEventLogger
+import com.example.ubereats_sim.model.AppStateStore
+import com.example.ubereats_sim.model.CartItem
 import com.example.ubereats_sim.presenter.MerchantPresenter
 import com.example.ubereats_sim.model.DataLoader
 import com.example.ubereats_sim.model.SeededCartFactory
@@ -101,14 +103,34 @@ fun MainScreen() {
     val seededCartCounts = remember(context) {
         DataLoader.loadCart(context).associate { it.restaurantName to it.itemCount }
     }
-    val cartItems = remember { mutableStateListOf<MerchantCartItem>().apply { addAll(seededCartItems) } }
     val initialOrders = remember(context) { DataLoader.loadOrders(context) }
-    val dynamicOrders = remember { mutableStateListOf<Order>().apply { addAll(initialOrders) } }
+    val restoredState = remember(context, merchantPresenter, seededCartItems, initialOrders) {
+        AppStateStore.restore(
+            context = context,
+            merchantPresenter = merchantPresenter,
+            defaultCartItems = seededCartItems,
+            defaultOrders = initialOrders
+        )
+    }
+    val cartItems = remember {
+        mutableStateListOf<MerchantCartItem>().apply { addAll(restoredState.cartItems) }
+    }
+    val dynamicOrders = remember {
+        mutableStateListOf<Order>().apply { addAll(restoredState.orders) }
+    }
     var ridePickupLocation by remember { mutableStateOf("") }
     var rideDropoffLocation by remember { mutableStateOf("") }
     var selectedHomeTab by remember { mutableIntStateOf(0) }
     var checkoutDeliveryMode by remember { mutableStateOf("Standard") }
     var checkoutScheduledFor by remember { mutableStateOf("") }
+
+    fun persistAppState() {
+        AppStateStore.save(
+            context = context,
+            cartItems = cartItems.toList(),
+            orders = dynamicOrders.toList()
+        )
+    }
 
     fun pushPage(page: String) {
         navStack.add(page)
@@ -150,6 +172,12 @@ fun MainScreen() {
                 )
             )
         }
+        persistAppState()
+    }
+
+    fun removeFromCart(item: MerchantCartItem) {
+        cartItems.remove(item)
+        persistAppState()
     }
 
     fun productRoute(merchantName: String, productId: String): String =
@@ -215,6 +243,20 @@ fun MainScreen() {
         cartItems.removeAll { it.merchantName == merchantName }
         checkoutDeliveryMode = "Standard"
         checkoutScheduledFor = ""
+        persistAppState()
+    }
+
+    fun buildCartSummaries(items: List<MerchantCartItem>): List<CartItem> {
+        return items.groupBy { it.merchantName }.map { (merchantName, merchantItems) ->
+            CartItem(
+                restaurantId = merchantName.lowercase().replace(" ", "_"),
+                restaurantName = merchantName,
+                restaurantImage = merchantName,
+                itemCount = merchantItems.sumOf { it.quantity },
+                totalPrice = merchantItems.sumOf { it.quantity * it.product.price },
+                deliveryAddress = "New York"
+            )
+        }
     }
 
     CompositionLocalProvider(
@@ -272,7 +314,7 @@ fun MainScreen() {
                                     merchantName = merchantName,
                                     items = merchantItems,
                                     onClose = { popPage() },
-                                    onRemove = { item -> cartItems.remove(item) },
+                                    onRemove = { item -> removeFromCart(item) },
                                     onReplace = { item -> pushPage(productRoute(merchantName, item.product.id)) },
                                     onAddItems = { popPage() },
                                     onCheckout = { openCheckout(merchantName) },
@@ -377,7 +419,7 @@ fun MainScreen() {
                         )
                         1 -> LocationScreen()
                         2 -> SearchScreen()
-                        3 -> CartScreen()
+                        3 -> CartScreen(cartItems = buildCartSummaries(cartItems))
                         4 -> ProfileScreen()
                     }
                 }

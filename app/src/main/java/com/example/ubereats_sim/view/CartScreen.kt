@@ -42,14 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
 import com.example.ubereats_sim.model.CartItem
-import com.example.ubereats_sim.presenter.CartPresenter
 
 @Composable
-fun CartScreen() {
-    val context = LocalContext.current
-    val presenter = CartPresenter(context)
-    val cartItems = presenter.getCartItems()
-
+fun CartScreen(cartItems: List<CartItem> = emptyList()) {
     Column(
         modifier = Modifier
             .fillMaxSize()

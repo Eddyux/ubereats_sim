@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -251,6 +252,10 @@ fun CheckoutScreen(
                 HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 0.5.dp)
             }
 
+            items(cartItems) { item ->
+                CheckoutItemRow(item)
+            }
+
             // Add promo code
             item {
                 Row(
@@ -322,6 +327,39 @@ fun CheckoutScreen(
                 Spacer(modifier = Modifier.height(80.dp))
             }
         }
+    }
+}
+
+@Composable
+private fun CheckoutItemRow(item: MerchantCartItem) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Top
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "${item.quantity} x ${item.product.name}",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Medium
+            )
+            if (item.selectedOptions.isNotEmpty()) {
+                Text(
+                    text = item.selectedOptions.entries.joinToString { "${it.key} x${it.value}" },
+                    fontSize = 13.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = "$${String.format("%.2f", item.quantity * item.product.price)}",
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }
 

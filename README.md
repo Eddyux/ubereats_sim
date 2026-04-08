@@ -377,3 +377,12 @@ app/src/main/java/com/example/ubereats_sim/
 - 底部 Personal 账户标识 + "Request [车型]" 确认按钮
 - 点击确认弹出 "Ride Requested" 对话框，确认后返回
 
+### 2026-04-08 Cart checkout persistence
+- Seeded cart prices are now aligned with `assets/data/cart.json`, and Checkout now lists the same cart items shown before payment.
+- Added `model/AppStateStore.kt` to persist the live cart and live orders into `files/app_state.json`.
+- A successful payment now removes the purchased merchant items from the cart immediately and keeps them removed after the app restarts.
+- Newly created orders from the checkout/payment flow are restored after restart together with the cart state.
+- `CartScreen` now renders the live in-memory cart summary instead of reloading the seeded asset cart data.
+- Location page search now filters real local merchants from the existing assets, supports keyboard search submit, and returns matching pickup spots/map markers.
+- Added `auto_test/eval_1.py` to `auto_test/eval_5.py` for the first five updated `zhiling.md` tasks, including cart-empty verification via `files/app_state.json`.
+- Updated the reasoning evaluators in `refer/` for task 56 to use the unified guard + `final_message` contains-check format from `zhiling.md`, with per-task targets such as `yes`, `Hash Browns`, `20.19`, and `116.24`.

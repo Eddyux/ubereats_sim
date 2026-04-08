@@ -23,6 +23,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -45,6 +47,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
@@ -54,12 +57,12 @@ import com.example.ubereats_sim.presenter.LocationPresenter
 @Composable
 fun LocationScreen() {
     val nav = LocalNavController.current
-    val presenter = remember { LocationPresenter() }
+    val context = LocalContext.current
+    val presenter = remember(context) { LocationPresenter(context) }
     val filters = remember(presenter) { presenter.getFilters() }
     var query by rememberSaveable { mutableStateOf("") }
     val markers = remember(query, presenter) { presenter.getMapMarkers(query) }
     val pickupSpots = remember(query, presenter) { presenter.getPickupSpots(query) }
-    val context = LocalContext.current
     val mapImage = remember {
         runCatching {
             context.assets.open("location_map.png").use { input ->
@@ -77,7 +80,18 @@ fun LocationScreen() {
         SearchPickupBar(
             query = query,
             onValueChange = { query = it },
-            onClear = { query = "" }
+            onClear = { query = "" },
+            onSubmit = {
+                AppEventLogger.append(
+                    context = context,
+                    action = "search_pickup_spots",
+                    page = "location",
+                    extraData = mapOf(
+                        "query" to query.trim(),
+                        "results_found" to pickupSpots.size
+                    )
+                )
+            }
         )
         FilterRow(filters)
 
@@ -243,7 +257,8 @@ fun LocationScreen() {
 private fun SearchPickupBar(
     query: String,
     onValueChange: (String) -> Unit,
-    onClear: () -> Unit
+    onClear: () -> Unit,
+    onSubmit: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -275,13 +290,15 @@ private fun SearchPickupBar(
                 disabledContainerColor = Color(0xFFF2F2F2),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
-            )
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onSubmit() })
         )
         Box(
             modifier = Modifier
                 .size(44.dp)
                 .background(Color(0xFF05944F), RoundedCornerShape(22.dp))
-                .clickable(onClick = onClear),
+                .clickable(onClick = onSubmit),
             contentAlignment = Alignment.Center
         ) {
             Icon(

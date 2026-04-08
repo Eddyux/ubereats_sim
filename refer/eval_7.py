@@ -1,29 +1,14 @@
-from appsim.utils import read_json_from_device
-
-PACKAGE_NAME = "com.example.ubereats_sim"
-DEVICE_FILE_PATH = "files/messages.json"
-PAGE_VALUE = "location"
-
-
 def validate_task_seven(result=None, device_id=None, backup_dir=None):
-    try:
-        all_data = read_json_from_device(device_id, PACKAGE_NAME, DEVICE_FILE_PATH, backup_dir)
-        events = all_data if isinstance(all_data, list) else [all_data]
-    except Exception:
+    if result is None:
+        return False
+    final_message = result.get("final_message")
+    if not isinstance(final_message, str):
         return False
 
-    for event in reversed(events):
-        if event.get("action") not in {"open_pickup_spot", "open_pickup_map_result"} or event.get("page") != PAGE_VALUE:
-            continue
-        extra_data = event.get("extra_data", {})
-        query = str(extra_data.get("query", "")).strip().lower()
-        if (
-            extra_data.get("store_name") == "McDonald's"
-            and extra_data.get("results_found", 0) >= 1
-            and query in {"mcdonald's", "mcdonalds", "麦当劳"}
-        ):
-            return True
-    return False
+    if '有' in final_message:
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":

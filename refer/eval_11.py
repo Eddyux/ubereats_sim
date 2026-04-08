@@ -5,9 +5,10 @@ def validate_task_eleven(result=None, device_id=None, backup_dir=None):
     if not isinstance(final_message, str):
         return False
 
-    normalized = final_message.lower().replace(",", "")
-    accepted_prices = ["18.56", "32.98", "35.90", "35.9", "35.91"]
-    return any(price in normalized for price in accepted_prices)
+    if '20.19' in final_message:
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":
