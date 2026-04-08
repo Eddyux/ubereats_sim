@@ -2,7 +2,7 @@ from appsim.utils import read_json_from_device
 
 PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/messages.json"
-ACTION_VALUE = "place_order"
+ACTION_VALUE = "confirm_payment"
 PAGE_VALUE = "payment"
 MERCHANT_NAME = "McDonald's"
 REQUIRED_ITEMS = {"Hash Browns", "Double Cheeseburger"}
@@ -25,7 +25,6 @@ def validate_task_eight(result=None, device_id=None, backup_dir=None):
             and REQUIRED_ITEMS.issubset(item_names)
             and extra_data.get("delivery_mode") == "Schedule"
             and extra_data.get("scheduled_for") == "Tomorrow 12:00 PM"
-            and extra_data.get("default_delivery") is True
         ):
             return True
     return False

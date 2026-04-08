@@ -21,7 +21,7 @@ def read_json_from_device(device_id=None, package_name=PACKAGE_NAME, file_path=D
         return json.load(file)
 
 
-def validate_task_two(result=None, device_id=None, backup_dir=None):
+def validate_task_six(result=None, device_id=None, backup_dir=None):
     try:
         all_data = read_json_from_device(device_id=device_id, backup_dir=backup_dir)
         events = all_data if isinstance(all_data, list) else [all_data]
@@ -29,20 +29,18 @@ def validate_task_two(result=None, device_id=None, backup_dir=None):
         return False
 
     for event in reversed(events):
-        if event.get("action") != "open_payment" or event.get("page") != "payment":
+        if event.get("action") != "request_ride" or event.get("page") != "choose_ride":
             continue
         extra_data = event.get("extra_data", {})
-        item_names = extra_data.get("item_names", [])
         if (
-            extra_data.get("merchant_name") == "McDonald's"
-            and "Hash Browns" in item_names
-            and extra_data.get("delivery_mode") == "Standard"
-            and extra_data.get("scheduled_for") == ""
-            and extra_data.get("default_delivery") is True
+            str(extra_data.get("pickup_location", "")).strip().lower() == "jianghanlu"
+            and str(extra_data.get("dropoff_location", "")).strip().lower() == "jiedaokou"
+            and extra_data.get("selected_ride") == "Share"
+            and extra_data.get("is_cheapest") is True
         ):
             return True
     return False
 
 
 if __name__ == "__main__":
-    print(validate_task_two())
+    print(validate_task_six())

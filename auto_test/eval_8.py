@@ -21,7 +21,7 @@ def read_json_from_device(device_id=None, package_name=PACKAGE_NAME, file_path=D
         return json.load(file)
 
 
-def validate_task_two(result=None, device_id=None, backup_dir=None):
+def validate_task_eight(result=None, device_id=None, backup_dir=None):
     try:
         all_data = read_json_from_device(device_id=device_id, backup_dir=backup_dir)
         events = all_data if isinstance(all_data, list) else [all_data]
@@ -29,20 +29,19 @@ def validate_task_two(result=None, device_id=None, backup_dir=None):
         return False
 
     for event in reversed(events):
-        if event.get("action") != "open_payment" or event.get("page") != "payment":
+        if event.get("action") != "confirm_payment" or event.get("page") != "payment":
             continue
         extra_data = event.get("extra_data", {})
-        item_names = extra_data.get("item_names", [])
+        item_names = set(extra_data.get("item_names", []))
         if (
             extra_data.get("merchant_name") == "McDonald's"
-            and "Hash Browns" in item_names
-            and extra_data.get("delivery_mode") == "Standard"
-            and extra_data.get("scheduled_for") == ""
-            and extra_data.get("default_delivery") is True
+            and {"Hash Browns", "Double Cheeseburger"}.issubset(item_names)
+            and extra_data.get("delivery_mode") == "Schedule"
+            and extra_data.get("scheduled_for") == "Tomorrow 12:00 PM"
         ):
             return True
     return False
 
 
 if __name__ == "__main__":
-    print(validate_task_two())
+    print(validate_task_eight())

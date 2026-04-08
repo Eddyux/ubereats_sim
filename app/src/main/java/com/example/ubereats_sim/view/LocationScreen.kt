@@ -19,12 +19,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ubereats_sim.LocalNavController
 import com.example.ubereats_sim.model.AppEventLogger
+import com.example.ubereats_sim.model.PickupDealMarker
+import com.example.ubereats_sim.model.PickupSpot
 import com.example.ubereats_sim.presenter.LocationPresenter
 
 @Composable
@@ -104,147 +107,205 @@ fun LocationScreen() {
             )
         }
 
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(horizontal = 12.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFFE9EEF2))
-        ) {
-            if (mapImage != null) {
-                Image(
-                    bitmap = mapImage,
-                    contentDescription = "Map",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+        if (query.isBlank()) {
+            LocationMapSection(
+                mapImage = mapImage,
+                markers = markers,
+                query = query,
+                context = context,
+                onOpenMarker = { storeName -> nav("merchant|$storeName") },
+                modifier = Modifier.weight(1f)
+            )
+            PickupResultsSection(
+                title = "Pickup spots near you",
+                pickupSpots = pickupSpots,
+                query = query,
+                context = context,
+                onOpenSpot = { storeName -> nav("merchant|$storeName") }
+            )
+        } else {
+            PickupResultsSection(
+                title = "Search results",
+                pickupSpots = pickupSpots,
+                query = query,
+                context = context,
+                onOpenSpot = { storeName -> nav("merchant|$storeName") }
+            )
+            Text(
+                "Map matches",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            )
+            LocationMapSection(
+                mapImage = mapImage,
+                markers = markers,
+                query = query,
+                context = context,
+                onOpenMarker = { storeName -> nav("merchant|$storeName") },
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
 
-            if (markers.isEmpty()) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Surface(shape = RoundedCornerShape(18.dp), color = Color.White.copy(alpha = 0.92f)) {
-                        Text(
-                            text = "No map matches",
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
-            } else {
-                markers.forEach { marker ->
-                    Column(
-                        modifier = Modifier
-                            .offset(x = maxWidth * marker.xPercent, y = maxHeight * marker.yPercent)
-                            .clickable {
-                                AppEventLogger.append(
-                                    context = context,
-                                    action = "open_pickup_map_result",
-                                    page = "location",
-                                    extraData = mapOf(
-                                        "query" to query.trim(),
-                                        "store_name" to marker.storeName,
-                                        "results_found" to markers.size
-                                    )
-                                )
-                                nav("merchant|${marker.storeName}")
-                            }
-                    ) {
-                        Surface(
-                            shape = RoundedCornerShape(12.dp),
-                            color = Color.White,
-                            shadowElevation = 2.dp
-                        ) {
-                            Text(
-                                marker.deal,
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                            )
-                        }
-                        Text(
-                            marker.storeName,
-                            fontSize = 11.sp,
-                            modifier = Modifier.padding(top = 4.dp, start = 2.dp)
-                        )
-                    }
-                }
-            }
+@Composable
+private fun LocationMapSection(
+    mapImage: ImageBitmap?,
+    markers: List<PickupDealMarker>,
+    query: String,
+    context: android.content.Context,
+    onOpenMarker: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    BoxWithConstraints(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color(0xFFE9EEF2))
+    ) {
+        if (mapImage != null) {
+            Image(
+                bitmap = mapImage,
+                contentDescription = "Map",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
-        Text(
-            if (query.isBlank()) "Pickup spots near you" else "Search results",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-        )
-
-        if (pickupSpots.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(170.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("No pickup spots found", fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
-                    Spacer(Modifier.height(4.dp))
-                    Text("Try another store name.", color = Color.Gray)
+        if (markers.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Surface(shape = RoundedCornerShape(18.dp), color = Color.White.copy(alpha = 0.92f)) {
+                    Text(
+                        text = "No map matches",
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(170.dp)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(pickupSpots) { spot ->
-                    Card(
+            markers.forEach { marker ->
+                Column(
+                    modifier = Modifier
+                        .offset(x = maxWidth * marker.xPercent, y = maxHeight * marker.yPercent)
+                        .clickable {
+                            AppEventLogger.append(
+                                context = context,
+                                action = "open_pickup_map_result",
+                                page = "location",
+                                extraData = mapOf(
+                                    "query" to query.trim(),
+                                    "store_name" to marker.storeName,
+                                    "results_found" to markers.size
+                                )
+                            )
+                            onOpenMarker(marker.storeName)
+                        }
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = Color.White,
+                        shadowElevation = 2.dp
+                    ) {
+                        Text(
+                            marker.deal,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                    Text(
+                        marker.storeName,
+                        fontSize = 11.sp,
+                        modifier = Modifier.padding(top = 4.dp, start = 2.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PickupResultsSection(
+    title: String,
+    pickupSpots: List<PickupSpot>,
+    query: String,
+    context: android.content.Context,
+    onOpenSpot: (String) -> Unit
+) {
+    Text(
+        title,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+    )
+
+    if (pickupSpots.isEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(170.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("No pickup spots found", fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.height(4.dp))
+                Text("Try another store name.", color = Color.Gray)
+            }
+        }
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(170.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(pickupSpots) { spot ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            AppEventLogger.append(
+                                context = context,
+                                action = "open_pickup_spot",
+                                page = "location",
+                                extraData = mapOf(
+                                    "query" to query.trim(),
+                                    "store_name" to spot.name,
+                                    "results_found" to pickupSpots.size
+                                )
+                            )
+                            onOpenSpot(spot.name)
+                        },
+                    shape = RoundedCornerShape(12.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                ) {
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                AppEventLogger.append(
-                                    context = context,
-                                    action = "open_pickup_spot",
-                                    page = "location",
-                                    extraData = mapOf(
-                                        "query" to query.trim(),
-                                        "store_name" to spot.name,
-                                        "results_found" to pickupSpots.size
-                                    )
-                                )
-                                nav("merchant|${spot.name}")
-                            },
-                        shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                            .padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
+                        Column {
+                            Text(spot.name, fontWeight = FontWeight.Bold)
+                            Text("${spot.eta} | ${spot.rating}", fontSize = 12.sp, color = Color.Gray)
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                                .size(40.dp)
+                                .background(Color(0xFF05944F).copy(alpha = 0.1f), RoundedCornerShape(20.dp)),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Column {
-                                Text(spot.name, fontWeight = FontWeight.Bold)
-                                Text("${spot.eta} · ★ ${spot.rating}", fontSize = 12.sp, color = Color.Gray)
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .background(Color(0xFF05944F).copy(alpha = 0.1f), RoundedCornerShape(20.dp)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    Icons.Default.LocationOn,
-                                    contentDescription = null,
-                                    tint = Color(0xFF05944F),
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
+                            Icon(
+                                Icons.Default.LocationOn,
+                                contentDescription = null,
+                                tint = Color(0xFF05944F),
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                     }
                 }

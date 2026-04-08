@@ -379,10 +379,20 @@ app/src/main/java/com/example/ubereats_sim/
 
 ### 2026-04-08 Cart checkout persistence
 - Seeded cart prices are now aligned with `assets/data/cart.json`, and Checkout now lists the same cart items shown before payment.
-- Added `model/AppStateStore.kt` to persist the live cart and live orders into `files/app_state.json`.
-- A successful payment now removes the purchased merchant items from the cart immediately and keeps them removed after the app restarts.
-- Newly created orders from the checkout/payment flow are restored after restart together with the cart state.
+- Added `model/AppStateStore.kt` to persist runtime cart snapshots and live orders into `files/app_state.json`.
+- A successful payment now removes the purchased merchant items from the cart immediately so the empty-cart check can be read from `files/app_state.json`.
+- Each fresh app launch rehydrates the seeded cart again, while newly created orders from the checkout/payment flow still persist across restarts for repeatable test runs.
 - `CartScreen` now renders the live in-memory cart summary instead of reloading the seeded asset cart data.
 - Location page search now filters real local merchants from the existing assets, supports keyboard search submit, and returns matching pickup spots/map markers.
 - Added `auto_test/eval_1.py` to `auto_test/eval_5.py` for the first five updated `zhiling.md` tasks, including cart-empty verification via `files/app_state.json`.
 - Updated the reasoning evaluators in `refer/` for task 56 to use the unified guard + `final_message` contains-check format from `zhiling.md`, with per-task targets such as `yes`, `Hash Browns`, `20.19`, and `116.24`.
+
+### 2026-04-08 Location search results ordering
+- Search results on the Location page now appear above the map after a query is entered, so the first row shows the matching pickup spots immediately.
+- The map remains available below the results as a secondary 'Map matches' section.
+
+
+### 2026-04-08 Non-reasoning eval alignment
+- Payment flow logging now writes open_payment when entering the payment page and confirm_payment only after payment confirmation, so the app events match the zhiling.md non-reasoning checks.
+- Task 4 evaluators now check iles/app_state.json cart emptiness directly, and local uto_test coverage has been added for tasks 6, 8, and 9.
+

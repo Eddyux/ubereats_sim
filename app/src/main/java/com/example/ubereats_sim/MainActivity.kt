@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -107,7 +108,6 @@ fun MainScreen() {
     val restoredState = remember(context, merchantPresenter, seededCartItems, initialOrders) {
         AppStateStore.restore(
             context = context,
-            merchantPresenter = merchantPresenter,
             defaultCartItems = seededCartItems,
             defaultOrders = initialOrders
         )
@@ -130,6 +130,10 @@ fun MainScreen() {
             cartItems = cartItems.toList(),
             orders = dynamicOrders.toList()
         )
+    }
+
+    LaunchedEffect(Unit) {
+        persistAppState()
     }
 
     fun pushPage(page: String) {
@@ -192,6 +196,27 @@ fun MainScreen() {
         pushPage("Checkout|$merchantName")
     }
 
+    fun openPayment(merchantName: String) {
+        val merchantItems = cartItems.filter { it.merchantName == merchantName }
+        if (merchantItems.isEmpty()) return
+        val orderItems = merchantItems.map { it.product.name }
+        val totalQuantity = merchantItems.sumOf { it.quantity }
+        AppEventLogger.append(
+            context = context,
+            action = "open_payment",
+            page = "payment",
+            extraData = mapOf(
+                "merchant_name" to merchantName,
+                "item_names" to orderItems,
+                "total_quantity" to totalQuantity,
+                "delivery_mode" to checkoutDeliveryMode,
+                "scheduled_for" to checkoutScheduledFor,
+                "default_delivery" to (checkoutDeliveryMode == "Standard")
+            )
+        )
+        pushPage("Pay|$merchantName")
+    }
+
     fun placeOrder(merchantName: String) {
         val merchantItems = cartItems.filter { it.merchantName == merchantName }
         if (merchantItems.isEmpty()) return
@@ -227,14 +252,14 @@ fun MainScreen() {
         dynamicOrders.add(0, newOrder)
         AppEventLogger.append(
             context = context,
-            action = "place_order",
+            action = "confirm_payment",
             page = "payment",
             extraData = mapOf(
                 "merchant_name" to merchantName,
                 "item_names" to orderItems.map { it.name },
                 "total_quantity" to totalQuantity,
                 "delivery_address" to (newOrder.deliveryAddress ?: ""),
-                "default_delivery" to true,
+                "default_delivery" to (checkoutDeliveryMode == "Standard"),
                 "from_seeded_cart" to (seededCartCounts[merchantName] == totalQuantity),
                 "delivery_mode" to checkoutDeliveryMode,
                 "scheduled_for" to checkoutScheduledFor
@@ -376,7 +401,7 @@ fun MainScreen() {
                                     checkoutScheduledFor = scheduledFor
                                 },
                                 onNext = {
-                                    pushPage("Pay|$merchantName")
+                                    openPayment(merchantName)
                                 }
                             )
                         }

@@ -2,7 +2,6 @@ package com.example.ubereats_sim.model
 
 import android.content.Context
 import android.util.Log
-import com.example.ubereats_sim.presenter.MerchantPresenter
 import com.google.gson.GsonBuilder
 import java.io.File
 
@@ -31,7 +30,6 @@ object AppStateStore {
 
     fun restore(
         context: Context,
-        merchantPresenter: MerchantPresenter,
         defaultCartItems: List<MerchantCartItem>,
         defaultOrders: List<Order>
     ): RestoredAppState {
@@ -41,11 +39,8 @@ object AppStateStore {
         )
 
         return RestoredAppState(
-            cartItems = restoreCartItems(
-                persistedItems = persistedState.cartItems,
-                merchantPresenter = merchantPresenter,
-                seededCartSummaries = DataLoader.loadCart(context).associateBy { it.restaurantName }
-            ),
+            // Each cold start should begin from the seeded cart so repeated runs are deterministic.
+            cartItems = defaultCartItems,
             orders = persistedState.orders
         )
     }
@@ -96,61 +91,5 @@ object AppStateStore {
         }.onFailure {
             Log.e(tag, "Failed to parse persisted app state", it)
         }.getOrNull()
-    }
-
-    private fun restoreCartItems(
-        persistedItems: List<PersistedCartItem>,
-        merchantPresenter: MerchantPresenter,
-        seededCartSummaries: Map<String, CartItem>
-    ): List<MerchantCartItem> {
-        return persistedItems
-            .groupBy { it.merchantName }
-            .flatMap { (merchantName, merchantItems) ->
-                val migratedPrices = buildMissingPriceMap(
-                    merchantItems = merchantItems,
-                    seededSummary = seededCartSummaries[merchantName]
-                )
-
-                merchantItems.mapNotNull { item ->
-                    val product = merchantPresenter.getProductById(item.merchantName, item.productId)
-                    if (product == null) {
-                        Log.w(tag, "Missing product seed for ${item.merchantName}/${item.productId}")
-                        null
-                    } else {
-                        val restoredPrice = item.unitPrice ?: migratedPrices[item] ?: product.price
-                        MerchantCartItem(
-                            merchantName = item.merchantName,
-                            product = product.copy(
-                                price = restoredPrice,
-                                priceText = "US$${String.format("%.2f", restoredPrice)}"
-                            ),
-                            quantity = item.quantity,
-                            selectedOptions = item.selectedOptions
-                        )
-                    }
-                }
-            }
-    }
-
-    private fun buildMissingPriceMap(
-        merchantItems: List<PersistedCartItem>,
-        seededSummary: CartItem?
-    ): Map<PersistedCartItem, Double> {
-        val itemsMissingPrice = merchantItems.filter { it.unitPrice == null }
-        if (itemsMissingPrice.isEmpty() || seededSummary == null) {
-            return emptyMap()
-        }
-
-        val knownCents = merchantItems
-            .mapNotNull { it.unitPrice }
-            .sumOf { (it * 100).toInt() }
-        val remainingCents = ((seededSummary.totalPrice * 100).toInt() - knownCents).coerceAtLeast(0)
-        val baseCents = remainingCents / itemsMissingPrice.size
-        val remainder = remainingCents % itemsMissingPrice.size
-
-        return itemsMissingPrice.mapIndexed { index, item ->
-            val cents = baseCents + if (index < remainder) 1 else 0
-            item to (cents / 100.0)
-        }.toMap()
     }
 }
