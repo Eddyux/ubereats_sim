@@ -1,41 +1,44 @@
+import subprocess
 import json
 import os
-import subprocess
 
 
 PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/messages.json"
-
-
-def read_json_from_device(device_id=None, package_name=PACKAGE_NAME, file_path=DEVICE_FILE_PATH, backup_dir=None):
-    output_path = os.path.join(backup_dir, os.path.basename(file_path)) if backup_dir else os.path.basename(file_path)
-    cmd = ["adb"]
-    if device_id:
-        cmd.extend(["-s", device_id])
-    cmd.extend(["exec-out", "run-as", package_name, "cat", file_path])
-
-    with open(output_path, "w", encoding="utf-8") as file:
-        subprocess.run(cmd, stdout=file, stderr=subprocess.PIPE, check=True, text=True)
-
-    with open(output_path, "r", encoding="utf-8") as file:
-        return json.load(file)
+ACTION_VALUE = "open_payment"
+PAGE_VALUE = "payment"
+MERCHANT_NAME = "McDonald's"
+ITEM_NAME = "Hash Browns"
 
 
 def validate_task_two(result=None, device_id=None, backup_dir=None):
+    message_file_path = os.path.join(backup_dir, "messages.json") if backup_dir else "messages.json"
+
+    cmd = ['adb']
+    if device_id:
+        cmd.extend(["-s", device_id])
+    cmd.extend(["exec-out", "run-as", PACKAGE_NAME, "cat", DEVICE_FILE_PATH])
+    subprocess.run(cmd, stdout=open(message_file_path, "w"))
+
     try:
-        all_data = read_json_from_device(device_id=device_id, backup_dir=backup_dir)
-        events = all_data if isinstance(all_data, list) else [all_data]
-    except Exception:
+        with open(message_file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            events = data if isinstance(data, list) else [data]
+    except:
         return False
 
     for event in reversed(events):
-        if event.get("action") != "open_payment" or event.get("page") != "payment":
+        if event.get("action") != ACTION_VALUE:
             continue
+        if event.get("page") != PAGE_VALUE:
+            continue
+
         extra_data = event.get("extra_data", {})
         item_names = extra_data.get("item_names", [])
         if (
-            extra_data.get("merchant_name") == "McDonald's"
-            and "Hash Browns" in item_names
+            extra_data.get("merchant_name") == MERCHANT_NAME
+            and ITEM_NAME in item_names
+            and extra_data.get("total_quantity") == 1
             and extra_data.get("delivery_mode") == "Standard"
             and extra_data.get("scheduled_for") == ""
             and extra_data.get("default_delivery") is True

@@ -1,0 +1,18 @@
+# Keep repository text files on LF so Windows `git add` does not warn about
+# converting them back to CRLF on checkout.
+* text=auto eol=lf
+
+# Windows-native scripts should keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Common binary assets.
+*.gif binary
+*.ico binary
+*.jar binary
+*.jpeg binary
+*.jpg binary
+*.keystore binary
+*.png binary
+*.webp binary

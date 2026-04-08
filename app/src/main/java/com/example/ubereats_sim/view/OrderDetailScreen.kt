@@ -43,6 +43,14 @@ fun OrderDetailScreen(orderId: String) {
             .fillMaxSize()
             .background(Color.White)
     ) {
+        val isScheduledOrder = order.deliveryMode == "Schedule" && !order.scheduledFor.isNullOrBlank()
+        val titleText = if (isScheduledOrder) "Your order is scheduled" else "Picking up your order..."
+        val arrivalText = if (isScheduledOrder) {
+            order.scheduledFor?.let { "Scheduled for $it" }
+        } else {
+            order.estimatedArrival?.let { "Estimated arrival $it" }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,14 +77,12 @@ fun OrderDetailScreen(orderId: String) {
                 .padding(16.dp)
         ) {
             Text(
-                "Picking up your order...",
+                titleText,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            order.estimatedArrival?.let {
-                Text("Estimated arrival $it", fontSize = 16.sp, color = Color.Gray)
-            }
+            arrivalText?.let { Text(it, fontSize = 16.sp, color = Color.Gray) }
             order.latestArrival?.let {
                 Text("Latest arrival by $it", fontSize = 14.sp, color = Color.Gray)
             }

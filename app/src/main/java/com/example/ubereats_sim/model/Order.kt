@@ -11,6 +11,8 @@ data class Order(
     val items: List<OrderItem>,
     val estimatedArrival: String? = null,
     val latestArrival: String? = null,
+    val scheduledFor: String? = null,
+    val deliveryMode: String? = null,
     val deliveryStatus: String? = null,
     val driverName: String? = null,
     val driverRating: String? = null,

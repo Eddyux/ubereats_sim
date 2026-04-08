@@ -147,11 +147,22 @@ fun MainScreen() {
     }
 
     fun toggleFavorite(name: String) {
-        if (favoriteNames.contains(name)) {
+        val isNowFavorite = if (favoriteNames.contains(name)) {
             favoriteNames.remove(name)
+            false
         } else {
             favoriteNames.add(name)
+            true
         }
+        AppEventLogger.append(
+            context = context,
+            action = "toggle_favorite",
+            page = "home",
+            extraData = mapOf(
+                "merchant_name" to name,
+                "favorited" to isNowFavorite
+            )
+        )
     }
 
     fun merchantCartCount(merchantName: String): Int {
@@ -159,11 +170,13 @@ fun MainScreen() {
     }
 
     fun addToCart(merchantName: String, product: MerchantMenuItem, quantity: Int, selectedOptions: Map<String, Int>) {
+        var updatedQuantity = quantity
         val index = cartItems.indexOfFirst { it.merchantName == merchantName && it.product.id == product.id }
         if (index >= 0) {
             val existing = cartItems[index]
+            updatedQuantity = existing.quantity + quantity
             cartItems[index] = existing.copy(
-                quantity = existing.quantity + quantity,
+                quantity = updatedQuantity,
                 selectedOptions = selectedOptions
             )
         } else {
@@ -176,6 +189,17 @@ fun MainScreen() {
                 )
             )
         }
+        AppEventLogger.append(
+            context = context,
+            action = "add_to_cart",
+            page = "product_detail",
+            extraData = mapOf(
+                "merchant_name" to merchantName,
+                "item_name" to product.name,
+                "quantity_added" to quantity,
+                "item_quantity_in_cart" to updatedQuantity
+            )
+        )
         persistAppState()
     }
 
@@ -224,6 +248,11 @@ fun MainScreen() {
         val orderItems = merchantItems.map { OrderItem(it.product.name, it.quantity, it.product.price) }
         val total = merchantItems.sumOf { it.quantity * it.product.price }
         val totalQuantity = merchantItems.sumOf { it.quantity }
+        val isScheduledOrder = checkoutDeliveryMode == "Schedule" && checkoutScheduledFor.isNotBlank()
+        val orderStatus = if (isScheduledOrder) "Scheduled" else "In Progress"
+        val estimatedArrival = if (isScheduledOrder) checkoutScheduledFor else "30 min"
+        val latestArrival = if (isScheduledOrder) null else "45 min"
+        val deliveryStatus = if (isScheduledOrder) "Scheduled" else "Preparing"
         val emoji = when {
             merchantName.contains("McDonald", ignoreCase = true) -> "🍔"
             merchantName.contains("Domino", ignoreCase = true) -> "🍕"
@@ -238,11 +267,13 @@ fun MainScreen() {
             orderDate = "2026-03-24",
             orderTime = java.text.SimpleDateFormat("HH:mm", java.util.Locale.US).format(java.util.Date()),
             totalAmount = total,
-            status = "In Progress",
+            status = orderStatus,
             items = orderItems,
-            estimatedArrival = "30 min",
-            latestArrival = "45 min",
-            deliveryStatus = "Preparing",
+            estimatedArrival = estimatedArrival,
+            latestArrival = latestArrival,
+            scheduledFor = checkoutScheduledFor.ifBlank { null },
+            deliveryMode = checkoutDeliveryMode,
+            deliveryStatus = deliveryStatus,
             driverName = "Alex",
             driverRating = "95%",
             driverVehicle = "Honda Civic",

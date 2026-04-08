@@ -1,36 +1,36 @@
+import subprocess
 import json
 import os
-import subprocess
 
 
 PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/messages.json"
-
-
-def read_json_from_device(device_id=None, package_name=PACKAGE_NAME, file_path=DEVICE_FILE_PATH, backup_dir=None):
-    output_path = os.path.join(backup_dir, os.path.basename(file_path)) if backup_dir else os.path.basename(file_path)
-    cmd = ["adb"]
-    if device_id:
-        cmd.extend(["-s", device_id])
-    cmd.extend(["exec-out", "run-as", package_name, "cat", file_path])
-
-    with open(output_path, "w", encoding="utf-8") as file:
-        subprocess.run(cmd, stdout=file, stderr=subprocess.PIPE, check=True, text=True)
-
-    with open(output_path, "r", encoding="utf-8") as file:
-        return json.load(file)
+ACTION_VALUE = "toggle_live_location"
+PAGE_VALUE = "privacy_live_location"
 
 
 def validate_task_five(result=None, device_id=None, backup_dir=None):
+    message_file_path = os.path.join(backup_dir, "messages.json") if backup_dir else "messages.json"
+
+    cmd = ['adb']
+    if device_id:
+        cmd.extend(["-s", device_id])
+    cmd.extend(["exec-out", "run-as", PACKAGE_NAME, "cat", DEVICE_FILE_PATH])
+    subprocess.run(cmd, stdout=open(message_file_path, "w"))
+
     try:
-        all_data = read_json_from_device(device_id=device_id, backup_dir=backup_dir)
-        events = all_data if isinstance(all_data, list) else [all_data]
-    except Exception:
+        with open(message_file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            events = data if isinstance(data, list) else [data]
+    except:
         return False
 
     for event in reversed(events):
-        if event.get("action") != "toggle_live_location" or event.get("page") != "privacy_live_location":
+        if event.get("action") != ACTION_VALUE:
             continue
+        if event.get("page") != PAGE_VALUE:
+            continue
+
         extra_data = event.get("extra_data", {})
         if extra_data.get("enabled") is True:
             return True

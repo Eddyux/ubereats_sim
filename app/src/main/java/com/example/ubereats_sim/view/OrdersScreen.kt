@@ -32,8 +32,8 @@ fun OrdersScreen() {
     val navBack = LocalNavBack.current
     var selectedTab by remember { mutableStateOf(1) }
 
-    val activeOrders = orders.filter { it.status == "In Progress" }
-    val historyOrders = orders.filter { it.status != "In Progress" }
+    val activeOrders = orders.filter { it.status == "In Progress" || it.status == "Scheduled" }
+    val historyOrders = orders.filter { it.status != "In Progress" && it.status != "Scheduled" }
 
     val pastPurchaseItems = remember(historyOrders) {
         historyOrders.flatMap { order ->
@@ -182,6 +182,12 @@ private fun PastPurchaseItemCard(entry: PastPurchaseEntry, navController: (Strin
 
 @Composable
 private fun ActiveOrderCard(order: Order, navController: (String) -> Unit) {
+    val arrivalLabel = if (order.deliveryMode == "Schedule" && !order.scheduledFor.isNullOrBlank()) {
+        "Scheduled for ${order.scheduledFor}"
+    } else {
+        order.estimatedArrival?.let { "Estimated arrival $it" }
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -220,9 +226,9 @@ private fun ActiveOrderCard(order: Order, navController: (String) -> Unit) {
                 fontSize = 14.sp,
                 color = Color.White
             )
-            order.estimatedArrival?.let {
+            arrivalLabel?.let {
                 Text(
-                    "Estimated arrival $it",
+                    it,
                     fontSize = 14.sp,
                     color = Color.White,
                     modifier = Modifier.padding(top = 4.dp)

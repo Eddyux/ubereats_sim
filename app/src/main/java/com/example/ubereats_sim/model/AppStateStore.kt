@@ -38,10 +38,15 @@ object AppStateStore {
             orders = defaultOrders
         )
 
+        val defaultActiveOrders = defaultOrders.filter(::isActiveOrder)
+        val persistedHistoryOrders = persistedState.orders.filterNot(::isActiveOrder)
+        val mergedOrders = mergeOrders(defaultActiveOrders, persistedHistoryOrders)
+
         return RestoredAppState(
             // Each cold start should begin from the seeded cart so repeated runs are deterministic.
             cartItems = defaultCartItems,
-            orders = persistedState.orders
+            // Reset active orders on cold start, but keep any non-active history.
+            orders = mergedOrders
         )
     }
 
@@ -91,5 +96,16 @@ object AppStateStore {
         }.onFailure {
             Log.e(tag, "Failed to parse persisted app state", it)
         }.getOrNull()
+    }
+
+    private fun isActiveOrder(order: Order): Boolean {
+        return order.status == "In Progress" || order.status == "Scheduled"
+    }
+
+    private fun mergeOrders(primary: List<Order>, secondary: List<Order>): List<Order> {
+        val merged = LinkedHashMap<String, Order>()
+        primary.forEach { merged[it.id] = it }
+        secondary.forEach { merged.putIfAbsent(it.id, it) }
+        return merged.values.toList()
     }
 }
