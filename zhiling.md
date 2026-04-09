@@ -24,7 +24,7 @@
 23	帮我点一份中午12点送达的午餐，我要喝HAWA SMOOTHIES的Mango Pineapple Smoothie和一份7-Eleven的Turkey Sandwich	检查订单里是否有这两个商品，配送时间点是明天中午12点
 24	看看我past purchases，我最喜欢吃的食物是Burger还是Pizza?	检查是否返回"Burger"	1
 25	将首页前八家显示的店铺里有卖汉堡的店铺加入收藏	检查是否收藏McDonald's、VINEYARD、Burger King
-26	算一算我past puchases买汉堡花了多少钱，不算运费。	检查是否返回"32.17"	1
+26	算一算我past purchases买汉堡花了多少钱，不算运费。	检查是否返回"32.17"	1
 27	看一下我past purchases买披萨花了多少钱，不算运费。	检查是否返回"18.99"	1
 28	看下我past purchases中买饮品花了多少钱	检查是否返回"26.49"	1
 29	看下我past purchases中买抹茶食品花了多少钱	检查是否返回"14"	1
