@@ -5,7 +5,9 @@ def validate_task_thirteen(result=None, device_id=None, backup_dir=None):
     if not isinstance(final_message, str):
         return False
 
-    if '8' in final_message:
+    if 'final_message' in result and (
+            '8' in result['final_message']
+    ):
         return True
     else:
         return False

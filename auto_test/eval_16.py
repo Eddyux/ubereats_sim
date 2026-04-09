@@ -5,9 +5,7 @@ def validate_task_sixteen(result=None, device_id=None, backup_dir=None):
     if not isinstance(final_message, str):
         return False
 
-    if 'final_message' in result and (
-            '9:45' in result['final_message']
-    ):
+    if '9:45' in final_message:
         return True
     else:
         return False

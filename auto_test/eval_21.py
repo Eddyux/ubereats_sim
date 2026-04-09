@@ -8,9 +8,7 @@ def validate_task_twenty_one(result=None, device_id=None, backup_dir=None):
     if not isinstance(final_message, str):
         return False
 
-    if 'final_message' in result and (
-            '1.3' in result['final_message']
-    ):
+    if "1.3" in result["final_message"]:
         return True
     else:
         return False

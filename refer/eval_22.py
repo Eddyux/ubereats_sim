@@ -1,4 +1,7 @@
-from appsim.utils import read_json_from_device
+import subprocess
+import json
+import os
+
 
 PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/messages.json"
@@ -12,15 +15,26 @@ REQUIRED_ITEMS = {
 
 
 def validate_task_twenty_two(result=None, device_id=None, backup_dir=None):
+    message_file_path = os.path.join(backup_dir, "messages.json") if backup_dir else "messages.json"
+
+    cmd = ['adb']
+    if device_id:
+        cmd.extend(["-s", device_id])
+    cmd.extend(["exec-out", "run-as", PACKAGE_NAME, "cat", DEVICE_FILE_PATH])
+    subprocess.run(cmd, stdout=open(message_file_path, "w"))
+
     try:
-        all_data = read_json_from_device(device_id, PACKAGE_NAME, DEVICE_FILE_PATH, backup_dir)
-        events = all_data if isinstance(all_data, list) else [all_data]
-    except Exception:
+        with open(message_file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            events = data if isinstance(data, list) else [data]
+    except:
         return False
 
     matched_items = set()
     for event in events:
-        if event.get("action") != ACTION_VALUE or event.get("page") != PAGE_VALUE:
+        if event.get("action") != ACTION_VALUE:
+            continue
+        if event.get("page") != PAGE_VALUE:
             continue
 
         extra_data = event.get("extra_data", {})

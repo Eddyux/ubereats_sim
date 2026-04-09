@@ -1,28 +1,16 @@
-import subprocess
-import json
-import os
-
+from appsim.utils import read_json_from_device
 
 PACKAGE_NAME = "com.example.ubereats_sim"
 DEVICE_FILE_PATH = "files/app_state.json"
 
 
 def validate_task_four(result=None, device_id=None, backup_dir=None):
-    message_file_path = os.path.join(backup_dir, "app_state.json") if backup_dir else "app_state.json"
-
-    cmd = ['adb']
-    if device_id:
-        cmd.extend(["-s", device_id])
-    cmd.extend(["exec-out", "run-as", PACKAGE_NAME, "cat", DEVICE_FILE_PATH])
-    subprocess.run(cmd, stdout=open(message_file_path, "w"))
-
     try:
-        with open(message_file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except:
+        state = read_json_from_device(device_id, PACKAGE_NAME, DEVICE_FILE_PATH, backup_dir)
+    except Exception:
         return False
 
-    cart_items = data.get("cartItems", [])
+    cart_items = state.get("cartItems", [])
     return isinstance(cart_items, list) and len(cart_items) == 0
 
 
