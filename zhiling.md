@@ -25,3 +25,7 @@
 24	看看我past purchases，我最喜欢吃的食物是Burger还是Pizza?	检查是否返回"Burger"	1
 25	将首页前八家显示的店铺里有卖汉堡的店铺加入收藏	检查是否收藏McDonald's、VINEYARD、Burger King
 26	算一算我past puchases买汉堡花了多少钱，不算运费。	检查是否返回"32.17"	1
+27	看一下我past purchases买披萨花了多少钱，不算运费。	检查是否返回"18.99"	1
+28	看下我past purchases中买饮品花了多少钱	检查是否返回"26.49"	1
+29	看下我past purchases中买抹茶食品花了多少钱	检查是否返回"14"	1
+30	给刚下的订单的配送员发消息问"How long will it take to arrive?"	检查是否在send message页面发送"How long will it take to arrive?"		要新写一个sendmessages页面，点击track页面的sendmessages跳转

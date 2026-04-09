@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.graphics.BitmapFactory
 import com.example.ubereats_sim.LocalNavBack
+import com.example.ubereats_sim.LocalNavController
 import com.example.ubereats_sim.LocalOrders
 
 @Composable
@@ -30,6 +31,7 @@ fun OrderDetailScreen(orderId: String) {
     val orders = LocalOrders.current
     val order = orders.find { it.id == orderId }
     val navBack = LocalNavBack.current
+    val navController = LocalNavController.current
 
     if (order == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -180,8 +182,8 @@ fun OrderDetailScreen(orderId: String) {
                         IconButton(onClick = { }) {
                             Icon(Icons.Default.Phone, contentDescription = "Call")
                         }
-                        Button(onClick = { }) {
-                            Text("Send a message")
+                        Button(onClick = { navController("sendmessages/${order.id}") }) {
+                            Text("Send message")
                         }
                         IconButton(onClick = { }) {
                             Text("💵", fontSize = 20.sp)

@@ -54,6 +54,7 @@ import com.example.ubereats_sim.view.RideLocationScreen
 import com.example.ubereats_sim.view.SettingsHomeScreen
 import com.example.ubereats_sim.view.SettingsHomeSetScreen
 import com.example.ubereats_sim.view.SettingsScreen
+import com.example.ubereats_sim.view.SendMessagesScreen
 import com.example.ubereats_sim.view.WalletScreen
 import com.example.ubereats_sim.view.ChooseRideScreen
 
@@ -412,6 +413,11 @@ fun MainScreen() {
                         currentPage.startsWith("order_detail/") -> {
                             val orderId = currentPage.substringAfter("order_detail/")
                             OrderDetailScreen(orderId)
+                        }
+
+                        currentPage.startsWith("sendmessages/") -> {
+                            val orderId = currentPage.substringAfter("sendmessages/")
+                            SendMessagesScreen(orderId)
                         }
 
                         currentPage.startsWith("order_history_detail/") -> {
