@@ -30,6 +30,11 @@ from .eval_27 import validate_task_twenty_seven
 from .eval_28 import validate_task_twenty_eight
 from .eval_29 import validate_task_twenty_nine
 from .eval_30 import validate_task_thirty
+from .eval_31 import validate_task_thirty_one
+from .eval_32 import validate_task_thirty_two
+from .eval_33 import validate_task_thirty_three
+from .eval_34 import validate_task_thirty_four
+from .eval_35 import validate_task_thirty_five
 
 
 UBEREATS_TASKS = AppTasks(
@@ -213,6 +218,36 @@ UBEREATS_TASKS = AppTasks(
             instruction='给刚下的订单的配送员发消息问"How long will it take to arrive?"',
             verify_func=validate_task_thirty,
             human_steps=8,
+            is_reasoning=False,
+        ),
+        TaskItem(
+            instruction="帮我点一份明天中午12点送达的午餐，我要喝HAWA SMOOTHIES的Mango Pineapple Smoothie和Burger King的Onion Rings和Bacon King",
+            verify_func=validate_task_thirty_one,
+            human_steps=26,
+            is_reasoning=False,
+        ),
+        TaskItem(
+            instruction="我要喝Benvenuto的Espresso和吃Yunnan Rice Noodle的Cold Noodle Salad",
+            verify_func=validate_task_thirty_two,
+            human_steps=21,
+            is_reasoning=False,
+        ),
+        TaskItem(
+            instruction="我要喝Benvenuto的Espresso和吃Yunnan Rice Noodle的Cold Noodle Salad然后打车从jiedaokou到jianghanlu，车型任意",
+            verify_func=validate_task_thirty_three,
+            human_steps=27,
+            is_reasoning=False,
+        ),
+        TaskItem(
+            instruction="添加一个work的office地址为jiedaokou，添加一个home的house地址为jianghanlu",
+            verify_func=validate_task_thirty_four,
+            human_steps=13,
+            is_reasoning=False,
+        ),
+        TaskItem(
+            instruction="打开Live location sharing with couriers选项",
+            verify_func=validate_task_thirty_five,
+            human_steps=5,
             is_reasoning=False,
         ),
     ],

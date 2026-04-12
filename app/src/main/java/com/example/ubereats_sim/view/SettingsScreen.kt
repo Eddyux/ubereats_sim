@@ -76,9 +76,9 @@ fun SettingsScreen() {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
         )
-        SettingsSavedPlaceRow(Icons.Default.Home, "Home", "Add Home") { nav("SettingsHome") }
+        SettingsSavedPlaceRow(Icons.Default.Home, "Home", "Add Home") { nav("SettingsHome|Home") }
         HorizontalDivider(color = Color(0xFFF0F0F0), thickness = 0.5.dp, modifier = Modifier.padding(start = 56.dp))
-        SettingsSavedPlaceRow(Icons.Default.Build, "Work", "Add Work") { nav("Work") }
+        SettingsSavedPlaceRow(Icons.Default.Build, "Work", "Add Work") { nav("SettingsHome|Work") }
 
         HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 6.dp, modifier = Modifier.padding(top = 8.dp))
 

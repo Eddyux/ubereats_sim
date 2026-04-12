@@ -52,16 +52,21 @@ import com.example.ubereats_sim.LocalNavBack
 import com.example.ubereats_sim.model.AppEventLogger
 
 @Composable
-fun SettingsHomeSetScreen() {
+fun SettingsHomeSetScreen(
+    initialLabel: String = "Home",
+    initialBuildingType: String = "House"
+) {
     val goBack = LocalNavBack.current
     val context = LocalContext.current
     var addressLine by remember { mutableStateOf("") }
-    var buildingType by remember { mutableStateOf("House") }
+    var buildingType by remember(initialBuildingType) { mutableStateOf(initialBuildingType) }
     var aptFloor by remember { mutableStateOf("") }
     var buildingName by remember { mutableStateOf("") }
     var dropoffOption by remember { mutableStateOf("Meet at my door") }
     var deliveryInstructions by remember { mutableStateOf("") }
-    var selectedLabel by remember { mutableIntStateOf(0) } // 0=Home, 1=Work, 2=Other
+    var selectedLabel by remember(initialLabel) {
+        mutableIntStateOf(addressLabelIndex(initialLabel))
+    }
 
     Column(
         modifier = Modifier
@@ -199,6 +204,14 @@ fun SettingsHomeSetScreen() {
         ) {
             Text("Save and continue", fontSize = 16.sp, color = Color.White)
         }
+    }
+}
+
+private fun addressLabelIndex(label: String): Int {
+    return when (label.trim().lowercase()) {
+        "home" -> 0
+        "work" -> 1
+        else -> 2
     }
 }
 

@@ -24,8 +24,11 @@ def validate_task_thirty(result=None, device_id=None, backup_dir=None):
     latest_merchant = latest_order.get("merchantName")
 
     for event in reversed(events):
-        if event.get("action") != ACTION_VALUE or event.get("page") != PAGE_VALUE:
+        if event.get("action") != ACTION_VALUE:
             continue
+        if event.get("page") != PAGE_VALUE:
+            continue
+
         extra_data = event.get("extra_data", {})
         if (
             str(extra_data.get("message", "")).strip() == MESSAGE_VALUE
@@ -33,6 +36,7 @@ def validate_task_thirty(result=None, device_id=None, backup_dir=None):
             and extra_data.get("merchant_name") == latest_merchant
         ):
             return True
+
     return False
 
 

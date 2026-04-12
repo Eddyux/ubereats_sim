@@ -481,7 +481,20 @@ fun MainScreen() {
                         currentPage == "Dropoff location" -> RideLocationScreen(isPickup = false)
                         currentPage == "ChooseRide" -> ChooseRideScreen()
                         currentPage == "Settings" -> SettingsScreen()
+                        currentPage.startsWith("SettingsHome|") -> {
+                            val initialLabel = currentPage.substringAfter("SettingsHome|").ifBlank { "Home" }
+                            SettingsHomeScreen(initialLabel = initialLabel)
+                        }
                         currentPage == "SettingsHome" -> SettingsHomeScreen()
+                        currentPage.startsWith("SettingsHomeSet|") -> {
+                            val parts = currentPage.split("|")
+                            val initialLabel = parts.getOrNull(1).orEmpty().ifBlank { "Home" }
+                            val initialBuildingType = parts.getOrNull(2).orEmpty().ifBlank { "House" }
+                            SettingsHomeSetScreen(
+                                initialLabel = initialLabel,
+                                initialBuildingType = initialBuildingType
+                            )
+                        }
                         currentPage == "SettingsHomeSet" -> SettingsHomeSetScreen()
 
                         else -> UnderDevelopmentScreen(currentPage)

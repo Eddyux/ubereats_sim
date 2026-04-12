@@ -45,7 +45,7 @@ private data class BuildingOption(
 )
 
 @Composable
-fun SettingsHomeScreen() {
+fun SettingsHomeScreen(initialLabel: String = "Home") {
     val goBack = LocalNavBack.current
     val nav = LocalNavController.current
 
@@ -119,7 +119,7 @@ fun SettingsHomeScreen() {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(buildingOptions) { option ->
                 BuildingOptionRow(option) {
-                    nav("SettingsHomeSet")
+                    nav("SettingsHomeSet|$initialLabel|${option.title}")
                 }
             }
         }
