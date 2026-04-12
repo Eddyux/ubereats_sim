@@ -1,4 +1,4 @@
-﻿package com.example.ubereats_sim.view
+package com.example.ubereats_sim.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,8 +18,28 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.Accessibility
+import androidx.compose.material.icons.filled.BusinessCenter
+import androidx.compose.material.icons.filled.Campaign
+import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.DriveEta
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardVoice
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.LocalOffer
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Receipt
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -29,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,7 +72,7 @@ fun ProfileScreen() {
         item { ProfileHeader(userProfile.name, userProfile.isVerified) }
         item { QuickActions() }
         items(menuItems) { item ->
-            MenuItemRow(item.icon, item.title, item.subtitle)
+            MenuItemRow(item.title, item.subtitle)
         }
         item { VersionFooter() }
     }
@@ -75,11 +96,16 @@ private fun ProfileHeader(name: String, isVerified: Boolean) {
             modifier = Modifier
                 .size(64.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFE0E0E0))
+                .background(Color(0xFFEAEAEA))
                 .clickable { nav("Settings") },
             contentAlignment = Alignment.Center
         ) {
-            Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(40.dp), tint = Color.Gray)
+            Icon(
+                Icons.Default.Person,
+                contentDescription = null,
+                modifier = Modifier.size(38.dp),
+                tint = Color(0xFFB0B0B0)
+            )
         }
     }
 }
@@ -93,15 +119,15 @@ private fun QuickActions() {
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        QuickActionBtn("❤️", "Favorites", Modifier.weight(1f)) { nav("Favorites") }
-        QuickActionBtn("💼", "Wallet", Modifier.weight(1f)) { nav("Wallet") }
-        QuickActionBtn("📄", "Orders", Modifier.weight(1f)) { nav("Orders") }
+        QuickActionBtn(Icons.Default.FavoriteBorder, "Favorites", Modifier.weight(1f)) { nav("Favorites") }
+        QuickActionBtn(Icons.Default.AccountBalanceWallet, "Wallet", Modifier.weight(1f)) { nav("Wallet") }
+        QuickActionBtn(Icons.Default.Receipt, "Orders", Modifier.weight(1f)) { nav("Orders") }
     }
 }
 
 @Composable
 private fun QuickActionBtn(
-    icon: String,
+    icon: ImageVector,
     label: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -111,8 +137,16 @@ private fun QuickActionBtn(
         shape = RoundedCornerShape(12.dp),
         color = Color(0xFFF5F5F5)
     ) {
-        Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(icon, fontSize = 24.sp)
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(22.dp),
+                tint = Color(0xFF222222)
+            )
             Spacer(Modifier.height(8.dp))
             Text(label, fontSize = 12.sp)
         }
@@ -120,7 +154,7 @@ private fun QuickActionBtn(
 }
 
 @Composable
-private fun MenuItemRow(icon: String, title: String, subtitle: String?) {
+private fun MenuItemRow(title: String, subtitle: String?) {
     val nav = LocalNavController.current
     Row(
         modifier = Modifier
@@ -129,7 +163,14 @@ private fun MenuItemRow(icon: String, title: String, subtitle: String?) {
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(icon, fontSize = 24.sp, modifier = Modifier.width(40.dp))
+        Icon(
+            imageVector = menuIconFor(title),
+            contentDescription = null,
+            modifier = Modifier
+                .width(40.dp)
+                .size(20.dp),
+            tint = Color(0xFF222222)
+        )
         Column(Modifier.weight(1f)) {
             Text(title, fontSize = 16.sp)
             if (subtitle != null) {
@@ -149,4 +190,28 @@ private fun VersionFooter() {
         color = Color.Gray,
         modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 24.dp)
     )
+}
+
+private fun menuIconFor(title: String): ImageVector {
+    return when (title) {
+        "Family & Teens" -> Icons.Default.People
+        "Lists" -> Icons.Default.List
+        "Rides" -> Icons.Default.DirectionsCar
+        "Offers" -> Icons.Default.LocalOffer
+        "Send a gift" -> Icons.Default.CardGiftcard
+        "Help" -> Icons.Default.HelpOutline
+        "Saved groups" -> Icons.Default.Group
+        "Set up your business account" -> Icons.Default.BusinessCenter
+        "Partner rewards" -> Icons.Default.EmojiEvents
+        "Uber One" -> Icons.Default.Star
+        "Privacy" -> Icons.Default.Lock
+        "Accessibility" -> Icons.Default.Accessibility
+        "Communication" -> Icons.Default.Campaign
+        "Drive or deliver and earn" -> Icons.Default.DriveEta
+        "Voice shortcuts" -> Icons.Default.KeyboardVoice
+        "Manage Uber account" -> Icons.Default.Person
+        "Allergy settings" -> Icons.Default.Warning
+        "About" -> Icons.Default.Info
+        else -> Icons.Default.Person
+    }
 }

@@ -101,9 +101,48 @@
   {
     "action": "toggle_live_location",
     "page": "privacy_live_location",
-    "timestamp": 1776006814548,
+    "timestamp": 1.776006814548E12,
     "extra_data": {
       "enabled": true
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1.776007579978E12,
+    "extra_data": {
+      "building_type": "House",
+      "location": "jianghanlu",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Home"
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1.77600759032E12,
+    "extra_data": {
+      "building_type": "House",
+      "location": "jiedaokou",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Home"
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1776007798621,
+    "extra_data": {
+      "building_type": "Office",
+      "location": "jiedaokou",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Work"
     }
   }
 ]
