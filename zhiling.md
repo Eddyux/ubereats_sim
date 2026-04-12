@@ -1,5 +1,5 @@
 序号	ubereats指令设计	检验方法	是否推理任务
-1	我想吃麦当劳，搜一下麦当劳看附近有没有	是否回答"有"yes	1
+1	我想吃麦当劳，搜一下麦当劳看附近有没有	是否回答"有"或者"yes"	1
 2	帮我买一份麦当劳的薯饼，配送信息默认	检验是否购买麦当劳薯饼商品，到付款那步
 3	新增一个house信息，地点为jianghanlu	检测Address details页面是否添加了jianghanlu的地址并点击save and continue
 4	把购物车的商品都买了，配送信息默认	检查购物车是否都空了就行
@@ -29,3 +29,8 @@
 28	看下我past purchases中买饮品花了多少钱	检查是否返回"26.49"	1
 29	看下我past purchases中买抹茶食品花了多少钱	检查是否返回"14"	1
 30	给刚下的订单的配送员发消息问"How long will it take to arrive?"	检查是否在send message页面发送"How long will it take to arrive?"		要新写一个sendmessages页面，点击track页面的sendmessages跳转
+31	帮我点一份明天中午12点送达的午餐，我要喝HAWA SMOOTHIES的Mango Pineapple Smoothie和Burger King的Onion Rings和Bacon King	检查是否购买这三件商品，配送时间是不是明天中午12点
+32	我要喝Benvenuto的Espresso和吃Yunnan Rice Noodle的Cold Noodle Salad	检查是否购买这两样东西
+33	我要喝Benvenuto的Espresso和吃Yunnan Rice Noodle的Cold Noodle Salad然后打车从jiedaokou到jianghanlu，车型任意	检查是否购买这两样东西并打车
+34	添加一个work的office地址为jiedaokou，添加一个home的house地址为jianghanlu	检查是否添加这两个地址，并且标签都对
+35	打开Live location sharing with couriers选项	检查是否打开这个选项

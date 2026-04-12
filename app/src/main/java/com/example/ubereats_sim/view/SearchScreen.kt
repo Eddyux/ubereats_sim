@@ -56,11 +56,14 @@ fun SearchScreen() {
     val snacks = remember(presenter) { presenter.getSnackShortcuts() }
     val categories = remember(presenter) { presenter.getTopCategories() }
     var query by rememberSaveable { mutableStateOf("") }
-    val results = remember(query, presenter) { presenter.search(query) }
+    var submittedQuery by rememberSaveable { mutableStateOf("") }
+    val results = remember(submittedQuery, presenter) { presenter.search(submittedQuery) }
 
     fun submitSearch(term: String) {
         val cleaned = term.trim()
         if (cleaned.isBlank()) return
+        query = cleaned
+        submittedQuery = cleaned
         recentSearches.removeAll { it.equals(cleaned, ignoreCase = true) }
         recentSearches.add(0, cleaned)
     }
@@ -73,14 +76,22 @@ fun SearchScreen() {
         item {
             SearchTopBar(
                 query = query,
-                onValueChange = { query = it },
+                onValueChange = {
+                    query = it
+                    if (it.trim() != submittedQuery) {
+                        submittedQuery = ""
+                    }
+                },
                 onBack = { selectTab(0) },
-                onClear = { query = "" },
+                onClear = {
+                    query = ""
+                    submittedQuery = ""
+                },
                 onSubmit = { submitSearch(query) }
             )
         }
 
-        if (query.isBlank()) {
+        if (submittedQuery.isBlank()) {
             item { SearchSectionHeader("Recent searches") }
             items(recentSearches) { keyword ->
                 SearchHistoryRow(keyword) {
@@ -185,7 +196,9 @@ private fun SearchTopBar(
             singleLine = true,
             placeholder = { Text("Search Uber Eats") },
             leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
+                IconButton(onClick = onSubmit) {
+                    Icon(Icons.Default.Search, contentDescription = "Search", tint = Color.Gray)
+                }
             },
             trailingIcon = {
                 if (query.isNotBlank()) {
@@ -207,4 +220,3 @@ private fun SearchTopBar(
         )
     }
 }
-

@@ -2,7 +2,797 @@
   {
     "action": "send_message",
     "page": "sendmessages",
-    "timestamp": 1775742152291,
+    "timestamp": 1.775742152291E12,
+    "extra_data": {
+      "order_id": "ORD000",
+      "merchant_name": "McDonald\u0027s",
+      "driver_name": "Sayda",
+      "message": "How long will it take to arrive?"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.775998720422E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.775998724074E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Standard",
+      "scheduled_for": "",
+      "default_delivery": true
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.77599873471E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": true,
+      "from_seeded_cart": false,
+      "delivery_mode": "Standard",
+      "scheduled_for": ""
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1.775999338972E12,
+    "extra_data": {
+      "building_type": "House",
+      "location": "jianghanlu",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Home"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776000783707E12,
+    "extra_data": {
+      "merchant_name": "Matchaful",
+      "item_name": "Coconut Matcha Cloud",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776000790581E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "item_name": "Bacon King",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776000798038E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "item_name": "Onion Rings",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776000801919E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "item_names": [
+        "Bacon King",
+        "Onion Rings"
+      ],
+      "total_quantity": 2.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776000807814E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "item_names": [
+        "Bacon King",
+        "Onion Rings"
+      ],
+      "total_quantity": 2.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776000821055E12,
+    "extra_data": {
+      "merchant_name": "Matchaful",
+      "item_names": [
+        "Coconut Matcha Cloud"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776000822872E12,
+    "extra_data": {
+      "merchant_name": "Matchaful",
+      "item_names": [
+        "Coconut Matcha Cloud"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776001000233E12,
+    "extra_data": {
+      "merchant_name": "Benvenuto Cafe",
+      "item_name": "Espresso",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776001003334E12,
+    "extra_data": {
+      "merchant_name": "Benvenuto Cafe",
+      "item_names": [
+        "Espresso"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Standard",
+      "scheduled_for": "",
+      "default_delivery": true
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776001004959E12,
+    "extra_data": {
+      "merchant_name": "Benvenuto Cafe",
+      "item_names": [
+        "Espresso"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": true,
+      "from_seeded_cart": false,
+      "delivery_mode": "Standard",
+      "scheduled_for": ""
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776001022766E12,
+    "extra_data": {
+      "merchant_name": "Yunnan Rice Noodle",
+      "item_name": "Cold Noodle Salad",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.77600102676E12,
+    "extra_data": {
+      "merchant_name": "Yunnan Rice Noodle",
+      "item_names": [
+        "Cold Noodle Salad"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Standard",
+      "scheduled_for": "",
+      "default_delivery": true
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776001073764E12,
+    "extra_data": {
+      "merchant_name": "Yunnan Rice Noodle",
+      "item_names": [
+        "Cold Noodle Salad"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": true,
+      "from_seeded_cart": false,
+      "delivery_mode": "Standard",
+      "scheduled_for": ""
+    }
+  },
+  {
+    "action": "request_ride",
+    "page": "choose_ride",
+    "timestamp": 1.776001201357E12,
+    "extra_data": {
+      "pickup_location": "jiedaokou",
+      "dropoff_location": "jianghanlu",
+      "selected_ride": "UberX",
+      "cheapest_ride": "Share",
+      "is_cheapest": false
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1.776001435478E12,
+    "extra_data": {
+      "building_type": "House",
+      "location": "",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Home"
+    }
+  },
+  {
+    "action": "save_place",
+    "page": "settings_home_set",
+    "timestamp": 1.776001439501E12,
+    "extra_data": {
+      "building_type": "House",
+      "location": "",
+      "apt_suite_floor": "",
+      "building_name": "",
+      "dropoff_option": "Meet at my door",
+      "address_label": "Home"
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776001933726E12,
+    "extra_data": {
+      "merchant_name": "Domino\u0027s",
+      "item_names": [
+        "Hand Tossed Pepperoni Pizza",
+        "Brooklyn Style Cheese Pizza"
+      ],
+      "total_quantity": 2.0,
+      "delivery_mode": "Standard",
+      "scheduled_for": "",
+      "default_delivery": true
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776001947479E12,
+    "extra_data": {
+      "merchant_name": "Domino\u0027s",
+      "item_names": [
+        "Hand Tossed Pepperoni Pizza",
+        "Brooklyn Style Cheese Pizza"
+      ],
+      "total_quantity": 2.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": true,
+      "from_seeded_cart": true,
+      "delivery_mode": "Standard",
+      "scheduled_for": ""
+    }
+  },
+  {
+    "action": "toggle_live_location",
+    "page": "privacy_live_location",
+    "timestamp": 1.776002382953E12,
+    "extra_data": {
+      "enabled": true
+    }
+  },
+  {
+    "action": "request_ride",
+    "page": "choose_ride",
+    "timestamp": 1.776002419563E12,
+    "extra_data": {
+      "pickup_location": "jianghanlu",
+      "dropoff_location": "jiedaokou",
+      "selected_ride": "UberXL",
+      "cheapest_ride": "Share",
+      "is_cheapest": false
+    }
+  },
+  {
+    "action": "request_ride",
+    "page": "choose_ride",
+    "timestamp": 1.776002426477E12,
+    "extra_data": {
+      "pickup_location": "jianghanlu",
+      "dropoff_location": "jiedaokou",
+      "selected_ride": "Share",
+      "cheapest_ride": "Share",
+      "is_cheapest": true
+    }
+  },
+  {
+    "action": "search_pickup_spots",
+    "page": "location",
+    "timestamp": 1.77600243579E12,
+    "extra_data": {
+      "query": "m",
+      "results_found": 8.0
+    }
+  },
+  {
+    "action": "open_pickup_spot",
+    "page": "location",
+    "timestamp": 1.776002444999E12,
+    "extra_data": {
+      "query": "mc",
+      "store_name": "McDonald\u0027s",
+      "results_found": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776002516419E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776002521305E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Double Cheeseburger",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776002526094E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns",
+        "Double Cheeseburger"
+      ],
+      "total_quantity": 2.0,
+      "delivery_mode": "Standard",
+      "scheduled_for": "",
+      "default_delivery": true
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776002540152E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns",
+        "Double Cheeseburger"
+      ],
+      "total_quantity": 2.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": true,
+      "from_seeded_cart": false,
+      "delivery_mode": "Standard",
+      "scheduled_for": ""
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776002548602E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776002550633E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Double Cheeseburger",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776002555198E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns",
+        "Double Cheeseburger"
+      ],
+      "total_quantity": 2.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776002558245E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_names": [
+        "Hash Browns",
+        "Double Cheeseburger"
+      ],
+      "total_quantity": 2.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "set_hearing_option",
+    "page": "hearing",
+    "timestamp": 1.776002619675E12,
+    "extra_data": {
+      "selected_option": "hard_of_hearing"
+    }
+  },
+  {
+    "action": "search_pickup_spots",
+    "page": "location",
+    "timestamp": 1.776002641282E12,
+    "extra_data": {
+      "query": "mc",
+      "results_found": 1.0
+    }
+  },
+  {
+    "action": "open_pickup_spot",
+    "page": "location",
+    "timestamp": 1.776002641861E12,
+    "extra_data": {
+      "query": "mc",
+      "store_name": "McDonald\u0027s",
+      "results_found": 1.0
+    }
+  },
+  {
+    "action": "send_message",
+    "page": "sendmessages",
+    "timestamp": 1.776002941075E12,
+    "extra_data": {
+      "order_id": "ORD000",
+      "merchant_name": "McDonald\u0027s",
+      "driver_name": "Sayda",
+      "message": "预计多少送达"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776003284674E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.77600328909E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Double Cheeseburger",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.7760033006E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "item_name": "Whopper",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776003375465E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_name": "Mango Pineapple Smoothie",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776003383102E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_names": [
+        "Mango Pineapple Smoothie"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776003385142E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_names": [
+        "Mango Pineapple Smoothie"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.77600341267E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_name": "Turkey Sandwich",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776003425462E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_names": [
+        "Turkey Sandwich"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776003431983E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_names": [
+        "Turkey Sandwich"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776003553043E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_name": "Mango Pineapple Smoothie",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776003561238E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_names": [
+        "Mango Pineapple Smoothie"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.77600356792E12,
+    "extra_data": {
+      "merchant_name": "HAWA SMOOTHIES",
+      "item_names": [
+        "Mango Pineapple Smoothie"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.7760035803E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_name": "Turkey Sandwich",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "open_payment",
+    "page": "payment",
+    "timestamp": 1.776003584129E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_names": [
+        "Turkey Sandwich"
+      ],
+      "total_quantity": 1.0,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM",
+      "default_delivery": false
+    }
+  },
+  {
+    "action": "confirm_payment",
+    "page": "payment",
+    "timestamp": 1.776003590572E12,
+    "extra_data": {
+      "merchant_name": "7-Eleven",
+      "item_names": [
+        "Turkey Sandwich"
+      ],
+      "total_quantity": 1.0,
+      "delivery_address": "123 Main St, New York",
+      "default_delivery": false,
+      "from_seeded_cart": false,
+      "delivery_mode": "Schedule",
+      "scheduled_for": "Tomorrow 12:00 PM"
+    }
+  },
+  {
+    "action": "toggle_favorite",
+    "page": "home",
+    "timestamp": 1.776003662806E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "favorited": true
+    }
+  },
+  {
+    "action": "toggle_favorite",
+    "page": "home",
+    "timestamp": 1.776003670498E12,
+    "extra_data": {
+      "merchant_name": "VINEYARD",
+      "favorited": true
+    }
+  },
+  {
+    "action": "toggle_favorite",
+    "page": "home",
+    "timestamp": 1.776003693603E12,
+    "extra_data": {
+      "merchant_name": "Burger King",
+      "favorited": true
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776003733207E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "add_to_cart",
+    "page": "product_detail",
+    "timestamp": 1.776003747527E12,
+    "extra_data": {
+      "merchant_name": "McDonald\u0027s",
+      "item_name": "Hash Browns",
+      "quantity_added": 1.0,
+      "item_quantity_in_cart": 1.0
+    }
+  },
+  {
+    "action": "send_message",
+    "page": "sendmessages",
+    "timestamp": 1.776004102985E12,
+    "extra_data": {
+      "order_id": "ORD000",
+      "merchant_name": "McDonald\u0027s",
+      "driver_name": "Sayda",
+      "message": "How long will it take to arrive?"
+    }
+  },
+  {
+    "action": "send_message",
+    "page": "sendmessages",
+    "timestamp": 1776004672339,
     "extra_data": {
       "order_id": "ORD000",
       "merchant_name": "McDonald\u0027s",

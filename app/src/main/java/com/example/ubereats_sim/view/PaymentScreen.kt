@@ -32,7 +32,7 @@ fun PaymentScreen(onPlaceOrder: () -> Unit = {}) {
             onDismissRequest = { },
             title = {
                 Text(
-                    "Payment Successful",
+                    "Confirm Payment?",
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -40,7 +40,7 @@ fun PaymentScreen(onPlaceOrder: () -> Unit = {}) {
             },
             text = {
                 Text(
-                    "Your order has been placed successfully!",
+                    "Do you want to confirm this payment?",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -54,7 +54,7 @@ fun PaymentScreen(onPlaceOrder: () -> Unit = {}) {
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Confirm", color = Color.White)
+                    Text("Yes, Confirm", color = Color.White)
                 }
             }
         )

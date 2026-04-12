@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -47,8 +48,8 @@ fun ViewCartScreen(
     merchantName: String,
     items: List<MerchantCartItem>,
     onClose: () -> Unit,
-    onRemove: (MerchantCartItem) -> Unit,
-    onReplace: (MerchantCartItem) -> Unit,
+    onDecreaseQuantity: (MerchantCartItem) -> Unit,
+    onIncreaseQuantity: (MerchantCartItem) -> Unit,
     onAddItems: () -> Unit,
     onOpenOfferItem: () -> Unit,
     onCheckout: () -> Unit = {}
@@ -113,7 +114,11 @@ fun ViewCartScreen(
             }
 
             items(items) { item ->
-                ViewCartItemRow(item = item, onRemove = { onRemove(item) }, onReplace = { onReplace(item) })
+                ViewCartItemRow(
+                    item = item,
+                    onDecreaseQuantity = { onDecreaseQuantity(item) },
+                    onIncreaseQuantity = { onIncreaseQuantity(item) }
+                )
             }
 
             item {
@@ -174,12 +179,17 @@ fun ViewCartScreen(
 }
 
 @Composable
-private fun ViewCartItemRow(item: MerchantCartItem, onRemove: () -> Unit, onReplace: () -> Unit) {
+private fun ViewCartItemRow(
+    item: MerchantCartItem,
+    onDecreaseQuantity: () -> Unit,
+    onIncreaseQuantity: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.Top
     ) {
         Box(
             modifier = Modifier
@@ -206,21 +216,39 @@ private fun ViewCartItemRow(item: MerchantCartItem, onRemove: () -> Unit, onRepl
                         .padding(horizontal = 6.dp, vertical = 2.dp)
                 )
             }
-            Row(modifier = Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Surface(
-                    shape = RoundedCornerShape(18.dp),
-                    color = Color.Black,
-                    modifier = Modifier.clickable { onReplace() }
-                ) {
-                    Text("Replace", color = Color.White, modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp))
-                }
-                Surface(
-                    shape = RoundedCornerShape(18.dp),
-                    color = Color(0xFFF2F2F2),
-                    modifier = Modifier.clickable { onRemove() }
-                ) {
-                    Text("Remove", modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp))
-                }
+        }
+
+        Surface(
+            shape = RoundedCornerShape(22.dp),
+            color = Color(0xFFF6F6F6)
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "-",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable { onDecreaseQuantity() }
+                        .wrapContentSize(Alignment.Center)
+                )
+                Text(
+                    item.quantity.toString(),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = "Increase quantity",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable { onIncreaseQuantity() }
+                        .padding(4.dp)
+                )
             }
         }
     }

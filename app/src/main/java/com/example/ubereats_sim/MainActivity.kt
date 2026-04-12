@@ -209,6 +209,19 @@ fun MainScreen() {
         persistAppState()
     }
 
+    fun updateCartItemQuantity(item: MerchantCartItem, delta: Int) {
+        val index = cartItems.indexOf(item)
+        if (index < 0 || delta == 0) return
+
+        val updatedQuantity = cartItems[index].quantity + delta
+        if (updatedQuantity <= 0) {
+            cartItems.removeAt(index)
+        } else {
+            cartItems[index] = cartItems[index].copy(quantity = updatedQuantity)
+        }
+        persistAppState()
+    }
+
     fun productRoute(merchantName: String, productId: String): String =
         "$RouteProduct|$merchantName|$productId"
 
@@ -371,8 +384,8 @@ fun MainScreen() {
                                     merchantName = merchantName,
                                     items = merchantItems,
                                     onClose = { popPage() },
-                                    onRemove = { item -> removeFromCart(item) },
-                                    onReplace = { item -> pushPage(productRoute(merchantName, item.product.id)) },
+                                    onDecreaseQuantity = { item -> updateCartItemQuantity(item, -1) },
+                                    onIncreaseQuantity = { item -> updateCartItemQuantity(item, 1) },
                                     onAddItems = { popPage() },
                                     onCheckout = { openCheckout(merchantName) },
                                     onOpenOfferItem = {

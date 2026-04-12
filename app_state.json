@@ -1,0 +1,222 @@
+{
+  "cartItems": [
+    {
+      "merchantName": "Domino\u0027s",
+      "productId": "domino\u0027s_1",
+      "quantity": 1,
+      "selectedOptions": {},
+      "unitPrice": 9.28
+    },
+    {
+      "merchantName": "Domino\u0027s",
+      "productId": "domino\u0027s_2",
+      "quantity": 1,
+      "selectedOptions": {},
+      "unitPrice": 9.27
+    }
+  ],
+  "orders": [
+    {
+      "deliveryAddress": "123 Main St, New York",
+      "deliveryStatus": "Wrapping up",
+      "driverName": "Sayda",
+      "driverRating": "92%",
+      "driverVehicle": "Toyota Camry",
+      "estimatedArrival": "9:45 PM",
+      "id": "ORD000",
+      "items": [
+        {
+          "name": "Big Mac",
+          "price": 8.99,
+          "quantity": 2
+        },
+        {
+          "name": "French Fries",
+          "price": 3.49,
+          "quantity": 1
+        },
+        {
+          "name": "McFlurry",
+          "price": 4.99,
+          "quantity": 1
+        }
+      ],
+      "latestArrival": "10:15 PM",
+      "merchantAddress": "262 Canal St",
+      "merchantLogo": "🍔",
+      "merchantName": "McDonald\u0027s",
+      "orderDate": "2026-03-24",
+      "orderTime": "21:15",
+      "promoMessage": "$5 off $20+",
+      "status": "In Progress",
+      "totalAmount": 28.5
+    },
+    {
+      "id": "ORD001",
+      "items": [
+        {
+          "name": "Hash Browns",
+          "price": 4.59,
+          "quantity": 2
+        },
+        {
+          "name": "Steak \u0026 Egg McMuffin",
+          "price": 6.19,
+          "quantity": 1
+        },
+        {
+          "name": "Medium French Fries",
+          "price": 3.99,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🍔",
+      "merchantName": "McDonald\u0027s",
+      "orderDate": "2026-03-22",
+      "orderTime": "18:30",
+      "status": "Delivered",
+      "totalAmount": 25.5
+    },
+    {
+      "id": "ORD002",
+      "items": [
+        {
+          "name": "Pepperoni Pizza",
+          "price": 18.99,
+          "quantity": 1
+        },
+        {
+          "name": "Garlic Bread",
+          "price": 6.99,
+          "quantity": 1
+        },
+        {
+          "name": "Coca Cola",
+          "price": 3.5,
+          "quantity": 2
+        }
+      ],
+      "merchantLogo": "🍕",
+      "merchantName": "Domino\u0027s",
+      "orderDate": "2026-03-21",
+      "orderTime": "20:15",
+      "status": "Delivered",
+      "totalAmount": 32.99
+    },
+    {
+      "id": "ORD003",
+      "items": [
+        {
+          "name": "Whopper",
+          "price": 9.99,
+          "quantity": 1
+        },
+        {
+          "name": "Chicken Fries",
+          "price": 5.49,
+          "quantity": 1
+        },
+        {
+          "name": "Onion Rings",
+          "price": 3.99,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🍔",
+      "merchantName": "Burger King",
+      "orderDate": "2026-03-20",
+      "orderTime": "12:45",
+      "status": "Delivered",
+      "totalAmount": 18.75
+    },
+    {
+      "id": "ORD005",
+      "items": [
+        {
+          "name": "Grilled Chicken Sandwich",
+          "price": 16.99,
+          "quantity": 1
+        },
+        {
+          "name": "Steak Frites",
+          "price": 24.99,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🥩",
+      "merchantName": "VINEYARD",
+      "orderDate": "2026-03-18",
+      "orderTime": "19:30",
+      "status": "Delivered",
+      "totalAmount": 42.5
+    },
+    {
+      "id": "ORD006",
+      "items": [
+        {
+          "name": "Ceremonial Matcha Latte",
+          "price": 6.5,
+          "quantity": 2
+        },
+        {
+          "name": "Coconut Matcha Cloud",
+          "price": 7.5,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🍵",
+      "merchantName": "Matchaful",
+      "orderDate": "2026-03-17",
+      "orderTime": "14:00",
+      "status": "Delivered",
+      "totalAmount": 18.5
+    },
+    {
+      "id": "ORD007",
+      "items": [
+        {
+          "name": "Acai Power Bowl",
+          "price": 14.99,
+          "quantity": 1
+        },
+        {
+          "name": "Mango Pineapple Smoothie",
+          "price": 8.99,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🥤",
+      "merchantName": "HAWA SMOOTHIES",
+      "orderDate": "2026-03-15",
+      "orderTime": "11:20",
+      "status": "Delivered",
+      "totalAmount": 26.99
+    },
+    {
+      "id": "ORD008",
+      "items": [
+        {
+          "name": "Classic Cheeseburger",
+          "price": 15.99,
+          "quantity": 1
+        },
+        {
+          "name": "Tomato Basil Soup",
+          "price": 8.99,
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate Brownie",
+          "price": 7.99,
+          "quantity": 1
+        }
+      ],
+      "merchantLogo": "🍝",
+      "merchantName": "Benvenuto Cafe",
+      "orderDate": "2026-03-14",
+      "orderTime": "20:00",
+      "status": "Delivered",
+      "totalAmount": 35.99
+    }
+  ]
+}
