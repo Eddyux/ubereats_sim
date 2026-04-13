@@ -41,7 +41,7 @@ UBEREATS_TASKS = AppTasks(
     package_name="com.example.ubereats_sim",
     task_items=[
         TaskItem(
-            instruction="我想吃McDonald's，搜一下McDonald's看附近有没有",
+            instruction="我想吃McDonald's，搜一下McDonald's看附近有没有,回答"yes"或者"no"",
             verify_func=validate_task_one,
             human_steps=4,
             is_reasoning=True,

@@ -11,7 +11,7 @@ def validate_task_eighteen(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "62.98" in final_message or
-        "\u516d\u5341\u4e8c\u70b9\u4e5d\u516b" in final_message or
+        "六十二点九八" in final_message or
         "sixty-two point nine eight" in normalized_message
     ):
         return True

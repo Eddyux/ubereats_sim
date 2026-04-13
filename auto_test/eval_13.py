@@ -7,7 +7,7 @@ def validate_task_thirteen(result=None, device_id=None, backup_dir=None):
     normalized_message = final_message.lower()
 
     if "final_message" in result and (
-        "\u516b" in final_message or
+        "八" in final_message or
         "8" in final_message or
         "eight" in normalized_message
     ):

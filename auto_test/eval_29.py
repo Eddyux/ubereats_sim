@@ -11,7 +11,7 @@ def validate_task_twenty_nine(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "14" in final_message or
-        "\u5341\u56db" in final_message or
+        "十四" in final_message or
         "fourteen" in normalized_message
     ):
         return True

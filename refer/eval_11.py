@@ -8,7 +8,7 @@ def validate_task_eleven(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "20.19" in final_message or
-        "\u4e8c\u5341\u70b9\u4e00\u4e5d" in final_message or
+        "二十点一九" in final_message or
         "twenty point  one nine" in normalized_message or
         "twenty point one nine" in normalized_message
     ):

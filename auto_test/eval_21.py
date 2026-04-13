@@ -11,7 +11,7 @@ def validate_task_twenty_one(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "1.3" in final_message or
-        "\u4e00\u70b9\u4e09" in final_message or
+        "一点三" in final_message or
         "one point three" in normalized_message
     ):
         return True

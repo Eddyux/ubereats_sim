@@ -8,7 +8,7 @@ def validate_task_fourteen(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "0" in final_message or
-        "\u96f6" in final_message or
+        "零" in final_message or
         "zero" in normalized_message
     ):
         return True

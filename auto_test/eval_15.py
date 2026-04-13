@@ -8,7 +8,7 @@ def validate_task_fifteen(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "5" in final_message or
-        "\u4e94" in final_message or
+        "五" in final_message or
         "five" in normalized_message
     ):
         return True

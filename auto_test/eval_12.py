@@ -8,8 +8,8 @@ def validate_task_twelve(result=None, device_id=None, backup_dir=None):
 
     if "final_message" in result and (
         "201.22" in final_message or
-        "\u4e8c\u767e\u96f6\u4e00\u70b9\u4e8c\u4e8c" in final_message or
-        "two hundred and twelve twelve" in normalized_message
+        "二百零一点二二" in final_message or
+        "two hundred and one point two two" in normalized_message
     ):
         return True
     else:

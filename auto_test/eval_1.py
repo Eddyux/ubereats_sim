@@ -7,7 +7,7 @@ def validate_task_one(result=None, device_id=None, backup_dir=None):
     normalized_message = final_message.lower()
 
     if "final_message" in result and (
-        "\u6709" in final_message or
+        "YES" in final_message or
         "yes" in normalized_message
     ):
         return True
