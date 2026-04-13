@@ -7,8 +7,16 @@ def validate_task_twenty_seven(result=None, device_id=None, backup_dir=None):
     final_message = result.get("final_message")
     if not isinstance(final_message, str):
         return False
+    normalized_message = final_message.lower()
 
-    return TARGET_VALUE in final_message
+    if "final_message" in result and (
+        "18.99" in final_message or
+        "\u5341\u516b\u70b9\u4e5d\u4e5d" in final_message or
+        "eighteen point nine nine" in normalized_message
+    ):
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":

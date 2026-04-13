@@ -41,13 +41,13 @@ UBEREATS_TASKS = AppTasks(
     package_name="com.example.ubereats_sim",
     task_items=[
         TaskItem(
-            instruction="我想吃麦当劳，搜一下麦当劳看附近有没有",
+            instruction="我想吃McDonald's，搜一下McDonald's看附近有没有",
             verify_func=validate_task_one,
             human_steps=4,
             is_reasoning=True,
         ),
         TaskItem(
-            instruction="帮我买一份麦当劳的薯饼，配送信息默认",
+            instruction="帮我买一份McDonald's的Hash Browns，配送信息默认",
             verify_func=validate_task_two,
             human_steps=7,
             is_reasoning=False,
@@ -77,13 +77,13 @@ UBEREATS_TASKS = AppTasks(
             is_reasoning=False,
         ),
         TaskItem(
-            instruction="我想到店吃麦当劳，搜一下附近有pickup点吗",
+            instruction="我想到店吃McDonald's，搜一下附近有pickup点吗",
             verify_func=validate_task_seven,
             human_steps=4,
             is_reasoning=True,
         ),
         TaskItem(
-            instruction="帮我点一份麦当劳的薯饼和双吉汉堡，时间选择明天中午12点，其他配送信息默认",
+            instruction="帮我点一份McDonald's的Hash Browns和Double Cheeseburger，时间选择明天中午12点，其他配送信息默认",
             verify_func=validate_task_eight,
             human_steps=15,
             is_reasoning=False,
@@ -95,7 +95,7 @@ UBEREATS_TASKS = AppTasks(
             is_reasoning=False,
         ),
         TaskItem(
-            instruction="看一下附近麦当劳最便宜的商品是什么",
+            instruction="看一下附近McDonald's最便宜的商品是什么",
             verify_func=validate_task_ten,
             human_steps=7,
             is_reasoning=True,
@@ -155,7 +155,7 @@ UBEREATS_TASKS = AppTasks(
             is_reasoning=True,
         ),
         TaskItem(
-            instruction="首页的麦当劳里，哪个汉堡最便宜",
+            instruction="首页的McDonald's里，哪个汉堡最便宜",
             verify_func=validate_task_twenty,
             human_steps=4,
             is_reasoning=True,
@@ -167,7 +167,7 @@ UBEREATS_TASKS = AppTasks(
             is_reasoning=True,
         ),
         TaskItem(
-            instruction="把麦当劳的Hash Brown和Double Cheeseburger加入购物车，再把汉堡王的Whopper加入购物车",
+            instruction="把McDonald's的Hash Brown和Double Cheeseburger加入购物车，再把Burger King的Whopper加入购物车",
             verify_func=validate_task_twenty_two,
             human_steps=11,
             is_reasoning=False,

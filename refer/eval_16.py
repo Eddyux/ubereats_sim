@@ -4,9 +4,10 @@ def validate_task_sixteen(result=None, device_id=None, backup_dir=None):
     final_message = result.get("final_message")
     if not isinstance(final_message, str):
         return False
+    normalized_message = final_message.lower()
 
-    if 'final_message' in result and (
-            '9:45' in result['final_message']
+    if "final_message" in result and (
+        "9:45" in final_message
     ):
         return True
     else:

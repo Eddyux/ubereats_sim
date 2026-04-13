@@ -7,9 +7,11 @@ def validate_task_nineteen(result=None, device_id=None, backup_dir=None):
     final_message = result.get("final_message")
     if not isinstance(final_message, str):
         return False
+    normalized_message = final_message.lower()
 
-    if 'final_message' in result and (
-            'v6.311.10000' in result['final_message']
+    if "final_message" in result and (
+        "v6.311.10000" in final_message or
+        "v6.311.10000" in normalized_message
     ):
         return True
     else:

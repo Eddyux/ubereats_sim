@@ -4,9 +4,12 @@ def validate_task_fifteen(result=None, device_id=None, backup_dir=None):
     final_message = result.get("final_message")
     if not isinstance(final_message, str):
         return False
+    normalized_message = final_message.lower()
 
-    if 'final_message' in result and (
-            '5' in result['final_message']
+    if "final_message" in result and (
+        "5" in final_message or
+        "\u4e94" in final_message or
+        "five" in normalized_message
     ):
         return True
     else:

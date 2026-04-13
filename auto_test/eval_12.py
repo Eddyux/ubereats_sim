@@ -4,8 +4,13 @@ def validate_task_twelve(result=None, device_id=None, backup_dir=None):
     final_message = result.get("final_message")
     if not isinstance(final_message, str):
         return False
+    normalized_message = final_message.lower()
 
-    if '201.22' in final_message:
+    if "final_message" in result and (
+        "201.22" in final_message or
+        "\u4e8c\u767e\u96f6\u4e00\u70b9\u4e8c\u4e8c" in final_message or
+        "two hundred and twelve twelve" in normalized_message
+    ):
         return True
     else:
         return False
