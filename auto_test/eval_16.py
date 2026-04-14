@@ -7,7 +7,8 @@ def validate_task_sixteen(result=None, device_id=None, backup_dir=None):
     normalized_message = final_message.lower()
 
     if "final_message" in result and (
-        "9:45" in final_message
+        "9:45" in final_message or
+        "21:45" in final_message
     ):
         return True
     else:

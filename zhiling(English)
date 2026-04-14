@@ -1,0 +1,36 @@
+No.	Uber Eats Command Design	Verification Method	Reasoning Task?	Manual Steps
+1	I want to eat McDonald's. Search McDonald's and see whether there is one nearby.	Check whether it responds with "yes" or "no".	1	4
+2	Help me buy one McDonald's Hash Browns, with default delivery info.	Check whether it purchases the McDonald's Hash Browns item and reaches the payment step.		7
+3	Add a new house entry with the location set to jianghanlu.	Check whether the Address details page adds the address jianghanlu and clicks save and continue.		8
+4	Buy all items in the cart, with default delivery info.	Check whether the cart is empty afterward.		5
+5	Turn on the livelocation option.	Check whether livelocation is enabled.		5
+6	Book a ride from jianghanlu to jiedaokou and choose the cheapest ride type.	Check whether it books a ride from jianghanlu to jiedaokou, selects the Share ride type, and clicks request share.		9
+7	I want to eat at McDonald's in store. Search whether there is a pickup point nearby.	Check whether it taps location and searches for mcdonald's or McDonald's, then responds with "yes" or "no", case-insensitive.	1	4
+8	Help me order McDonald's Hash Browns and Double Cheeseburger, choose tomorrow at 12 PM, and keep all other delivery info as default.	Check whether it orders the hash browns and double cheeseburger, sets the delivery time to tomorrow at 12 PM, and confirms payment.		15
+9	Turn on the hard of hearing option in hearing.	Check whether the hard of hearing option is enabled.		5
+10	Check what the cheapest item at a nearby McDonald's is.	Check whether it returns "Hash Browns".	1	7
+11	How much would it cost to buy everything currently in the cart?	Check whether it returns "20.19" or "twenty point one nine".	1	4
+12	Check how much I spent on food delivery before 3.29.	Check whether it returns "201.22" or "two hundred and one point two two".	1	4
+13	Among the first eight merchants on the home page, how many have free delivery?	Check whether it returns "7", "Seven", or "seven".	1	3
+14	Check how much money is left in my Uber account.	Check whether it returns "0" or "zero".	1	2
+15	Among the merchants I ordered from before, how many sell burgers or pizza?	Check whether it returns "5" or "five".	1	3
+16	Check when my latest order is expected to arrive.	Check whether it returns "9:45" or "21:45".	1	2
+17	Check how much I spent at burger or pizza places from 3.17 to 3.22.	Check whether it returns "116.24" or "one hundred sixteen point two four".	1	3
+18	Calculate how much I have spent on drinks since 3.17.	Check whether it returns "62.98" or "sixty-two point nine eight".	1	3
+19	It feels like a feature is missing. What is the current app version?	Check whether it returns "v6.311.10000".	1	2
+20	On the home page McDonald's, which burger is the cheapest?	Check whether it returns "McChicken".	1	4
+21	How much is the cheapest item at Matchaful on the home page cheaper than the cheapest item at HAWA SMOOTHIES? I am very poor right now.	Check whether it returns "1.3" or "one point three".	1	16
+22	Add McDonald's Hash Brown and Double Cheeseburger to the cart, then add Burger King's Whopper to the cart.	Check whether Hash Brown, Double Cheeseburger, and Whopper are added to the cart.		11
+23	Help me order a lunch to be delivered tomorrow at 12 PM. I want HAWA SMOOTHIES's Mango Pineapple Smoothie and a 7-Eleven Turkey Sandwich.	Check whether the order contains these two items and whether the delivery time is tomorrow at 12 PM.		27
+24	Look at my past purchases. Do I prefer Burger or Pizza?	Check whether it returns "Burger".	1	6
+25	Add to favorites the stores among the first eight shown on the home page that sell burgers.	Check whether McDonald's, VINEYARD, and Burger King are added to favorites.		16
+26	Calculate how much I spent on burgers in past purchases, excluding delivery fees.	Check whether it returns "32.17" or "thirty-two point one seven".	1	5
+27	Check how much I spent on pizza in past purchases, excluding delivery fees.	Check whether it returns "18.99" or "eighteen point nine nine".	1	5
+28	Check how much I spent on drinks in past purchases.	Check whether it returns "26.49" or "twenty-six point four nine".	1	5
+29	Check how much I spent on matcha items in past purchases.	Check whether it returns "14" or "fourteen".	1	5
+30	Send a message to the courier of my latest order asking "How long will it take to arrive?"	Check whether "How long will it take to arrive?" is sent on the send message page.		8
+31	Help me order a lunch to be delivered tomorrow at 12 PM. I want HAWA SMOOTHIES's Mango Pineapple Smoothie, Burger King's Onion Rings, and Bacon King.	Check whether these three items are purchased and whether the delivery time is tomorrow at 12 PM.		26
+32	I want to drink Benvenuto's Espresso and eat Yunnan Rice Noodle's Cold Noodle Salad.	Check whether these two items are purchased.		21
+33	I want to drink Benvenuto's Espresso and eat Yunnan Rice Noodle's Cold Noodle Salad, then book a ride from jiedaokou to jianghanlu with any ride type.	Check whether these two items are purchased and whether a ride is booked.		27
+34	Add a work office address as jiedaokou, and add a home house address as jianghanlu.	Check whether these two addresses are added and whether both labels are correct.		13
+35	Turn on the Live location sharing with couriers option.	Check whether this option is enabled.		5

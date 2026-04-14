@@ -1,4 +1,4 @@
-TARGET_VALUE = "McChiken"
+TARGET_VALUE = "McChicken"
 
 
 def validate_task_twenty(result=None, device_id=None, backup_dir=None):
@@ -10,9 +10,7 @@ def validate_task_twenty(result=None, device_id=None, backup_dir=None):
     normalized_message = final_message.lower()
 
     if "final_message" in result and (
-        "McChiken" in final_message or
         "McChicken" in final_message or
-        "mcchiken" in normalized_message or
         "mcchicken" in normalized_message
     ):
         return True
