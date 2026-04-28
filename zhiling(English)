@@ -33,4 +33,3 @@ No.	Uber Eats Command Design	Verification Method	Reasoning Task?	Manual Steps
 32	I want to drink Benvenuto's Espresso and eat Yunnan Rice Noodle's Cold Noodle Salad.	Check whether these two items are purchased.		21
 33	I want to drink Benvenuto's Espresso and eat Yunnan Rice Noodle's Cold Noodle Salad, then book a ride from jiedaokou to jianghanlu with any ride type.	Check whether these two items are purchased and whether a ride is booked.		27
 34	Add a work office address as jiedaokou, and add a home house address as jianghanlu.	Check whether these two addresses are added and whether both labels are correct.		13
-35	Turn on the Live location sharing with couriers option.	Check whether this option is enabled.		5
